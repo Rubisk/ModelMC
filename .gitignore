@@ -1,0 +1,8 @@
+#build dirs
+build/
+dist/
+nbproject/
+
+
+#build dep files
+.dep.inc
