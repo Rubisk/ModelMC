@@ -1,4 +1,6 @@
 #include <sstream>
+#include <cstdlib>
+
 #include "src/json/json_values.h"
 
 
@@ -7,18 +9,29 @@ namespace json
     
     int32_t Value::as_int() 
     { 
-        throw convert_exception("Can't convert to int");
+        throw json_exception("Can't convert to integer");
     }
 
-    Value* Value::operator[] (const std::string &key)
+    Value* &Value::operator[] (const std::string &key)
     {
-        throw convert_exception("Can't lookup by string");
+        throw json_exception("Can't lookup by string");
     }
 
-    Value* Value::operator[] (const size_t &index)
+    Value* &Value::operator[] (const size_t &index)
     {
-        throw convert_exception("Can't lookup by index");
+        throw json_exception("Can't lookup by index");
     }
+    
+    void Value::operator= (const std::string &value)
+    {
+        throw json_exception("Can't assign a string");
+    }
+    
+    void Value::operator= (const int32_t &value)
+    {
+        throw json_exception("Can't assign an integer");
+    }
+
     
     VectorValue::VectorValue()
     {
@@ -40,11 +53,22 @@ namespace json
         ss << "}";
     }
     
-    Value* VectorValue::operator [](const size_t& index)
+    Value* &VectorValue::operator [](const size_t& index)
     {
         return (*vector_)[index];
     }
     
+    void VectorValue::operator= (const std::string &value)
+    {
+        // TODO do this
+        throw json_exception("Can't assign a string");
+    }
+    
+    VectorValue::~VectorValue()
+    {
+        vector_->erase(vector_->begin(), vector_->end());
+    }
+
     
     ObjectValue::ObjectValue()
     {
@@ -56,9 +80,15 @@ namespace json
         values_ = values;
     }
     
-    Value* ObjectValue::operator[](const std::string &key)
+    Value* &ObjectValue::operator[](const std::string &key)
     {
         return (*values_)[key];
+    }
+    
+    void ObjectValue::operator= (const std::string &value)
+    {
+        // TODO do this
+        throw json_exception("Can't assign a string");
     }
     
     std::string ObjectValue::as_string()
@@ -75,11 +105,24 @@ namespace json
     
     ObjectValue::~ObjectValue()
     {
-        values_->erase(values_->begin(), values_->end());
+        for(ValueMap::iterator it = values_->begin(); it != values_->end(); it++)
+        {
+            delete it->second;
+        }
         delete values_;
     }
     
     IntValue::IntValue(int32_t value)
+    {
+        value_ = value;
+    }
+    
+    void IntValue::operator= (const std::string &value)
+    {
+        value_ = atoi(value.c_str());
+    }
+    
+    void IntValue::operator= (const int32_t &value)
     {
         value_ = value;
     }
@@ -96,7 +139,12 @@ namespace json
         return ss.str();
     }
     
-    StringValue::StringValue(std::string value)
+    StringValue::StringValue(const std::string &value)
+    {
+        value_ = value;
+    }
+    
+    void StringValue::operator= (const std::string &value)
     {
         value_ = value;
     }

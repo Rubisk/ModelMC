@@ -11,11 +11,11 @@
 namespace json
 {
     
-    class convert_exception : public std::exception
+    class json_exception : public std::exception
     {
     public:
-        convert_exception(const char *msg) : err_msg(msg) {};
-        ~convert_exception() throw() {};
+        json_exception(const char *msg) : err_msg(msg) {};
+        ~json_exception() throw() {};
         const char *what() const throw() { return this->err_msg.c_str(); };
     private:
         std::string err_msg;
@@ -29,9 +29,16 @@ namespace json
         
         virtual int32_t as_int();
         
-        virtual Value* operator[] (const std::string &key);
+        virtual Value* &operator[] (const std::string &key);
         
-        virtual Value* operator[] (const size_t &index);
+        virtual Value* &operator[] (const size_t &index);
+        
+        virtual void operator= (const int32_t &value);
+        
+        virtual void operator= (const std::string &value);
+        
+        virtual ~Value() { };
+
     };
     
     
@@ -46,11 +53,13 @@ namespace json
         
         VectorValue(ValueVector* values);
         
-        json::Value* operator[] (const size_t &index);
+        json::Value* &operator[] (const size_t &index);
         
         std::string as_string();
         
         ~VectorValue();
+        
+        void operator= (const std::string &value);
     private:
         ValueVector* vector_;
     };
@@ -63,11 +72,13 @@ namespace json
         
         ObjectValue(ValueMap* values);
         
-        json::Value* operator[] (const std::string &key);
+        json::Value* &operator[] (const std::string &key);
         
         std::string as_string();
         
         ~ObjectValue();
+        
+        void operator= (const std::string &value);
     private:
         ValueMap* values_;
     };
@@ -81,6 +92,10 @@ namespace json
         std::string as_string();
         
         int32_t as_int();
+        
+        void operator= (const int32_t &value);
+        
+        void operator= (const std::string &value);
     private:
         int32_t value_;
     };
@@ -89,9 +104,11 @@ namespace json
     class StringValue : public Value
     {
     public:
-        StringValue(std::string value);
+        StringValue(const std::string &value);
         
         std::string as_string();
+        
+        void operator= (const std::string &value);
     private:
         std::string value_;
     };
