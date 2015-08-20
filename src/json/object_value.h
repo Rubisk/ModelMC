@@ -14,7 +14,7 @@ typedef std::map<std::string, Value*> ValueMap;
         
         Value* &operator[] (const std::string &key);
         
-        Value* operator= (const std::string &value);
+        Value& operator= (const std::string &value);
         
         std::string as_string();
         

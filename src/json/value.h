@@ -33,9 +33,9 @@ public:
 
     virtual Value* &operator[] (const size_t &index);
 
-    virtual Value* operator= (const int32_t &value);
+    virtual Value& operator= (const int32_t &value);
 
-    virtual Value* operator= (const std::string &value);
+    virtual Value& operator= (const std::string &value);
 
     virtual ~Value() { };
 

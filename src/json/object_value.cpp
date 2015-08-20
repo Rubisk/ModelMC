@@ -22,10 +22,11 @@ Value* &ObjectValue::operator[](const std::string &key)
     return (*values_)[key];
 }
 
-Value* ObjectValue::operator= (const std::string &value)
+Value& ObjectValue::operator= (const std::string &value)
 {
     // TODO do this
     throw json_exception("Can't assign a string");
+    return *this;
 }
 
 std::string ObjectValue::as_string()

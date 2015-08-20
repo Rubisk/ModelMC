@@ -19,7 +19,7 @@ public:
 
     json::Value* &operator[] (const size_t &index);
     
-    json::Value* operator= (const std::string &value);
+    json::Value& operator= (const std::string &value);
 
     std::string as_string();
 

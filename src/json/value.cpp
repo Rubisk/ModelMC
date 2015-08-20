@@ -22,12 +22,12 @@ namespace json
         throw json_exception("Can't lookup by index");
     }
     
-    Value* Value::operator= (const std::string &value)
+    Value& Value::operator= (const std::string &value)
     {
         throw json_exception("Can't assign a string");
     }
     
-    Value* Value::operator= (const int32_t &value)
+    Value& Value::operator= (const int32_t &value)
     {
         throw json_exception("Can't assign an integer");
     }

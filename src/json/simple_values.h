@@ -13,9 +13,9 @@ public:
 
     int32_t as_int();
 
-    Value* operator= (const int32_t &value);
+    Value& operator= (const int32_t &value);
 
-    Value* operator= (const std::string &value);
+    Value& operator= (const std::string &value);
 private:
     int32_t value_;
 };
@@ -28,7 +28,7 @@ public:
 
     std::string as_string();
 
-    Value* operator= (const std::string &value);
+    Value& operator= (const std::string &value);
 private:
     std::string value_;
 };

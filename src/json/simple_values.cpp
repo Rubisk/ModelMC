@@ -11,16 +11,16 @@ IntValue::IntValue(int32_t value)
     value_ = value;
 }
 
-Value* IntValue::operator= (const std::string &value)
+Value& IntValue::operator= (const std::string &value)
 {
     value_ = atoi(value.c_str());
-    return this;
+    return *this;
 }
 
-Value* IntValue::operator= (const int32_t &value)
+Value& IntValue::operator= (const int32_t &value)
 {
     value_ = value;
-    return this;
+    return *this;
 }
 
 int32_t IntValue::as_int()
@@ -40,10 +40,10 @@ StringValue::StringValue(const std::string &value)
     value_ = value;
 }
 
-Value* StringValue::operator= (const std::string &value)
+Value& StringValue::operator= (const std::string &value)
 {
     value_ = value;
-    return this;
+    return *this;
 }
 
 std::string StringValue::as_string()

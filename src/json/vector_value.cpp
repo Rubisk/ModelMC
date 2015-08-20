@@ -31,10 +31,11 @@ Value* &VectorValue::operator [](const size_t& index)
     return (*vector_)[index];
 }
 
-Value* VectorValue::operator= (const std::string &value)
+Value& VectorValue::operator= (const std::string &value)
 {
     // TODO do this
     throw json_exception("Can't assign a string");
+    return *this;
 }
 
 VectorValue::~VectorValue()
