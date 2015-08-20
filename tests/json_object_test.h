@@ -3,7 +3,8 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "src/json/json_values.h"
+#include "src/json/value.h"
+#include "src/json/object_value.h"
 
 
 class JsonObjectTest : public CPPUNIT_NS::TestFixture {
@@ -32,8 +33,6 @@ private:
     
     json::ObjectValue* object_;
 };
-
-
 
 
 #endif	// JSON_OBJECT_TEST_H
