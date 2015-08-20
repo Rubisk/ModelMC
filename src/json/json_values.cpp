@@ -22,12 +22,12 @@ namespace json
         throw json_exception("Can't lookup by index");
     }
     
-    void Value::operator= (const std::string &value)
+    Value* Value::operator= (const std::string &value)
     {
         throw json_exception("Can't assign a string");
     }
     
-    void Value::operator= (const int32_t &value)
+    Value* Value::operator= (const int32_t &value)
     {
         throw json_exception("Can't assign an integer");
     }
@@ -58,7 +58,7 @@ namespace json
         return (*vector_)[index];
     }
     
-    void VectorValue::operator= (const std::string &value)
+    Value* VectorValue::operator= (const std::string &value)
     {
         // TODO do this
         throw json_exception("Can't assign a string");
@@ -85,7 +85,7 @@ namespace json
         return (*values_)[key];
     }
     
-    void ObjectValue::operator= (const std::string &value)
+    Value* ObjectValue::operator= (const std::string &value)
     {
         // TODO do this
         throw json_exception("Can't assign a string");
@@ -117,14 +117,16 @@ namespace json
         value_ = value;
     }
     
-    void IntValue::operator= (const std::string &value)
+    Value* IntValue::operator= (const std::string &value)
     {
         value_ = atoi(value.c_str());
+        return this;
     }
     
-    void IntValue::operator= (const int32_t &value)
+    Value* IntValue::operator= (const int32_t &value)
     {
         value_ = value;
+        return this;
     }
     
     int32_t IntValue::as_int()
@@ -144,9 +146,10 @@ namespace json
         value_ = value;
     }
     
-    void StringValue::operator= (const std::string &value)
+    Value* StringValue::operator= (const std::string &value)
     {
         value_ = value;
+        return this;
     }
     
     std::string StringValue::as_string()
