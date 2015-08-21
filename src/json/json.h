@@ -1,6 +1,8 @@
 #ifndef JSON_H
 #define	JSON_H
 
+#include <stdexcept>
+
 namespace json {
    
 enum Types { OBJECT_VALUE, VECTOR_VALUE, INT_VALUE, STRING_VALUE };

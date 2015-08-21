@@ -1,5 +1,5 @@
 #include "json_simple_values_test.h"
-#include "src/json/value.h"
+#include "src/json/json.h"
 #include "src/json/simple_values.h"
 
 using namespace json;

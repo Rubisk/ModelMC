@@ -1,6 +1,6 @@
 #include "json_object_test.h"
 
-#include "src/json/value.h"
+#include "src/json/json.h"
 #include "src/json/object_value.h"
 #include "src/json/simple_values.h"
 #include "debug_new.h"

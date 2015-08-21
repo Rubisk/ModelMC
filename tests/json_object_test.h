@@ -3,7 +3,7 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "src/json/value.h"
+#include "src/json/json.h"
 #include "src/json/object_value.h"
 
 
