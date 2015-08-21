@@ -19,7 +19,7 @@ size_t findType(const std::stringstream &ss)
     return INT_VALUE;
 }
 
-std::string readName(std::stringstream &ss)
+std::string loadName(std::stringstream &ss)
 {
     char a;
     ss >> std::skipws >> a;
