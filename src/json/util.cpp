@@ -1,4 +1,5 @@
 #include <streambuf>
+#include <iostream>
 #include <sstream>
 #include <assert.h>
 
@@ -6,10 +7,10 @@
 
 namespace json {
     
-size_t findType(const std::stringstream &ss)
+size_t findType(const std::iostream &stream)
 {
     std::stringstream temp;
-    temp << ss.rdbuf();
+    temp << stream.rdbuf();
     char a;
     temp >> std::skipws >> a;
 
@@ -19,13 +20,13 @@ size_t findType(const std::stringstream &ss)
     return INT_VALUE;
 }
 
-std::string loadName(std::stringstream &ss)
+std::string loadName(std::iostream &stream)
 {
     char a;
-    ss >> std::skipws >> a;
+    stream >> std::skipws >> a;
     assert(a == '\"');
     std::string name = "";
-    while(ss >> std::skipws >> a && a != '\"') name += a;
+    while(stream >> std::skipws >> a && a != '\"') name += a;
     return name;
 }
 
