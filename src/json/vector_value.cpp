@@ -2,7 +2,7 @@
 
 #include "src/json/json.h"
 #include "src/json/vector_value.h"
-
+#include "src/json/util.h"
 
 namespace json {
 
@@ -31,16 +31,32 @@ Value* &VectorValue::operator [](const size_t& index)
     return (*vector_)[index];
 }
 
-Value& VectorValue::operator= (const std::string &value)
+void VectorValue::loadFrom(std::iostream &stream)
 {
-    // TODO do this
-    throw json_exception("Can't assign a string");
-    return *this;
+    char next_char;
+    stream >> std::skipws >> next_char;
+    if(next_char != '[') throw json_exception("Invalid json format.");
+    while(true)
+    {
+        loadAndSaveValue_(stream);
+        stream >> std::skipws >> next_char;
+        if(next_char == ',') continue;
+        if(next_char == ']') break;
+        throw json_exception("Invalid json format.");
+    }
 }
+
 
 VectorValue::~VectorValue()
 {
     vector_->erase(vector_->begin(), vector_->end());
+}
+
+
+void VectorValue::loadAndSaveValue_(std::iostream& stream)
+{
+    Value* value = loadValue(stream);
+    vector_->push_back(value);
 }
 
 } // namespace json

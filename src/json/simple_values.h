@@ -7,6 +7,8 @@ namespace json {
 class IntValue : public Value
 {
 public:
+    IntValue() { };
+    
     IntValue(int32_t value);
 
     std::string as_string();
@@ -16,6 +18,8 @@ public:
     Value& operator= (const int32_t &value);
 
     Value& operator= (const std::string &value);
+    
+    void loadFrom(std::iostream &stream);
 private:
     int32_t value_;
 };
@@ -24,11 +28,15 @@ private:
 class StringValue : public Value
 {
 public:
+    StringValue() { };
+    
     StringValue(const std::string &value);
 
     std::string as_string();
 
     Value& operator= (const std::string &value);
+    
+    void loadFrom(std::iostream &stream);
 private:
     std::string value_;
 };

@@ -2,6 +2,7 @@
 #define	VECTOR_VALUE_H
 
 #include <vector>
+#include <iostream>
 
 #include "src/json/json.h"
 
@@ -21,13 +22,15 @@ public:
 
     json::Value* &operator[] (const size_t &index);
     
-    json::Value& operator= (const std::string &value);
+    void loadFrom(std::iostream &stream);
 
     std::string as_string();
 
     ~VectorValue();
 private:
     ValueVector* vector_;
+    
+    void loadAndSaveValue_(std::iostream &stream);
 };
 
 } // namespace json

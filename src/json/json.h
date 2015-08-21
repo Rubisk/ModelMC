@@ -2,6 +2,7 @@
 #define	JSON_H
 
 #include <stdexcept>
+#include <iostream>
 
 namespace json {
    
@@ -33,6 +34,8 @@ public:
     virtual Value& operator= (const int32_t &value);
 
     virtual Value& operator= (const std::string &value);
+    
+    virtual void loadFrom(std::iostream &stream) = 0;
 
     virtual ~Value() { };
 

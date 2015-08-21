@@ -1,8 +1,10 @@
 #include <cstdlib>
+#include <iostream>
 #include <sstream>
 
 #include "src/json/json.h"
 #include "src/json/simple_values.h"
+#include "util.h"
 
 namespace json {
     
@@ -35,6 +37,11 @@ std::string IntValue::as_string()
     return ss.str();
 }
 
+void IntValue::loadFrom(std::iostream &stream)
+{
+    stream >> value_;
+}
+
 StringValue::StringValue(const std::string &value)
 {
     value_ = value;
@@ -49,6 +56,11 @@ Value& StringValue::operator= (const std::string &value)
 std::string StringValue::as_string()
 {
     return value_;
+}
+
+void StringValue::loadFrom(std::iostream &stream)
+{
+    value_ = loadName(stream);
 }
 
 } // namespace json

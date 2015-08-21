@@ -3,7 +3,11 @@
 #include <sstream>
 #include <assert.h>
 
+#include "src/json/json.h"
 #include "src/json/util.h"
+#include "src/json/object_value.h"
+#include "src/json/vector_value.h"
+#include "src/json/simple_values.h"
 
 namespace json {
     
@@ -28,6 +32,17 @@ std::string loadName(std::iostream &stream)
     std::string name = "";
     while(stream >> std::skipws >> a && a != '\"') name += a;
     return name;
+}
+
+Value* loadValue(std::iostream &stream)
+{
+    size_t type = findType(stream);
+    Value* value;
+    if(type == OBJECT_VALUE) value = new ObjectValue();
+    if(type == INT_VALUE) value = new IntValue();
+    if(type == STRING_VALUE) value = new StringValue();
+    if(type == VECTOR_VALUE) value = new VectorValue();
+    value->loadFrom(stream);
 }
 
 } // namespace json

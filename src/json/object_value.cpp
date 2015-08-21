@@ -1,8 +1,9 @@
+#include <iostream>
 #include <sstream>
 
 #include "src/json/json.h"
 #include "src/json/object_value.h"
-
+#include "src/json/util.h"
 
 namespace json {
 
@@ -22,13 +23,6 @@ Value* &ObjectValue::operator[](const std::string &key)
     return (*values_)[key];
 }
 
-Value& ObjectValue::operator= (const std::string &value)
-{
-    // TODO do this
-    throw json_exception("Can't assign a string");
-    return *this;
-}
-
 std::string ObjectValue::as_string()
 {
     std::stringstream ss;
@@ -41,6 +35,22 @@ std::string ObjectValue::as_string()
     return ss.str();
 }
 
+void ObjectValue::loadFrom(std::iostream &stream)
+{
+    char next_char;
+    stream >> std::skipws >> next_char;
+    if(next_char != '{') throw json_exception("Invalid json format.");
+    while(true)
+    {
+        loadAndSaveValue_(stream);
+        stream >> std::skipws >> next_char;
+        if(next_char == ',') continue;
+        if(next_char == '}') break;
+        throw json_exception("Invalid json format.");
+    }
+}
+
+
 ObjectValue::~ObjectValue()
 {
     for(ValueMap::iterator it = values_->begin(); it != values_->end(); it++)
@@ -48,6 +58,17 @@ ObjectValue::~ObjectValue()
         delete it->second;
     }
     delete values_;
+}
+
+
+void ObjectValue::loadAndSaveValue_(std::iostream& stream)
+{
+    std::string name = loadName(stream);
+    char next_char;
+    stream >> std::skipws >> next_char;
+    if(next_char != ':') throw json_exception("Invalid json format.");
+    Value* value = loadValue(stream);
+    (*this)[name] = value;
 }
 
 } // namespace json
