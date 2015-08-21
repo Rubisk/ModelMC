@@ -2,17 +2,20 @@
 #define	JSON_H
 
 namespace json {
-
-Value* load(std::iostream &stream);
-
-
-Value* load(const std::string &file);
+   
+enum Types { OBJECT_VALUE, VECTOR_VALUE, INT_VALUE, STRING_VALUE };
 
 
-void save(std::iostream &stream, const Value* value);
+ObjectValue* load(std::iostream &stream);
 
 
-void save(const std::string &file, const Value* value);
+ObjectValue* load(const std::string &file);
+
+
+void save(std::iostream &stream, const ObjectValue* value);
+
+
+void save(const std::string &file, const ObjectValue* value);
 
 
 class json_exception : public std::exception

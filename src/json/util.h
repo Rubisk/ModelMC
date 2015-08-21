@@ -3,13 +3,19 @@
 
 #include <iostream>
 
+#include "src/json/json.h"
+
+
 namespace json {
     
-enum Types { OBJECT_VALUE, VECTOR_VALUE, INT_VALUE, STRING_VALUE };
 
 size_t findType(const std::iostream &stream);
 
 std::string loadName(std::iostream &stream);
+
+Value* loadValue(const std::iostream &stream);
+
+void saveValue(std::iostream &stream, const ObjectValue* value);
 
 } //namespace json
 

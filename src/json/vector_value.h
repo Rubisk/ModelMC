@@ -1,7 +1,7 @@
 #ifndef VECTOR_VALUE_H
 #define	VECTOR_VALUE_H
 
-#include "src/json/value.h"
+#include "src/json/json.h"
 
 
 namespace json {

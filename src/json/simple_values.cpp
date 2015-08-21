@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <sstream>
 
-#include "src/json/value.h"
+#include "src/json/json.h"
 #include "src/json/simple_values.h"
 
 namespace json {
