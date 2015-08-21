@@ -52,8 +52,14 @@ void JsonUtilTest::testFindType()
     CPPUNIT_ASSERT(ss.str() == _int);
 }
 
-void JsonUtilTest::testReadName()
+void JsonUtilTest::testLoadName()
 {
+    std::stringstream ss;
+    ss.str("  \"abc\",");
     
+    CPPUNIT_ASSERT(loadName(ss) == "abc");
+    std::string leftover_string;
+    ss >> leftover_string;
+    CPPUNIT_ASSERT(leftover_string == ",");
 }
 

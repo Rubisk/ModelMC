@@ -8,7 +8,7 @@ class JsonUtilTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(JsonUtilTest);
 
     CPPUNIT_TEST(testFindType);
-    CPPUNIT_TEST(testReadName);
+    CPPUNIT_TEST(testLoadName);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -20,7 +20,7 @@ public:
 
 private:
     void testFindType();
-    void testReadName();
+    void testLoadName();
 };
 
 
