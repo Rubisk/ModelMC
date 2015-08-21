@@ -1,6 +1,8 @@
 #ifndef VECTOR_VALUE_H
 #define	VECTOR_VALUE_H
 
+#include <vector>
+
 #include "src/json/json.h"
 
 

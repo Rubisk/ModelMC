@@ -6,18 +6,6 @@ namespace json {
 enum Types { OBJECT_VALUE, VECTOR_VALUE, INT_VALUE, STRING_VALUE };
 
 
-ObjectValue* load(std::iostream &stream);
-
-
-ObjectValue* load(const std::string &file);
-
-
-void save(std::iostream &stream, const ObjectValue* value);
-
-
-void save(const std::string &file, const ObjectValue* value);
-
-
 class json_exception : public std::exception
 {
 public:
@@ -32,9 +20,7 @@ private:
 class Value
 {
 public:
-    virtual size_t getType();
-    
-    virtual std::string as_string();
+    virtual std::string as_string() = 0;
 
     virtual int32_t as_int();
 
@@ -49,6 +35,17 @@ public:
     virtual ~Value() { };
 
 };
+
+Value* load(std::iostream &stream);
+
+
+Value* load(const std::string &file);
+
+
+void save(std::iostream &stream, const Value* value);
+
+
+void save(const std::string &file, const Value* value);
 
 
 }

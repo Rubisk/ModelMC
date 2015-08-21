@@ -15,7 +15,7 @@ std::string loadName(std::iostream &stream);
 
 Value* loadValue(const std::iostream &stream);
 
-void saveValue(std::iostream &stream, const ObjectValue* value);
+void saveValue(std::iostream &stream, const Value* value);
 
 } //namespace json
 

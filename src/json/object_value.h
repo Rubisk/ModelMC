@@ -1,6 +1,10 @@
 #ifndef OBJECT_VALUE_H
 #define	OBJECT_VALUE_H
 
+#include <map>
+#include "src/json/json.h"
+
+
 namespace json {
     
 typedef std::map<std::string, Value*> ValueMap;
