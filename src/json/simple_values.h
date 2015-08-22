@@ -19,7 +19,7 @@ public:
 
     Value& operator= (const std::string &value);
     
-    void loadFrom(std::iostream &stream);
+    void loadFrom(std::istream &stream);
 private:
     int32_t value_;
 };
@@ -36,7 +36,7 @@ public:
 
     Value& operator= (const std::string &value);
     
-    void loadFrom(std::iostream &stream);
+    void loadFrom(std::istream &stream);
 private:
     std::string value_;
 };

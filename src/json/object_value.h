@@ -20,13 +20,13 @@ typedef std::map<std::string, Value*> ValueMap;
         
         std::string as_string();
         
-        void loadFrom(std::iostream &stream);
+        void loadFrom(std::istream &stream);
         
         ~ObjectValue();
     private:
         ValueMap* values_;
         
-        void loadAndSaveValue_ (std::iostream &stream);
+        void loadAndSaveValue_ (std::istream &stream);
     };
     
 } // namespace json

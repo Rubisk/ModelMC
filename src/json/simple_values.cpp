@@ -37,7 +37,7 @@ std::string IntValue::as_string()
     return ss.str();
 }
 
-void IntValue::loadFrom(std::iostream &stream)
+void IntValue::loadFrom(std::istream &stream)
 {
     stream >> value_;
 }
@@ -58,7 +58,7 @@ std::string StringValue::as_string()
     return value_;
 }
 
-void StringValue::loadFrom(std::iostream &stream)
+void StringValue::loadFrom(std::istream &stream)
 {
     value_ = loadName(stream);
 }

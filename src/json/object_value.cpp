@@ -35,7 +35,7 @@ std::string ObjectValue::as_string()
     return ss.str();
 }
 
-void ObjectValue::loadFrom(std::iostream &stream)
+void ObjectValue::loadFrom(std::istream &stream)
 {
     char next_char;
     stream >> std::skipws >> next_char;
@@ -61,7 +61,7 @@ ObjectValue::~ObjectValue()
 }
 
 
-void ObjectValue::loadAndSaveValue_(std::iostream& stream)
+void ObjectValue::loadAndSaveValue_(std::istream& stream)
 {
     std::string name = loadName(stream);
     char next_char;

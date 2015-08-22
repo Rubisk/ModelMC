@@ -9,11 +9,11 @@
 namespace json {
     
 
-size_t findType(const std::iostream &stream);
+size_t findType(std::istream &stream);
 
-std::string loadName(std::iostream &stream);
+std::string loadName(std::istream &stream);
 
-Value* loadValue(std::iostream &stream);
+Value* loadValue(std::istream &stream);
 
 void saveValue(std::iostream &stream, const Value* value);
 

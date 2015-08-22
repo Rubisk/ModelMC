@@ -22,7 +22,7 @@ public:
 
     json::Value* &operator[] (const size_t &index);
     
-    void loadFrom(std::iostream &stream);
+    void loadFrom(std::istream &stream);
 
     std::string as_string();
 
@@ -30,7 +30,7 @@ public:
 private:
     ValueVector* vector_;
     
-    void loadAndSaveValue_(std::iostream &stream);
+    void loadAndSaveValue_(std::istream &stream);
 };
 
 } // namespace json

@@ -1,7 +1,6 @@
 #include <streambuf>
 #include <iostream>
 #include <sstream>
-#include <assert.h>
 
 #include "src/json/json.h"
 #include "src/json/util.h"
@@ -11,12 +10,12 @@
 
 namespace json {
     
-size_t findType(const std::iostream &stream)
+size_t findType(std::istream &stream)
 {
-    std::stringstream temp;
-    temp << stream.rdbuf();
     char a;
-    temp >> std::skipws >> a;
+    auto old_pos = stream.tellg();
+    stream >> std::skipws >> a >> std::noskipws;
+    stream.seekg(old_pos);
 
     if(a == '\"') return STRING_VALUE;
     if(a == '{') return OBJECT_VALUE;
@@ -24,17 +23,17 @@ size_t findType(const std::iostream &stream)
     return INT_VALUE;
 }
 
-std::string loadName(std::iostream &stream)
+std::string loadName(std::istream &stream)
 {
     char a;
-    stream >> std::skipws >> a;
-    assert(a == '\"');
+    stream >> std::skipws >> a >> std::noskipws;
+    if(a != '"') throw json_exception("Invalid json format.");
     std::string name = "";
-    while(stream >> std::skipws >> a && a != '\"') name += a;
+    while(stream >> a && a != '"') name += a;
     return name;
 }
 
-Value* loadValue(std::iostream &stream)
+Value* loadValue(std::istream &stream)
 {
     size_t type = findType(stream);
     Value* value;
@@ -43,6 +42,7 @@ Value* loadValue(std::iostream &stream)
     if(type == STRING_VALUE) value = new StringValue();
     if(type == VECTOR_VALUE) value = new VectorValue();
     value->loadFrom(stream);
+    return value;
 }
 
 } // namespace json

@@ -35,19 +35,19 @@ public:
 
     virtual Value& operator= (const std::string &value);
     
-    virtual void loadFrom(std::iostream &stream) = 0;
+    virtual void loadFrom(std::istream &stream) = 0;
 
     virtual ~Value() { };
 
 };
 
-Value* load(std::iostream &stream);
+Value* load(std::istream &stream);
 
 
 Value* load(const std::string &file);
 
 
-void save(std::iostream &stream, const Value* value);
+void save(std::ostream &stream, const Value* value);
 
 
 void save(const std::string &file, const Value* value);

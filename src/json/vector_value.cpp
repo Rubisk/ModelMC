@@ -31,7 +31,7 @@ Value* &VectorValue::operator [](const size_t& index)
     return (*vector_)[index];
 }
 
-void VectorValue::loadFrom(std::iostream &stream)
+void VectorValue::loadFrom(std::istream &stream)
 {
     char next_char;
     stream >> std::skipws >> next_char;
@@ -53,7 +53,7 @@ VectorValue::~VectorValue()
 }
 
 
-void VectorValue::loadAndSaveValue_(std::iostream& stream)
+void VectorValue::loadAndSaveValue_(std::istream& stream)
 {
     Value* value = loadValue(stream);
     vector_->push_back(value);
