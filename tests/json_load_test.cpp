@@ -84,6 +84,8 @@ void JsonLoadTest::testLoadBool()
     CPPUNIT_ASSERT(value->as_string() == "false");
     CPPUNIT_ASSERT(!value->as_bool());
     
+    delete value;
+    
     ss.str("true123123");
     value = loadValue(ss);
     CPPUNIT_ASSERT(value->as_bool());
