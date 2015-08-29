@@ -27,7 +27,7 @@ std::string loadName(std::istream &stream)
 {
     char a;
     stream >> std::skipws >> a >> std::noskipws;
-    if(a != '"') throw json_exception("Invalid json format.");
+    if(a != '"') throw json_exception("Trying to load string, can't find ' \" '.");
     std::string name = "";
     while(stream >> a && a != '"') name += a;
     return name;

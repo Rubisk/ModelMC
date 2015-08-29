@@ -39,14 +39,14 @@ void ObjectValue::loadFrom(std::istream &stream)
 {
     char next_char;
     stream >> std::skipws >> next_char;
-    if(next_char != '{') throw json_exception("Invalid json format.");
+    if(next_char != '{') throw json_exception("Object didn't start with {.");
     while(true)
     {
         loadAndSaveValue_(stream);
         stream >> std::skipws >> next_char;
         if(next_char == ',') continue;
         if(next_char == '}') break;
-        throw json_exception("Invalid json format.");
+        throw json_exception("Next value in object is not , or }");
     }
 }
 

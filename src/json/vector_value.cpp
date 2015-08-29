@@ -35,7 +35,7 @@ void VectorValue::loadFrom(std::istream &stream)
 {
     char first_char;
     stream >> std::skipws >> first_char >> std::noskipws;
-    if(first_char != '[') throw json_exception("Invalid json format.");
+    if(first_char != '[') throw json_exception("Vector didn't start with [.");
     while(true)
     {
         char next_char;
@@ -44,7 +44,7 @@ void VectorValue::loadFrom(std::istream &stream)
         
         if(next_char == ',') continue;
         if(next_char == ']') break;
-        throw json_exception("Invalid json format.");
+        throw json_exception("Next value in vector is not , or ]");
     }
 }
 
