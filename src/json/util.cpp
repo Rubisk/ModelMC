@@ -20,6 +20,7 @@ size_t findType(std::istream &stream)
     if(a == '\"') return STRING_VALUE;
     if(a == '{') return OBJECT_VALUE;
     if(a == '[') return VECTOR_VALUE;
+    if(a == 't' || a == 'f') return BOOL_VALUE;
     return INT_VALUE;
 }
 
@@ -38,9 +39,10 @@ Value* loadValue(std::istream &stream)
     size_t type = findType(stream);
     Value* value;
     if(type == OBJECT_VALUE) value = new ObjectValue();
-    if(type == INT_VALUE) value = new IntValue();
-    if(type == STRING_VALUE) value = new StringValue();
-    if(type == VECTOR_VALUE) value = new VectorValue();
+    else if(type == INT_VALUE) value = new IntValue();
+    else if(type == STRING_VALUE) value = new StringValue();
+    else if(type == VECTOR_VALUE) value = new VectorValue();
+    else if(type == BOOL_VALUE) value = new BoolValue();
     value->loadFrom(stream);
     return value;
 }

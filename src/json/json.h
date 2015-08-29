@@ -6,7 +6,7 @@
 
 namespace json {
    
-enum Types { OBJECT_VALUE, VECTOR_VALUE, INT_VALUE, STRING_VALUE };
+enum Types { OBJECT_VALUE, VECTOR_VALUE, INT_VALUE, STRING_VALUE, BOOL_VALUE };
 
 
 class json_exception : public std::exception
@@ -26,6 +26,8 @@ public:
     virtual std::string as_string() = 0;
 
     virtual int32_t as_int();
+    
+    virtual bool as_bool();
 
     virtual Value* &operator[] (const std::string &key);
 

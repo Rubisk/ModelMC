@@ -11,6 +11,11 @@ namespace json
     { 
         throw json_exception("Can't convert to integer");
     }
+    
+    bool Value::as_bool()
+    {
+        throw json_exception("Can't convert to boolean");
+    }
 
     Value* &Value::operator[] (const std::string &key)
     {
@@ -31,8 +36,5 @@ namespace json
     {
         throw json_exception("Can't assign an integer");
     }
-    
-    
-    
 }
 

@@ -8,7 +8,7 @@
 
 namespace json {
     
-IntValue::IntValue(int32_t value)
+IntValue::IntValue(const int32_t &value)
 {
     value_ = value;
 }
@@ -63,4 +63,62 @@ void StringValue::loadFrom(std::istream &stream)
     value_ = loadName(stream);
 }
 
+
+BoolValue::BoolValue(const bool &value)
+{
+    value_ = value;
+}
+
+Value& BoolValue::operator= (const std::string &value)
+{
+    if(!(value == "true" || value == "false"))
+        throw json_exception("No correct bool formatting");
+    value_ = (value == "true");
+    return *this;
+}
+
+Value& BoolValue::operator= (const int &value)
+{
+    value_ = (value != 0);
+    return *this;
+}
+
+bool BoolValue::as_bool()
+{
+    return value_;
+}
+
+std::string BoolValue::as_string()
+{
+    return value_ ? "true" : "false";
+}
+
+void BoolValue::loadFrom(std::istream &stream)
+{
+    char next_char;
+    stream >> std::skipws >> next_char >> std::noskipws;
+    
+    if(next_char == 'f')
+    {
+        for(char c : "alse")
+        {
+            stream >> next_char;
+            if(next_char != c)
+                throw json_exception("No correct bool formatting");
+        }
+        value_ = false;
+    }
+    else if (next_char == 't')
+    {
+        for(char c : "rue")
+            {
+                stream >> next_char;
+                if(next_char != c)
+                    throw json_exception("No correct bool formatting");
+            }
+        value_ == true;
+    }
+    
+    throw json_exception("Bool didn't start with f or r");
+}
 } // namespace json

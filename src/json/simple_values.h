@@ -9,7 +9,7 @@ class IntValue : public Value
 public:
     IntValue() { };
     
-    IntValue(int32_t value);
+    IntValue(const int32_t &value);
 
     std::string as_string();
 
@@ -39,6 +39,27 @@ public:
     void loadFrom(std::istream &stream);
 private:
     std::string value_;
+};
+
+
+class BoolValue : public Value
+{
+public:
+    BoolValue() { };
+    
+    BoolValue(const bool &value);
+    
+    bool as_bool();
+    
+    std::string as_string();
+    
+    Value& operator= (const std::string &value);
+    
+    Value& operator= (const int &value);
+    
+    void loadFrom(std::istream &stream);
+private:
+    bool value_;
 };
 
 
