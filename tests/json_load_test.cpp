@@ -68,6 +68,32 @@ void JsonLoadTest::testLoadInt()
   
 }
 
+void JsonLoadTest::testLoadBool()
+{
+    std::stringstream ss;
+    ss.str("false");
+    Value* value = loadValue(ss);
+    CPPUNIT_ASSERT(value->as_string() == "false");
+    CPPUNIT_ASSERT(!value->as_bool());
+    
+    ss.str("some_other_string");
+    CPPUNIT_ASSERT_THROW(loadValue(ss), json_exception);
+    ss.str("true123123");
+    value = loadValue(ss);
+    std::string s = value->as_string();
+    CPPUNIT_ASSERT(value->as_bool());
+    CPPUNIT_ASSERT(value->as_string() == "true");
+    
+    std::string leftover;
+    std::ostringstream os;
+    ss >> os.rdbuf();
+    leftover = os.str();
+    
+    CPPUNIT_ASSERT(leftover == "123123");
+    delete value;
+
+}
+
 void JsonLoadTest::testLoadIntVector()
 {
     std::stringstream ss;
