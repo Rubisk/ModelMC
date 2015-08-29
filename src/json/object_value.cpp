@@ -66,7 +66,7 @@ void ObjectValue::loadAndSaveValue_(std::istream& stream)
     std::string name = loadName(stream);
     char next_char;
     stream >> std::skipws >> next_char;
-    if(next_char != ':') throw json_exception("Invalid json format.");
+    if(next_char != ':') throw json_exception("Key/value in object not seperated by \":\".");
     Value* value = loadValue(stream);
     (*this)[name] = value;
 }
