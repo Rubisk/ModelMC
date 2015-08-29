@@ -21,7 +21,11 @@ size_t findType(std::istream &stream)
     if(a == '{') return OBJECT_VALUE;
     if(a == '[') return VECTOR_VALUE;
     if(a == 't' || a == 'f') return BOOL_VALUE;
-    return INT_VALUE;
+    for(char c : "0123456789")
+    {
+        if(c == a) return INT_VALUE;
+    }
+    throw json_exception("Invalid start char");
 }
 
 std::string loadName(std::istream &stream)

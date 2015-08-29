@@ -105,6 +105,7 @@ void BoolValue::loadFrom(std::istream &stream)
             stream >> next_char;
             if(next_char != c)
                 throw json_exception("No correct bool formatting");
+            if(c == 'e') break;
         }
         value_ = false;
     }
@@ -115,10 +116,10 @@ void BoolValue::loadFrom(std::istream &stream)
                 stream >> next_char;
                 if(next_char != c)
                     throw json_exception("No correct bool formatting");
+                if(c == 'e') break;
             }
-        value_ == true;
+        value_ = true;
     }
-    
-    throw json_exception("Bool didn't start with f or r");
+    else throw json_exception("Bool didn't start with f or r");
 }
 } // namespace json
