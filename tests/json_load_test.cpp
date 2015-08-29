@@ -85,7 +85,19 @@ void JsonLoadTest::testLoadIntVector()
 
 void JsonLoadTest::testLoadSimpleObject()
 {
+    std::stringstream ss;
+    ss.str("{\"some_string\": 35, \"some_other_string\": \"abcd\"}[][][");
+    Value* value = loadValue(ss);
+    CPPUNIT_ASSERT((*value)["some_string"]->as_int() == 35);
+    CPPUNIT_ASSERT((*value)["some_other_string"]->as_string() == "abcd");
     
+    std::string leftover;
+    std::ostringstream os;
+    ss >> os.rdbuf();
+    leftover = os.str();
+    
+    CPPUNIT_ASSERT(leftover == "[][][");
+    delete value;
 }
 
 // Purpose of this test if to see if it all works, not to find
