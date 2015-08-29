@@ -54,3 +54,22 @@ void JsonValueTest::testStringValue() {
     delete value;
 }
 
+void JsonValueTest::testBoolValue()
+{
+    Value* value = new BoolValue(false);
+    CPPUNIT_ASSERT(value->as_bool() == false);
+    CPPUNIT_ASSERT(value->as_string() == "false");
+    *value = true;
+    
+    CPPUNIT_ASSERT(value->as_bool() == true);
+    CPPUNIT_ASSERT(value->as_string() == "true");
+    
+    *value = "false";
+    
+    CPPUNIT_ASSERT(value->as_bool() == false);
+    CPPUNIT_ASSERT(value->as_string() == "false");
+    
+    delete value;
+}
+
+

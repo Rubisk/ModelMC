@@ -9,6 +9,7 @@ class JsonValueTest : public CPPUNIT_NS::TestFixture {
 
     CPPUNIT_TEST(testIntValue);
     CPPUNIT_TEST(testStringValue);
+    CPPUNIT_TEST(testBoolValue);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -21,6 +22,7 @@ public:
 private:
     void testIntValue();
     void testStringValue();
+    void testBoolValue();
 };
 
 #endif	// JSON_VALUES_TEST_H
