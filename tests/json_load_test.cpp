@@ -1,3 +1,5 @@
+#include <fstream>
+
 #include "json_load_test.h"
 
 #include "src/json/json.h"
@@ -104,5 +106,9 @@ void JsonLoadTest::testLoadSimpleObject()
 // individual bugs.
 void JsonLoadTest::testLoadComplexObject()
 {
-    
+    std::ifstream file;
+    file.open("./tests/testfiles/test_json.json");
+    Value* value = loadValue(file);
+    file.close();
+    delete value;
 }
