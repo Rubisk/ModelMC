@@ -1,5 +1,5 @@
 {
-    "ambientocclusion": "false",
+    "ambientocclusion": false,
     "textures": {
         "particle": "blocks/cauldron_side",
         "top": "blocks/cauldron_top",
