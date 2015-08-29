@@ -42,7 +42,6 @@ void VectorValue::loadFrom(std::istream &stream)
         loadAndSaveValue_(stream);
         stream >> std::skipws >> next_char >> std::noskipws;
         
-        std::cout << stream.tellg();
         if(next_char == ',') continue;
         if(next_char == ']') break;
         throw json_exception("Invalid json format.");
