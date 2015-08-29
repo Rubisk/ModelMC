@@ -33,13 +33,16 @@ Value* &VectorValue::operator [](const size_t& index)
 
 void VectorValue::loadFrom(std::istream &stream)
 {
-    char next_char;
-    stream >> std::skipws >> next_char;
-    if(next_char != '[') throw json_exception("Invalid json format.");
+    char first_char;
+    stream >> std::skipws >> first_char >> std::noskipws;
+    if(first_char != '[') throw json_exception("Invalid json format.");
     while(true)
     {
+        char next_char;
         loadAndSaveValue_(stream);
-        stream >> std::skipws >> next_char;
+        stream >> std::skipws >> next_char >> std::noskipws;
+        
+        std::cout << stream.tellg();
         if(next_char == ',') continue;
         if(next_char == ']') break;
         throw json_exception("Invalid json format.");
@@ -49,7 +52,11 @@ void VectorValue::loadFrom(std::istream &stream)
 
 VectorValue::~VectorValue()
 {
-    vector_->erase(vector_->begin(), vector_->end());
+    for(ValueVector::iterator it = vector_->begin(); it != vector_->end(); it++)
+    {
+        delete *it;
+    }
+    delete vector_;
 }
 
 

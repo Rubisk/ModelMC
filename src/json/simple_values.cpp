@@ -39,7 +39,7 @@ std::string IntValue::as_string()
 
 void IntValue::loadFrom(std::istream &stream)
 {
-    stream >> value_;
+    stream >> std::skipws >> value_ >> std::noskipws;
 }
 
 StringValue::StringValue(const std::string &value)
