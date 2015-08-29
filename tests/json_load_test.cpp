@@ -1,4 +1,5 @@
 #include <fstream>
+#include <iostream>
 
 #include "json_load_test.h"
 
@@ -38,7 +39,6 @@ void JsonLoadTest::testLoadString()
     std::stringstream ss;
     ss.str("\"this is a string\"    ,]{]}}'");
     Value* value = loadValue(ss);
-    std::string s = value->as_string();
     CPPUNIT_ASSERT(value->as_string() == "this is a string");
     
     std::string leftover;
@@ -102,12 +102,22 @@ void JsonLoadTest::testLoadSimpleObject()
     delete value;
 }
 
+void JsonLoadTest::testFileObject()
+{
+    std::ifstream file;
+    file.open("./tests/testfiles/test_file_object.json", std::ios::binary);
+    Value* value = loadValue(file);
+    file.close();
+    CPPUNIT_ASSERT((*value)["some_string"]->as_string() == "some_value");
+    delete value;
+}
+
 // Purpose of this test if to see if it all works, not to find
 // individual bugs.
 void JsonLoadTest::testLoadComplexObject()
 {
     std::ifstream file;
-    file.open("./tests/testfiles/test_json.json");
+    file.open("./tests/testfiles/test_json.json", std::ios::binary);
     Value* value = loadValue(file);
     file.close();
     delete value;
