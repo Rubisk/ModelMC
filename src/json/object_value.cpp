@@ -38,12 +38,12 @@ std::string ObjectValue::as_string()
 void ObjectValue::loadFrom(std::istream &stream)
 {
     char next_char;
-    stream >> std::skipws >> next_char;
+    stream >> std::skipws >> next_char >> std::noskipws;
     if(next_char != '{') throw json_exception("Object didn't start with {.");
     while(true)
     {
         loadAndSaveValue_(stream);
-        stream >> std::skipws >> next_char;
+        stream >> std::skipws >> next_char >> std::noskipws;
         if(next_char == ',') continue;
         if(next_char == '}') break;
         throw json_exception("Next value in object is not , or }");
@@ -65,9 +65,12 @@ void ObjectValue::loadAndSaveValue_(std::istream& stream)
 {
     std::string name = loadName(stream);
     char next_char;
-    stream >> std::skipws >> next_char;
+    size_t c = stream.tellg();
+    stream >> std::skipws >> next_char >> std::noskipws;
     if(next_char != ':') throw json_exception("Key/value in object not seperated by \":\".");
+    size_t a = stream.tellg();
     Value* value = loadValue(stream);
+    size_t b = stream.tellg();
     (*this)[name] = value;
 }
 
