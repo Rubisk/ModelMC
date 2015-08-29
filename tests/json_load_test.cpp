@@ -50,12 +50,37 @@ void JsonLoadTest::testLoadString()
 
 void JsonLoadTest::testLoadInt()
 {
+    std::stringstream ss;
+    ss.str("5\"\n");
+    Value* value = loadValue(ss);
+    CPPUNIT_ASSERT(value->as_string() == "5");
+    CPPUNIT_ASSERT(value->as_int() == 5);
     
+    std::string leftover;
+    std::ostringstream os;
+    ss >> os.rdbuf();
+    leftover = os.str();
+    
+    CPPUNIT_ASSERT(leftover == "\"\n");
+    delete value;
+  
 }
 
 void JsonLoadTest::testLoadIntVector()
 {
-
+    std::stringstream ss;
+    ss.str("[5, 7, 9, 12, 15, 4, 2]{[[asdfa]");
+    Value* value = loadValue(ss);
+    CPPUNIT_ASSERT((*value)[0]->as_int() == 5);
+    CPPUNIT_ASSERT((*value)[6]->as_int() == 2);
+    
+    std::string leftover;
+    std::ostringstream os;
+    ss >> os.rdbuf();
+    leftover = os.str();
+    
+    CPPUNIT_ASSERT(leftover == "{[[asdfa]");
+    delete value;
 }
 
 void JsonLoadTest::testLoadSimpleObject()
