@@ -8,6 +8,7 @@ class JsonLoadTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(JsonLoadTest);
 
     CPPUNIT_TEST(testLoadString);
+    CPPUNIT_TEST(testInvalidValue);
     CPPUNIT_TEST(testLoadBool);
     CPPUNIT_TEST(testLoadInt);
     CPPUNIT_TEST(testLoadIntVector);
@@ -25,6 +26,7 @@ public:
 
 private:
     void testLoadString();
+    void testInvalidValue();
     void testLoadBool();
     void testLoadInt();
     void testLoadIntVector();
