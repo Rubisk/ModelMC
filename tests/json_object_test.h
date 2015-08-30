@@ -9,9 +9,6 @@
 
 class JsonObjectTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(JsonObjectTest);
-
-    CPPUNIT_TEST(testFromString);
-    CPPUNIT_TEST(testToString);
     
     CPPUNIT_TEST(testAccessAnExistingMember);
     CPPUNIT_TEST(testAddAMember);
