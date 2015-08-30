@@ -21,12 +21,17 @@ std::string VectorValue::save()
     ss << "[";
     
     ValueVector::iterator it = vector_->begin();
+    ss << (*it)->save();
+    it++;
     while(it != vector_->end())
     {
+        ss << ",";
         ss << (*it)->save();
-        if(it++ != vector_->end()) ss << ",";
+        it++;
     }
     ss << "]";
+    std::string a = ss.str();
+    return ss.str();
 }
 
 Value* &VectorValue::operator [](const size_t& index)
