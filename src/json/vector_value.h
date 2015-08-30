@@ -24,7 +24,7 @@ public:
     
     void loadFrom(std::istream &stream);
 
-    std::string as_string();
+    std::string save();
 
     ~VectorValue();
 private:

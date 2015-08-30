@@ -23,7 +23,9 @@ private:
 class Value
 {
 public:
-    virtual std::string as_string() = 0;
+    virtual std::string save() = 0;
+    
+    virtual std::string as_string();
 
     virtual int32_t as_int();
     

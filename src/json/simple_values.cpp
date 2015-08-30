@@ -30,7 +30,7 @@ int32_t IntValue::as_int()
     return value_;
 }
 
-std::string IntValue::as_string()
+std::string IntValue::save()
 {
     std::stringstream ss;
     ss << value_;
@@ -51,6 +51,11 @@ Value& StringValue::operator= (const std::string &value)
 {
     value_ = value;
     return *this;
+}
+
+std::string StringValue::save()
+{
+    return "\"" + value_ + "\"";
 }
 
 std::string StringValue::as_string()
@@ -88,7 +93,7 @@ bool BoolValue::as_bool()
     return value_;
 }
 
-std::string BoolValue::as_string()
+std::string BoolValue::save()
 {
     return value_ ? "true" : "false";
 }

@@ -18,7 +18,7 @@ typedef std::map<std::string, Value*> ValueMap;
         
         Value* &operator[] (const std::string &key);
         
-        std::string as_string();
+        std::string save();
         
         void loadFrom(std::istream &stream);
         

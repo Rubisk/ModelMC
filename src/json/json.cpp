@@ -16,6 +16,11 @@ namespace json
     {
         throw json_exception("Can't convert to boolean");
     }
+    
+    std::string Value::as_string()
+    {
+        throw json_exception("Can't convert to string");
+    }
 
     Value* &Value::operator[] (const std::string &key)
     {

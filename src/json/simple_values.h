@@ -11,7 +11,7 @@ public:
     
     IntValue(const int32_t &value);
 
-    std::string as_string();
+    std::string save();
 
     int32_t as_int();
 
@@ -33,6 +33,8 @@ public:
     StringValue(const std::string &value);
 
     std::string as_string();
+    
+    std::string save();
 
     Value& operator= (const std::string &value);
     
@@ -51,7 +53,7 @@ public:
     
     bool as_bool();
     
-    std::string as_string();
+    std::string save();
     
     Value& operator= (const std::string &value);
     

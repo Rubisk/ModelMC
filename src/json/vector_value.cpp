@@ -15,15 +15,18 @@ VectorValue::VectorValue(ValueVector* vector){
     vector_ = vector;
 }
 
-std::string VectorValue::as_string()
+std::string VectorValue::save()
 {
     std::stringstream ss;
     ss << "[";
-    for(ValueVector::iterator it = vector_->begin(); it != vector_->end(); it++)
+    
+    ValueVector::iterator it = vector_->begin();
+    while(it != vector_->end())
     {
-        ss << "\"" << (*it)->as_string() << "\",";
+        ss << (*it)->save();
+        if(it++ != vector_->end()) ss << ",";
     }
-    ss << "}";
+    ss << "]";
 }
 
 Value* &VectorValue::operator [](const size_t& index)

@@ -23,13 +23,13 @@ Value* &ObjectValue::operator[](const std::string &key)
     return (*values_)[key];
 }
 
-std::string ObjectValue::as_string()
+std::string ObjectValue::save()
 {
     std::stringstream ss;
     ss << "{";
     for(ValueMap::iterator it = values_->begin(); it != values_->end(); it++)
     {
-        ss << "\"" << it->first << "\":\"" << it->second->as_string() << "\",";
+        ss << "\"" << it->first << "\":\"" << it->second->save() << "\",";
     }
     ss << "}";
     return ss.str();
