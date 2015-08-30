@@ -25,9 +25,6 @@ public:
     void tearDown();
 
 private:
-    void testFromString();
-    void testToString();
-    
     void testAccessAnExistingMember();
     void testAddAMember();
     

@@ -37,16 +37,6 @@ void JsonObjectTest::tearDown()
     delete object_;
 }
 
-void JsonObjectTest::testFromString()
-{
-    
-}
-
-void JsonObjectTest::testToString()
-{
-    
-}
-
 void JsonObjectTest::testAccessAnExistingMember()
 {
     CPPUNIT_ASSERT((*object_)["int"]->as_int() == 99);
