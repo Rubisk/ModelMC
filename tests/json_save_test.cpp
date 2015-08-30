@@ -73,7 +73,8 @@ void JsonSaveTest::testSaveBoolean()
 
 void JsonSaveTest::testSaveVector()
 {
-    
+    Value* value = (*object_)["vector"];
+    CPPUNIT_ASSERT(value->save() == "[1,2,3]");
 }
 
 void JsonSaveTest::testSaveObject()
