@@ -55,7 +55,6 @@ void JsonLoadTest::testLoadInt()
     std::stringstream ss;
     ss.str("5\"\n");
     Value* value = loadValue(ss);
-    CPPUNIT_ASSERT(value->as_string() == "5");
     CPPUNIT_ASSERT(value->as_int() == 5);
     
     std::string leftover;
@@ -81,7 +80,6 @@ void JsonLoadTest::testLoadBool()
     
     ss.str("false");
     Value* value = loadValue(ss);
-    CPPUNIT_ASSERT(value->as_string() == "false");
     CPPUNIT_ASSERT(!value->as_bool());
     
     delete value;
@@ -89,8 +87,7 @@ void JsonLoadTest::testLoadBool()
     ss.str("true123123");
     value = loadValue(ss);
     CPPUNIT_ASSERT(value->as_bool());
-    CPPUNIT_ASSERT(value->as_string() == "true");
-    
+
     std::string leftover;
     std::ostringstream os;
     ss >> os.rdbuf();
