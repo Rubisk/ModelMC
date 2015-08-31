@@ -90,3 +90,30 @@ void JsonSaveTest::testSaveObject()
                                     "\"Second Key\":2,"
                                     "\"Third Key\":true}");
 }
+
+// Purpose of this test if to see if it all works, not to find
+// individual bugs.
+void JsonSaveTest::testSaveComplexObject()
+{
+    std::ifstream file;
+    file.open("./tests/testfiles/test_json.json", std::ios::binary);
+    Value* value = loadValue(file);
+    file.close();
+    
+    std::ofstream ofile;
+    ofile.open("./tests/testfiles/test_output.json");
+    ofile << value->save();
+    
+    std::ifstream file2;
+    file.open("./tests/testfiles/test_json_without_whitespace");
+    file2.open("./tests/testfiles/test_output.json");
+    
+    CPPUNIT_ASSERT(std::equal(std::istreambuf_iterator<char>(file),
+                              std::istreambuf_iterator<char>(),
+                              std::istreambuf_iterator<char>(file2)));
+    
+    file.close();
+    file2.close();
+    
+    delete value;
+}

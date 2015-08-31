@@ -13,6 +13,7 @@ class JsonSaveTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testSaveInt);
     CPPUNIT_TEST(testSaveVector);
     CPPUNIT_TEST(testSaveObject);
+    CPPUNIT_TEST(testSaveComplexObject);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -28,6 +29,7 @@ private:
     void testSaveInt();
     void testSaveVector();
     void testSaveObject();
+    void testSaveComplexObject();
     
     json::Value* object_;
 };
