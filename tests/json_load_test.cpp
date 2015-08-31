@@ -146,9 +146,6 @@ void JsonLoadTest::testFileObject()
 // individual bugs.
 void JsonLoadTest::testLoadComplexObject()
 {
-    std::ifstream file;
-    file.open("./tests/testfiles/test_json.json", std::ios::binary);
-    Value* value = loadValue(file);
-    file.close();
+    Value* value = load("./tests/testfiles/test_json.json");
     delete value;
 }

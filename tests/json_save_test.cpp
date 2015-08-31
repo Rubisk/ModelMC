@@ -94,25 +94,22 @@ void JsonSaveTest::testSaveObject()
 // individual bugs.
 void JsonSaveTest::testSaveComplexObject()
 {
-    std::ifstream file;
-    file.open("./tests/testfiles/test_json.json", std::ios::binary);
-    Value* value = loadValue(file);
-    file.close();
     
-    std::ofstream ofile;
-    ofile.open("./tests/testfiles/test_output.json");
-    ofile << value->save();
+    Value* value = load("./tests/testfiles/test_json.json");
     
-    std::ifstream file2;
-    file.open("./tests/testfiles/test_json_without_whitespace");
-    file2.open("./tests/testfiles/test_output.json");
+    save("./tests/testfiles/test_output.json", value);
     
-    CPPUNIT_ASSERT(std::equal(std::istreambuf_iterator<char>(file),
+    std::ifstream original, copy;
+    
+    original.open("./tests/testfiles/test_json_without_whitespace");
+    copy.open("./tests/testfiles/test_output.json");
+    
+    CPPUNIT_ASSERT(std::equal(std::istreambuf_iterator<char>(original),
                               std::istreambuf_iterator<char>(),
-                              std::istreambuf_iterator<char>(file2)));
+                              std::istreambuf_iterator<char>(copy)));
     
-    file.close();
-    file2.close();
+    original.close();
+    copy.close();
     
     delete value;
 }

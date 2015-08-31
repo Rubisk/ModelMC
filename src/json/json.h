@@ -51,10 +51,10 @@ Value* load(std::istream &stream);
 Value* load(const std::string &file);
 
 
-void save(std::ostream &stream, const Value* value);
+void save(std::ostream &stream, Value* value);
 
 
-void save(const std::string &file, const Value* value);
+void save(const std::string &file, Value* value);
 
 
 }
