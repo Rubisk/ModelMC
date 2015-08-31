@@ -85,7 +85,6 @@ void JsonSaveTest::testSaveVector()
 void JsonSaveTest::testSaveObject()
 {
     Value* value = (*object_)["object"];
-    std::string output = value->save();
     CPPUNIT_ASSERT(value->save() == "{\"First Key\":\"First Value\","
                                     "\"Second Key\":2,"
                                     "\"Third Key\":true}");

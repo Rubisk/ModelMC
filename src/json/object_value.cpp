@@ -69,12 +69,9 @@ void ObjectValue::loadAndSaveValue_(std::istream& stream)
 {
     std::string name = loadName(stream);
     char next_char;
-    size_t c = stream.tellg();
     stream >> std::skipws >> next_char >> std::noskipws;
     if(next_char != ':') throw json_exception("Key/value in object not seperated by \":\".");
-    size_t a = stream.tellg();
     Value* value = loadValue(stream);
-    size_t b = stream.tellg();
     (*this)[name] = value;
 }
 
