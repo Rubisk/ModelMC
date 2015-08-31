@@ -27,9 +27,13 @@ std::string ObjectValue::save()
 {
     std::stringstream ss;
     ss << "{";
-    for(ValueMap::iterator it = values_->begin(); it != values_->end(); it++)
+    ValueMap::iterator it = values_->begin();
+    ss << "\"" << it->first << "\":" << it->second->save();
+    it++;
+    while(it != values_->end())
     {
-        ss << "\"" << it->first << "\":\"" << it->second->save() << "\",";
+        ss << ",\"" << it->first << "\":" << it->second->save();
+        it++;
     }
     ss << "}";
     return ss.str();
