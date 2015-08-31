@@ -28,22 +28,27 @@ JsonSaveTest::~JsonSaveTest()
 void JsonSaveTest::setUp()
 {
     object_ = new ObjectValue();
+    
     Value* string_ = new StringValue("StringText");
     Value* int_ = new IntValue(15);
     Value* bool_ = new BoolValue(true);
     
     ValueVector* vector_value_ = new ValueVector();
-    
     vector_value_->push_back(new IntValue(1));
     vector_value_->push_back(new IntValue(2));
     vector_value_->push_back(new IntValue(3));
-    
     Value* vector_ = new VectorValue(vector_value_);
     
-    (*object_)["string"] = string_;
+    ValueMap* object_value_ = new ValueMap();
+    (*object_value_)["First Key"] = new StringValue("First Value");
+    (*object_value_)["Second Key"] = new IntValue(2);
+    (*object_value_)["Third Key"] = new BoolValue(true);(*object_)["string"] = string_;
+    Value* object = new ObjectValue(object_value_);
+    
     (*object_)["int"] = int_;
     (*object_)["bool"] = bool_;
     (*object_)["vector"] = vector_;
+    (*object_)["object"] = object;
 }
 
 void JsonSaveTest::tearDown()
@@ -79,5 +84,9 @@ void JsonSaveTest::testSaveVector()
 
 void JsonSaveTest::testSaveObject()
 {
-    
+    Value* value = (*object_)["object"];
+    std::string output = value->save();
+    CPPUNIT_ASSERT(value->save() == "{\"First Key\":\"First Value\","
+                                    "\"Second Key\":2,"
+                                    "\"Third Key\":true}");
 }
