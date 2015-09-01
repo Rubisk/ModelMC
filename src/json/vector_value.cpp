@@ -36,6 +36,10 @@ std::string VectorValue::save()
 
 Value* &VectorValue::operator [](const size_t& index)
 {
+    while(index >= vector_->size())
+    {
+        vector_->push_back(NULL);
+    }
     return (*vector_)[index];
 }
 
