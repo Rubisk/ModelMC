@@ -18,6 +18,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>src/element.cpp</itemPath>
       <itemPath>src/json/json.cpp</itemPath>
       <itemPath>src/main.cpp</itemPath>
       <itemPath>src/json/object_value.cpp</itemPath>
@@ -29,6 +30,14 @@
                    displayName="Test Files"
                    projectFiles="false"
                    kind="TEST_LOGICAL_FOLDER">
+      <logicalFolder name="f2"
+                     displayName="Element Test"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/element_test.cpp</itemPath>
+        <itemPath>tests/element_test.h</itemPath>
+        <itemPath>tests/element_test_runner.cpp</itemPath>
+      </logicalFolder>
       <logicalFolder name="f1" displayName="Json" projectFiles="true" kind="TEST">
         <itemPath>tests/json_load_test.cpp</itemPath>
         <itemPath>tests/json_load_test.h</itemPath>
@@ -98,6 +107,13 @@
           <output>${TESTDIR}/TestFiles/f1</output>
         </linkerTool>
       </folder>
+      <folder path="TestFiles/f2">
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f2</output>
+        </linkerTool>
+      </folder>
+      <item path="src/element.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="src/element.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/json/json.cpp" ex="false" tool="1" flavor2="0">
@@ -121,6 +137,12 @@
       <item path="src/json/vector_value.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/element_test.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/element_test.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/element_test_runner.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/json_load_test.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -200,6 +222,22 @@
           </linkerLibItems>
         </linkerTool>
       </folder>
+      <folder path="TestFiles/f2">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f2</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <item path="src/element.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="src/element.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/json/json.cpp" ex="false" tool="1" flavor2="0">
@@ -223,6 +261,12 @@
       <item path="src/json/vector_value.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/element_test.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/element_test.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/element_test_runner.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/json_load_test.cpp" ex="false" tool="1" flavor2="0">
       </item>
