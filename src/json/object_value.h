@@ -16,17 +16,17 @@ typedef std::map<std::string, Value*> ValueMap;
         
         ObjectValue(ValueMap* values);
         
-        Value* &operator[] (const std::string &key);
+        Status operator[] (const std::string &key, Value** valueptr);
         
-        std::string save();
+        Status save(std::ostream* output);
         
-        void loadFrom(std::istream &stream);
+        Status loadFrom(std::istream &stream);
         
         ~ObjectValue();
     private:
         ValueMap* values_;
         
-        void loadAndSaveValue_ (std::istream &stream);
+        Status loadAndSaveValue_ (std::istream &stream);
     };
     
 } // namespace json

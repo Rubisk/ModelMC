@@ -20,17 +20,17 @@ public:
 
     VectorValue(ValueVector* values);
 
-    json::Value* &operator[] (const size_t &index);
+    Status operator[] (const size_t &index, Value** valueptr);
     
-    void loadFrom(std::istream &stream);
+    Status loadFrom(std::istream &stream);
 
-    std::string save();
+    Status save(std::ostream* output);
 
     ~VectorValue();
 private:
     ValueVector* vector_;
     
-    void loadAndSaveValue_(std::istream &stream);
+    Status loadAndSaveValue_(std::istream &stream);
 };
 
 } // namespace json

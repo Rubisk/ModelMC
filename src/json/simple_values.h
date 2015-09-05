@@ -3,7 +3,6 @@
 
 namespace json {
     
-    
 class IntValue : public Value
 {
 public:
@@ -11,15 +10,13 @@ public:
     
     IntValue(const int32_t &value);
 
-    std::string save();
+    Status save(std::ostream* output);
 
-    int32_t as_int();
+    Status as_int(int32_t* output);
 
-    Value& operator= (const int32_t &value);
-
-    Value& operator= (const std::string &value);
+    Status operator= (const int32_t &value);
     
-    void loadFrom(std::istream &stream);
+    Status loadFrom(std::istream &stream);
 private:
     int32_t value_;
 };
@@ -32,13 +29,13 @@ public:
     
     StringValue(const std::string &value);
 
-    std::string as_string();
+    Status as_string(std::string* output);
     
-    std::string save();
+    Status save(std::ostream* output);
 
-    Value& operator= (const std::string &value);
+    Status operator= (const std::string &value);
     
-    void loadFrom(std::istream &stream);
+    Status loadFrom(std::istream &stream);
 private:
     std::string value_;
 };
@@ -51,19 +48,16 @@ public:
     
     BoolValue(const bool &value);
     
-    bool as_bool();
+    Status as_bool(bool* output);
     
-    std::string save();
+    Status save(std::ostream* output);
     
-    Value& operator= (const std::string &value);
+    Status operator= (const bool &value);
     
-    Value& operator= (const int &value);
-    
-    void loadFrom(std::istream &stream);
+    Status loadFrom(std::istream &stream);
 private:
     bool value_;
 };
-
 
 } // namespace json
 
