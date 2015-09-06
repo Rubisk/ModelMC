@@ -6,8 +6,8 @@
 
 namespace json {
 
-enum Type {
-  OBJECT_VALUE, VECTOR_VALUE, INT_VALUE, STRING_VALUE, BOOL_VALUE
+enum ValueType {
+  kObjectValue, kVectorValue, kIntValue, kStringValue, kBoolValue
 };
 
 enum Status {
