@@ -10,42 +10,94 @@
 
 namespace json {
 
-size_t findType(std::istream &stream) {
+Status findType(std::istream &stream, ValueType* output) {
   char a;
   auto old_pos = stream.tellg();
   stream >> std::skipws >> a >> std::noskipws;
   stream.seekg(old_pos);
-
-  if (a == '\"') return STRING_VALUE;
-  if (a == '{') return OBJECT_VALUE;
-  if (a == '[') return VECTOR_VALUE;
-  if (a == 't' || a == 'f') return BOOL_VALUE;
-  for (char c : "0123456789") {
-    if (c == a) return INT_VALUE;
+  if (!stream.good()) {
+    return kUnkwownError;
   }
-  throw json_exception("Invalid start char");
+
+  if (a == '\"') {
+    *output = kStringValue;
+    return kOk;
+  } else if (a == '{') {
+    *output kObjectValue;
+    return kOk;
+  } else if (a == '[') {
+    *output kVectorValue;
+    return kOk;
+  } else if (a == 't' || a == 'f') {
+    *output kBoolValue;
+    return kOk;
+  } else {
+    for (char c : "0123456789") {
+      if (c == a) {
+        *output kIntValue;
+        return kOk;
+      }
+    }
+    return kParseError;
+  }
 }
 
-std::string loadName(std::istream &stream) {
+Status loadName(std::istream &stream, std::string* output) {
   char a;
   stream >> std::skipws >> a >> std::noskipws;
-  if (a != '"') throw json_exception("Trying to load string, can't find ' \" '.");
+
+  if (!stream.good()) {
+    return kUnkwownError;
+  } else if (a != '"') {
+    return kParseError;
+  }
+
   std::string name = "";
-  while (stream >> a && a != '"') name += a;
-  return name;
+  while (stream >> a && a != '"') {
+    name += a;
+    if (name.size() > 1000) {
+      return kParseError;
+    }
+  }
+
+  if (!stream.good()) {
+    return kUnkwownError;
+  }
+  output = name;
+  return kOk;
 }
 
-Value* loadValue(std::istream &stream) {
-  size_t type = findType(stream);
+Status loadValue(std::istream &stream, Value** valueptr) {
+  ValueType type;
   Value* value;
-  if (type == OBJECT_VALUE) value = new ObjectValue();
-  else if (type == INT_VALUE) value = new IntValue();
-  else if (type == STRING_VALUE) value = new StringValue();
-  else if (type == VECTOR_VALUE) value = new VectorValue();
-  else if (type == BOOL_VALUE) value = new BoolValue();
-  value->loadFrom(stream);
-  return value;
+  Status s = findType(stream, &type);
+  if (s != kOk) {
+    return s;
+  }
+
+  switch (type) {
+    case (kObjectValue):
+      value = new ObjectValue;
+      break;
+    case (kVectorValue):
+      value = new VectorValue;
+      break;
+    case (kIntValue):
+      value = new IntValue;
+      break;
+    case (kStringValue):
+      value = new StringValue;
+      break;
+    case (kBoolValue):
+      value = new StringValue;
+  }
+  Status s = value->loadFrom(stream);
+
+  if (s != kOk) {
+    return s;
+  }
+  *valueptr = value;
+  return s;
 }
 
 } // namespace json
-

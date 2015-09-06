@@ -5,17 +5,13 @@
 
 #include "src/json/json.h"
 
-
 namespace json {
 
-
-Status findType(std::istream &stream, size_t* output);
+Status findType(std::istream &stream, ValueType* output);
 
 Status loadName(std::istream &stream, std::string* output);
 
 Status loadValue(std::istream &stream, Value** valueptr);
-
-Status saveValue(std::iostream &stream, const Value* value);
 
 } //namespace json
 
