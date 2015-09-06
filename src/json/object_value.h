@@ -15,7 +15,7 @@ public:
 
   ObjectValue(ValueMap* values);
 
-  void get(const std::string &key, Value** valueptr);
+  Status get(const std::string &key, Value** valueptr);
 
   void save(std::ostream* output);
 

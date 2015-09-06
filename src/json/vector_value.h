@@ -18,11 +18,11 @@ public:
 
   VectorValue(ValueVector* values);
 
-  Status operator[](const size_t &index, Value** valueptr);
+  Status get(const size_t &index, Value** valueptr);
+
+  void save(std::ostream* output);
 
   Status loadFrom(std::istream &stream);
-
-  Status save(std::ostream* output);
 
   ~VectorValue();
 private:

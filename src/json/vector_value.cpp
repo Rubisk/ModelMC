@@ -14,43 +14,54 @@ VectorValue::VectorValue(ValueVector* vector) {
   vector_ = vector;
 }
 
-std::string VectorValue::save() {
-  std::stringstream ss;
-  ss << "[";
+void VectorValue::save(std::ostream* output) {
+  output << "[";
 
   ValueVector::iterator it = vector_->begin();
-  ss << (*it)->save();
+  output << (*it)->save();
   it++;
   while (it != vector_->end()) {
-    ss << ",";
-    ss << (*it)->save();
+    output << ",";
+    output << (*it)->save();
     it++;
   }
-  ss << "]";
-  std::string a = ss.str();
-  return ss.str();
+  output << "]";
 }
 
-Value* &VectorValue::operator[](const size_t& index) {
+void VectorValue::get(const size_t& index, Value** valueptr) {
   while (index >= vector_->size()) {
     vector_->push_back(NULL);
   }
-  return (*vector_)[index];
+  Value* result = (*vector_)[index];
+  valueptr = &result;
+  return kOk;
 }
 
-void VectorValue::loadFrom(std::istream &stream) {
-  char first_char;
-  stream >> std::skipws >> first_char >> std::noskipws;
-  if (first_char != '[') throw json_exception("Vector didn't start with [.");
-  while (true) {
-    char next_char;
-    loadAndSaveValue_(stream);
-    stream >> std::skipws >> next_char >> std::noskipws;
-
-    if (next_char == ',') continue;
-    if (next_char == ']') break;
-    throw json_exception("Next value in vector is not , or ]");
+Status VectorValue::loadFrom(std::istream &stream) {
+  char next_char;
+  stream >> std::skipws >> next_char >> std::noskipws;
+  if (next_char != '[') {
+    return kParseError;
   }
+  
+  while (true) {
+    Status s = loadAndSaveValue_(stream);
+    if (s != kOk) {
+      return s;
+    }
+    stream >> std::skipws >> next_char >> std::noskipws;
+    if (!stream.good()) {
+        return kUnkwownError;
+    }
+    switch (next_char) {
+      case (','):
+        continue;
+      case (']'):
+        return kOk;
+      default:
+        return kParseError;
+    }
+  }  
 }
 
 VectorValue::~VectorValue() {
@@ -60,9 +71,14 @@ VectorValue::~VectorValue() {
   delete vector_;
 }
 
-void VectorValue::loadAndSaveValue_(std::istream& stream) {
-  Value* value = loadValue(stream);
+Status VectorValue::loadAndSaveValue_(std::istream& stream) {
+  Value* value;
+  Status s = loadValue(stream, &value);
+  if (s != kOk) {
+    return s;
+  }
   vector_->push_back(value);
+  return kOk;
 }
 
 } // namespace json

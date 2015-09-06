@@ -15,7 +15,7 @@ ObjectValue::ObjectValue(ValueMap* values) {
   values_ = values;
 }
 
-void ObjectValue::get(const std::string &key, Value** valueptr) {
+Status ObjectValue::get(const std::string &key, Value** valueptr) {
   *valueptr = (*values_)[key];
   return kOk;
 }
