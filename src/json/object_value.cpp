@@ -15,34 +15,51 @@ ObjectValue::ObjectValue(ValueMap* values) {
   values_ = values;
 }
 
-Value* &ObjectValue::operator[](const std::string &key) {
-  return (*values_)[key];
+void ObjectValue::get(const std::string &key, Value** valueptr) {
+  *valueptr = (*values_)[key];
+  return kOk;
 }
 
-std::string ObjectValue::save() {
-  std::stringstream ss;
-  ss << "{";
+void ObjectValue::save(std::ostream* output) {
+  output << "{";
+  
   ValueMap::iterator it = values_->begin();
-  ss << "\"" << it->first << "\":" << it->second->save();
+  output << "\"" << it->first << "\":";
+  it->second->save(output);
   it++;
+  
   while (it != values_->end()) {
-    ss << ",\"" << it->first << "\":" << it->second->save();
+    output << ",\"" << it->first << "\":";
+    it->second->save(output);
     it++;
   }
-  ss << "}";
-  return ss.str();
+  output << "}";
 }
 
-void ObjectValue::loadFrom(std::istream &stream) {
+Status ObjectValue::loadFrom(std::istream &stream) {
   char next_char;
   stream >> std::skipws >> next_char >> std::noskipws;
-  if (next_char != '{') throw json_exception("Object didn't start with {.");
+  if (next_char != '{') {
+    return kParseError;
+  }
+  
   while (true) {
-    loadAndSaveValue_(stream);
+    Status s = loadAndSaveValue_(stream);
+    if (s != kOk) {
+      return s;
+    }
     stream >> std::skipws >> next_char >> std::noskipws;
-    if (next_char == ',') continue;
-    if (next_char == '}') break;
-    throw json_exception("Next value in object is not , or }");
+    if (!stream.good()) {
+        return kUnkwownError;
+    }
+    switch (next_char) {
+      case (','):
+        continue;
+      case ('}'):
+        return kOk;
+      default:
+        return kParseError;
+    }
   }
 }
 
@@ -53,13 +70,27 @@ ObjectValue::~ObjectValue() {
   delete values_;
 }
 
-void ObjectValue::loadAndSaveValue_(std::istream& stream) {
-  std::string name = loadName(stream);
+Status ObjectValue::loadAndSaveValue_(std::istream& stream) {
+  std::string name;
+  Status s = loadName(stream, &name);
+  if (s != kOk) {
+    return s;
+  }
+  
   char next_char;
   stream >> std::skipws >> next_char >> std::noskipws;
-  if (next_char != ':') throw json_exception("Key/value in object not seperated by \":\".");
-  Value* value = loadValue(stream);
+  if (next_char != ':') {
+    return kParseError;
+  }
+  
+  Value* value;
+  s = loadValue(stream, &value);
+  if (s != kOk) {
+    return s;
+  }
+  
   (*this)[name] = value;
+  return kOk;
 }
 
 } // namespace json
