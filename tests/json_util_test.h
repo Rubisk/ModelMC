@@ -3,24 +3,23 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-
 class JsonUtilTest : public CPPUNIT_NS::TestFixture {
-    CPPUNIT_TEST_SUITE(JsonUtilTest);
+  CPPUNIT_TEST_SUITE(JsonUtilTest);
 
-    CPPUNIT_TEST(testFindType);
-    CPPUNIT_TEST(testLoadName);
+  CPPUNIT_TEST(testFindType);
+  CPPUNIT_TEST(testLoadName);
 
-    CPPUNIT_TEST_SUITE_END();
+  CPPUNIT_TEST_SUITE_END();
 
 public:
-    JsonUtilTest();
-    virtual ~JsonUtilTest();
-    void setUp();
-    void tearDown();
+  JsonUtilTest();
+  virtual ~JsonUtilTest();
+  void setUp();
+  void tearDown();
 
 private:
-    void testFindType();
-    void testLoadName();
+  void testFindType();
+  void testLoadName();
 };
 
 

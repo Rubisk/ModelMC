@@ -6,26 +6,25 @@
 #include "src/json/json.h"
 #include "src/json/object_value.h"
 
-
 class JsonObjectTest : public CPPUNIT_NS::TestFixture {
-    CPPUNIT_TEST_SUITE(JsonObjectTest);
-    
-    CPPUNIT_TEST(testAccessAnExistingMember);
-    CPPUNIT_TEST(testAddAMember);
+  CPPUNIT_TEST_SUITE(JsonObjectTest);
 
-    CPPUNIT_TEST_SUITE_END();
+  CPPUNIT_TEST(testAccessAnExistingMember);
+  CPPUNIT_TEST(testAddAMember);
+
+  CPPUNIT_TEST_SUITE_END();
 
 public:
-    JsonObjectTest();
-    virtual ~JsonObjectTest();
-    void setUp();
-    void tearDown();
+  JsonObjectTest();
+  virtual ~JsonObjectTest();
+  void setUp();
+  void tearDown();
 
 private:
-    void testAccessAnExistingMember();
-    void testAddAMember();
-    
-    json::ObjectValue* object_;
+  void testAccessAnExistingMember();
+  void testAddAMember();
+
+  json::ObjectValue* object_;
 };
 
 

@@ -9,28 +9,26 @@
 
 namespace json {
 
-    
+
 typedef std::vector<Value*> ValueVector;
 
-
-class VectorValue : public Value
-{
+class VectorValue : public Value {
 public:
-    VectorValue();
+  VectorValue();
 
-    VectorValue(ValueVector* values);
+  VectorValue(ValueVector* values);
 
-    Status operator[] (const size_t &index, Value** valueptr);
-    
-    Status loadFrom(std::istream &stream);
+  Status operator[](const size_t &index, Value** valueptr);
 
-    Status save(std::ostream* output);
+  Status loadFrom(std::istream &stream);
 
-    ~VectorValue();
+  Status save(std::ostream* output);
+
+  ~VectorValue();
 private:
-    ValueVector* vector_;
-    
-    Status loadAndSaveValue_(std::istream &stream);
+  ValueVector* vector_;
+
+  Status loadAndSaveValue_(std::istream &stream);
 };
 
 } // namespace json

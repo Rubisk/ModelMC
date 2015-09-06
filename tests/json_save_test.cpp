@@ -15,101 +15,93 @@ using namespace json;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(JsonSaveTest);
 
-JsonSaveTest::JsonSaveTest()
-{
-    
+JsonSaveTest::JsonSaveTest() {
+
 }
 
-JsonSaveTest::~JsonSaveTest()
-{
-    
+JsonSaveTest::~JsonSaveTest() {
+
 }
 
-void JsonSaveTest::setUp()
-{
-    object_ = new ObjectValue();
-    
-    Value* string_ = new StringValue("StringText");
-    Value* int_ = new IntValue(15);
-    Value* bool_ = new BoolValue(true);
-    
-    ValueVector* vector_value_ = new ValueVector();
-    vector_value_->push_back(new IntValue(1));
-    vector_value_->push_back(new IntValue(2));
-    vector_value_->push_back(new IntValue(3));
-    Value* vector_ = new VectorValue(vector_value_);
-    
-    ValueMap* object_value_ = new ValueMap();
-    (*object_value_)["First Key"] = new StringValue("First Value");
-    (*object_value_)["Second Key"] = new IntValue(2);
-    (*object_value_)["Third Key"] = new BoolValue(true);(*object_)["string"] = string_;
-    Value* object = new ObjectValue(object_value_);
-    
-    (*object_)["int"] = int_;
-    (*object_)["bool"] = bool_;
-    (*object_)["vector"] = vector_;
-    (*object_)["object"] = object;
+void JsonSaveTest::setUp() {
+  object_ = new ObjectValue();
+
+  Value* string_ = new StringValue("StringText");
+  Value* int_ = new IntValue(15);
+  Value* bool_ = new BoolValue(true);
+
+  ValueVector* vector_value_ = new ValueVector();
+  vector_value_->push_back(new IntValue(1));
+  vector_value_->push_back(new IntValue(2));
+  vector_value_->push_back(new IntValue(3));
+  Value* vector_ = new VectorValue(vector_value_);
+
+  ValueMap* object_value_ = new ValueMap();
+  (*object_value_)["First Key"] = new StringValue("First Value");
+  (*object_value_)["Second Key"] = new IntValue(2);
+  (*object_value_)["Third Key"] = new BoolValue(true);
+  (*object_)["string"] = string_;
+  Value* object = new ObjectValue(object_value_);
+
+  (*object_)["int"] = int_;
+  (*object_)["bool"] = bool_;
+  (*object_)["vector"] = vector_;
+  (*object_)["object"] = object;
 }
 
-void JsonSaveTest::tearDown()
-{
-    delete object_;
+void JsonSaveTest::tearDown() {
+  delete object_;
 }
 
-void JsonSaveTest::testSaveString()
-{
-    Value* value = (*object_)["string"];
-    CPPUNIT_ASSERT(value->save() == "\"StringText\"");
+void JsonSaveTest::testSaveString() {
+  Value* value = (*object_)["string"];
+  CPPUNIT_ASSERT(value->save() == "\"StringText\"");
 }
 
-void JsonSaveTest::testSaveInt()
-{
-    Value* value = (*object_)["int"];
-    CPPUNIT_ASSERT(value->save() == "15");
+void JsonSaveTest::testSaveInt() {
+  Value* value = (*object_)["int"];
+  CPPUNIT_ASSERT(value->save() == "15");
 }
 
-void JsonSaveTest::testSaveBoolean()
-{
-    Value* value = (*object_)["bool"];
-    CPPUNIT_ASSERT(value->save() == "true");
-    *value = false;
-    CPPUNIT_ASSERT(value->save() == "false");
+void JsonSaveTest::testSaveBoolean() {
+  Value* value = (*object_)["bool"];
+  CPPUNIT_ASSERT(value->save() == "true");
+  *value = false;
+  CPPUNIT_ASSERT(value->save() == "false");
 }
 
-void JsonSaveTest::testSaveVector()
-{
-    Value* value = (*object_)["vector"];
-    CPPUNIT_ASSERT(value->save() == "[1,2,3]");
+void JsonSaveTest::testSaveVector() {
+  Value* value = (*object_)["vector"];
+  CPPUNIT_ASSERT(value->save() == "[1,2,3]");
 }
 
-void JsonSaveTest::testSaveObject()
-{
-    Value* value = (*object_)["object"];
-    CPPUNIT_ASSERT(value->save() == "{\"First Key\":\"First Value\","
-                                    "\"Second Key\":2,"
-                                    "\"Third Key\":true}");
+void JsonSaveTest::testSaveObject() {
+  Value* value = (*object_)["object"];
+  CPPUNIT_ASSERT(value->save() == "{\"First Key\":\"First Value\","
+          "\"Second Key\":2,"
+          "\"Third Key\":true}");
 }
 
 // Purpose of this test if to see if it all works, not to find
 // individual bugs.
-void JsonSaveTest::testSaveComplexObject()
-{
-    
-    Value* value = load("./tests/testfiles/test_json.json");
-    
-    save("./tests/testfiles/test_output.json", value);
-    
-    std::ifstream original, copy;
-    
-    original.open("./tests/testfiles/test_json_without_whitespace");
-    copy.open("./tests/testfiles/test_output.json");
-    
-    CPPUNIT_ASSERT(std::equal(std::istreambuf_iterator<char>(original),
-                              std::istreambuf_iterator<char>(),
-                              std::istreambuf_iterator<char>(copy)));
-    
-    original.close();
-    copy.close();
-    
-    delete value;
+
+void JsonSaveTest::testSaveComplexObject() {
+
+  Value* value = load("./tests/testfiles/test_json.json");
+
+  save("./tests/testfiles/test_output.json", value);
+
+  std::ifstream original, copy;
+
+  original.open("./tests/testfiles/test_json_without_whitespace");
+  copy.open("./tests/testfiles/test_output.json");
+
+  CPPUNIT_ASSERT(std::equal(std::istreambuf_iterator<char>(original),
+          std::istreambuf_iterator<char>(),
+          std::istreambuf_iterator<char>(copy)));
+
+  original.close();
+  copy.close();
+
+  delete value;
 }

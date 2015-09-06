@@ -7,7 +7,7 @@
 
 
 namespace json {
-    
+
 
 Status findType(std::istream &stream, size_t* output);
 

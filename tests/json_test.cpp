@@ -5,21 +5,20 @@
 #include <cppunit/TestResultCollector.h>
 #include <cppunit/TestRunner.h>
 
-
 int main() {
-    CPPUNIT_NS::TestResult controller;
-    CPPUNIT_NS::TestResultCollector result;
-    CPPUNIT_NS::BriefTestProgressListener progress;
-    CPPUNIT_NS::TestRunner runner;
-    
-    controller.addListener(&result);
-    controller.addListener(&progress);
+  CPPUNIT_NS::TestResult controller;
+  CPPUNIT_NS::TestResultCollector result;
+  CPPUNIT_NS::BriefTestProgressListener progress;
+  CPPUNIT_NS::TestRunner runner;
 
-    runner.addTest(CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest());
-    runner.run(controller);
+  controller.addListener(&result);
+  controller.addListener(&progress);
 
-    CPPUNIT_NS::CompilerOutputter outputter(&result, CPPUNIT_NS::stdCOut());
-    outputter.write();
+  runner.addTest(CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest());
+  runner.run(controller);
 
-    return result.wasSuccessful() ? 0 : 1;
+  CPPUNIT_NS::CompilerOutputter outputter(&result, CPPUNIT_NS::stdCOut());
+  outputter.write();
+
+  return result.wasSuccessful() ? 0 : 1;
 }

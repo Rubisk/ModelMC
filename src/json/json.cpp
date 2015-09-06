@@ -6,74 +6,59 @@
 #include "src/json/util.h"
 
 
-namespace json
-{
-    
-    int32_t Value::as_int() 
-    { 
-        throw json_exception("Can't convert to integer");
-    }
-    
-    bool Value::as_bool()
-    {
-        throw json_exception("Can't convert to boolean");
-    }
-    
-    std::string Value::as_string()
-    {
-        throw json_exception("Can't convert to string");
-    }
+namespace json {
 
-    Value* &Value::operator[] (const std::string &key)
-    {
-        throw json_exception("Can't lookup by string");
-    }
+Status Value::as_int(int32_t* output) {
+  return kValueError;
+}
 
-    Value* &Value::operator[] (const size_t &index)
-    {
-        throw json_exception("Can't lookup by index");
-    }
-    
-    Value& Value::operator= (const std::string &value)
-    {
-        throw json_exception("Can't assign a string");
-    }
-    
-    Value& Value::operator= (const int32_t &value)
-    {
-        throw json_exception("Can't assign an integer");
-    }
-    
-    
-    Value* load(std::istream &stream)
-    {
-        return loadValue(stream);
-    }
+Status Value::as_bool(bool* output) {
+  return kValueError;
+}
 
+Status Value::as_string(std::string* output) {
+  return kValueError;
+}
 
-    Value* load(const std::string &file)
-    {
-        std::ifstream stream;
-        stream.open(file, std::ios::binary);
-        Value* to_return = load(stream);
-        stream.close();
-        return to_return;
-    }
+Status Value::operator[](const std::string &key, Value** valueptr) {
+  return kValueError;
+}
 
+Status Value::operator[](const size_t &index, Value** valueptr) {
+  return kValueError;
+}
 
-    void save(std::ostream &stream, Value* value)
-    {
-        std::string output = value->save();
-        stream << output;
-    }
+Status Value::operator=(const std::string &value) {
+  return kValueError;
+}
 
+Status Value::operator=(const int32_t &value) {
+  return kValueError;
+}
 
-    void save(const std::string &file, Value* value)
-    {
-        std::ofstream stream;
-        stream.open(file);
-        save(stream, value);
-        stream.close();
-    }
+Value* load(std::istream &stream) {
+  return loadValue(stream);
+}
+
+Value* load(const std::string &file) {
+  std::ifstream stream;
+  stream.open(file, std::ios::binary);
+  Value* to_return = load(stream);
+  stream.close();
+  return to_return;
+}
+
+void save(std::ostream &stream, Value* value) {
+  std::string output = value->save();
+  stream << output;
+}
+
+void save(const std::string &file, Value* value) {
+  std::ofstream stream;
+  stream.open(file);
+  save(stream, value);
+  stream.close();
+}
+
 }
 
