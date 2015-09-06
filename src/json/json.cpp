@@ -36,28 +36,48 @@ Status Value::operator=(const int32_t &value) {
   return kValueError;
 }
 
-Value* load(std::istream &stream) {
-  return loadValue(stream);
-}
+Status load(std::istream &stream, Value** valueptr) {
+  Value* result;
+  Status s = loadValue(stream, result);
+  if (s == kOk) {
+    *valueptr = result;
+  }
+  return s;
+};
 
-Value* load(const std::string &file) {
+Status load(const std::string &file, Value* valueptr);
+
+Status save(std::ostream &stream, Value* value);
+
+Status save(const std::string &file, Value* value);
+
+
+Status load(const std::string &file, Value** valueptr) {
   std::ifstream stream;
   stream.open(file, std::ios::binary);
-  Value* to_return = load(stream);
+  Value* result;
+  
+  Status s = load(stream, result);
+  if (s == kOk) {
+    *valueptr = result;
+  }
+  
   stream.close();
-  return to_return;
+  return s;
 }
 
-void save(std::ostream &stream, Value* value) {
-  std::string output = value->save();
-  stream << output;
+Status save(std::ostream &stream, Value* value) {
+  return value->save(stream);
 }
 
-void save(const std::string &file, Value* value) {
+Status save(const std::string &file, Value* value) {
   std::ofstream stream;
   stream.open(file);
-  save(stream, value);
+  
+  Status s = save(stream, value);
+  
   stream.close();
+  return s;
 }
 
 }

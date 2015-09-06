@@ -87,14 +87,11 @@ public:
 
 };
 
-Status load(std::istream &stream, Value* output);
-
+Status load(std::istream &stream, Value** valueptr);
 
 Status load(const std::string &file, Value* valueptr);
 
-
 Status save(std::ostream &stream, Value* value);
-
 
 Status save(const std::string &file, Value* value);
 
