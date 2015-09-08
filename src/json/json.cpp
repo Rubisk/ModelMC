@@ -20,11 +20,11 @@ Status Value::as_string(std::string* output) {
   return kValueError;
 }
 
-Status Value::get(const std::string &key, Value** valueptr) {
+Status Value::get(const std::string &key, Value** &valueptr) {
   return kValueError;
 }
 
-Status Value::get(const size_t &index, Value** valueptr) {
+Status Value::get(const size_t &index, Value** &valueptr) {
   return kValueError;
 }
 

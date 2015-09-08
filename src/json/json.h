@@ -51,7 +51,7 @@ public:
   //    //Load some_object_value from a file.
   //    Value** output;
   //    (*some_object_value)->get("key", &output);
-  virtual Status get(const std::string &key, Value** valueptr);
+  virtual Status get(const std::string &key, Value** &valueptr);
 
   //Access a given index in an object.
   //valueptr can bve used to access the element afterwards.
@@ -59,7 +59,7 @@ public:
   //    //Load some_object_value from a file.
   //    Value* output;
   //    (*some_object_value)->get(5, &output);
-  virtual Status get(const size_t &index, Value** valueptr);
+  virtual Status get(const size_t &index, Value** &valueptr);
 
   //Only defined for IntValue, returns kValueError otherwise.
   //Sets the underlaying value of an IntValue to value.

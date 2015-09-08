@@ -15,8 +15,8 @@ ObjectValue::ObjectValue(ValueMap* values) {
   values_ = values;
 }
 
-Status ObjectValue::get(const std::string &key, Value** valueptr) {
-  *valueptr = (*values_)[key];
+Status ObjectValue::get(const std::string &key, Value** &valueptr) {
+  valueptr = &(*values_)[key];
   return kOk;
 }
 
@@ -89,10 +89,12 @@ Status ObjectValue::loadAndSaveValue_(std::istream& stream) {
     return s;
   }
 
-  s = this->get(name, &value); //TODO fix this
+  Value** to_get;
+  s = this->get(name, to_get); //TODO fix this
   if (s != kOk) {
     return s;
   }
+  *to_get = value;
   return kOk;
 }
 

@@ -49,7 +49,8 @@ TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
 # Test Files
 TESTFILES= \
 	${TESTDIR}/TestFiles/f2 \
-	${TESTDIR}/TestFiles/f3
+	${TESTDIR}/TestFiles/f3 \
+	${TESTDIR}/TestFiles/f1
 
 # C Compiler Flags
 CFLAGS=`cppunit-config --cflags` 
@@ -127,6 +128,12 @@ ${TESTDIR}/TestFiles/f3: ${TESTDIR}/tests/json/simple_values_test.o ${TESTDIR}/t
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc}   -o ${TESTDIR}/TestFiles/f3 $^ ${LDLIBSOPTIONS} -L/E\CLib\raw\cppunit-1.13.2\src\cppunit\.libs -lcppunit-1-13-0 
 
+${TESTDIR}/TestFiles/f1: E:/CLib/raw/nvwa/debug_new.cpp
+
+${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/json/object_value_test_runner.o ${TESTDIR}/tests/json/object_values_test.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc}   -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS} -L/E\CLib\raw\cppunit-1.13.2\src\cppunit\.libs -lcppunit-1-13-0 
+
 
 ${TESTDIR}/tests/element_test.o: tests/element_test.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
@@ -150,6 +157,18 @@ ${TESTDIR}/tests/json/simple_values_test_runner.o: tests/json/simple_values_test
 	${MKDIR} -p ${TESTDIR}/tests/json
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I/E/CLib/raw/nvwa -I. -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/simple_values_test_runner.o tests/json/simple_values_test_runner.cpp
+
+
+${TESTDIR}/tests/json/object_value_test_runner.o: tests/json/object_value_test_runner.cpp 
+	${MKDIR} -p ${TESTDIR}/tests/json
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I/E/CLib/raw/nvwa -I. -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/object_value_test_runner.o tests/json/object_value_test_runner.cpp
+
+
+${TESTDIR}/tests/json/object_values_test.o: tests/json/object_values_test.cpp 
+	${MKDIR} -p ${TESTDIR}/tests/json
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I/E/CLib/raw/nvwa -I. -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/object_values_test.o tests/json/object_values_test.cpp
 
 
 ${OBJECTDIR}/src/element_nomain.o: ${OBJECTDIR}/src/element.o src/element.cpp 
@@ -249,6 +268,7 @@ ${OBJECTDIR}/src/main_nomain.o: ${OBJECTDIR}/src/main.o src/main.cpp
 	then  \
 	    ${TESTDIR}/TestFiles/f2 || true; \
 	    ${TESTDIR}/TestFiles/f3 || true; \
+	    ${TESTDIR}/TestFiles/f1 || true; \
 	else  \
 	    ./${TEST} || true; \
 	fi
