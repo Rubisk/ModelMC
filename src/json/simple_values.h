@@ -11,7 +11,7 @@ public:
 
   IntValue(const int32_t &value);
 
-  Status save(std::ostream* output);
+  void save(std::ostream* output);
 
   Status as_int(int32_t* output);
 
@@ -32,7 +32,7 @@ public:
 
   Status as_string(std::string* output);
 
-  Status save(std::ostream* output);
+  void save(std::ostream* output);
 
   Status operator=(const std::string &value);
 
@@ -51,7 +51,7 @@ public:
 
   Status as_bool(bool* output);
 
-  Status save(std::ostream* output);
+  void save(std::ostream* output);
 
   Status operator=(const bool &value);
 

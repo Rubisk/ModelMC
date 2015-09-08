@@ -12,95 +12,110 @@ IntValue::IntValue(const int32_t &value) {
   value_ = value;
 }
 
-Value& IntValue::operator=(const std::string &value) {
-  value_ = atoi(value.c_str());
-  return *this;
-}
-
-Value& IntValue::operator=(const int32_t &value) {
+Status IntValue::operator=(const int32_t &value) {
   value_ = value;
-  return *this;
+  return kOk;
 }
 
-int32_t IntValue::as_int() {
-  return value_;
+Status IntValue::as_int(int32_t* output) {
+  *output = value_;
+  return kOk;
 }
 
-std::string IntValue::save() {
-  std::stringstream ss;
-  ss << value_;
-  return ss.str();
+void IntValue::save(std::ostream* stream) {
+  *stream << value_;
 }
 
-void IntValue::loadFrom(std::istream &stream) {
+Status IntValue::loadFrom(std::istream &stream) {
   stream >> std::skipws >> value_ >> std::noskipws;
+  if (!stream.good()) {
+    return kUnkwownError;
+  }
+  return kOk;
 }
 
 StringValue::StringValue(const std::string &value) {
   value_ = value;
 }
 
-Value& StringValue::operator=(const std::string &value) {
+Status StringValue::operator=(const std::string &value) {
   value_ = value;
-  return *this;
+  return kOk;
 }
 
-std::string StringValue::save() {
-  return "\"" + value_ + "\"";
+void StringValue::save(std::ostream* stream) {
+  *stream << "\"" << value_ << "\"";
 }
 
-std::string StringValue::as_string() {
-  return value_;
+Status StringValue::as_string(std::string* output) {
+  *output = value_;
+  return kOk;
 }
 
-void StringValue::loadFrom(std::istream &stream) {
-  value_ = loadName(stream);
+Status StringValue::loadFrom(std::istream &stream) {
+  std::string value;
+  Status s = loadName(stream, &value);
+  if (s != kOk) {
+    return s;
+  }
+  value_ = value;
+  return kOk;
 }
 
 BoolValue::BoolValue(const bool &value) {
   value_ = value;
 }
 
-Value& BoolValue::operator=(const std::string &value) {
-  if (!(value == "true" || value == "false"))
-    throw json_exception("No correct bool formatting");
-  value_ = (value == "true");
-  return *this;
+Status BoolValue::operator=(const bool &value) {
+  value_ = value;
+  return kOk;
 }
 
-Value& BoolValue::operator=(const int &value) {
-  value_ = (value != 0);
-  return *this;
+Status BoolValue::as_bool(bool* output) {
+  *output = value_;
+  return kOk;
 }
 
-bool BoolValue::as_bool() {
-  return value_;
+void BoolValue::save(std::ostream* output) {
+  *output << value_ ? "true" : "false";
 }
 
-std::string BoolValue::save() {
-  return value_ ? "true" : "false";
-}
-
-void BoolValue::loadFrom(std::istream &stream) {
+Status BoolValue::loadFrom(std::istream &stream) {
   char next_char;
   stream >> std::skipws >> next_char >> std::noskipws;
-
+  if (!stream.good()) {
+    return kUnkwownError;
+  }
   if (next_char == 'f') {
     for (char c : "alse") {
       stream >> next_char;
-      if (next_char != c)
-        throw json_exception("No correct bool formatting");
-      if (c == 'e') break;
+      if (!stream.good()) {
+        return kUnkwownError;
+      }
+      if (next_char != c) {
+        return kParseError;
+      }
+      if (c == 'e') {
+        value_ = false;
+        return kOk;
+      }
     }
-    value_ = false;
   } else if (next_char == 't') {
     for (char c : "rue") {
       stream >> next_char;
-      if (next_char != c)
-        throw json_exception("No correct bool formatting");
-      if (c == 'e') break;
+      if (!stream.good()) {
+        return kUnkwownError;
+      }
+      if (next_char != c) {
+        return kParseError;
+      }
+      if (c == 'e') {
+        value_ = true;
+        return kOk;
+      };
     }
-    value_ = true;
-  } else throw json_exception("Bool didn't start with f or r");
+  }
+  return kParseError;
 }
+
 } // namespace json
