@@ -22,12 +22,12 @@ Status ObjectValue::get(const std::string &key, Value** valueptr) {
 
 void ObjectValue::save(std::ostream* output) {
   *output << "{";
-  
+
   ValueMap::iterator it = values_->begin();
   *output << "\"" << it->first << "\":";
   it->second->save(output);
   it++;
-  
+
   while (it != values_->end()) {
     *output << ",\"" << it->first << "\":";
     it->second->save(output);
@@ -42,7 +42,7 @@ Status ObjectValue::loadFrom(std::istream &stream) {
   if (next_char != '{') {
     return kParseError;
   }
-  
+
   while (true) {
     Status s = loadAndSaveValue_(stream);
     if (s != kOk) {
@@ -50,7 +50,7 @@ Status ObjectValue::loadFrom(std::istream &stream) {
     }
     stream >> std::skipws >> next_char >> std::noskipws;
     if (!stream.good()) {
-        return kUnkwownError;
+      return kUnkwownError;
     }
     switch (next_char) {
       case (','):
@@ -76,19 +76,19 @@ Status ObjectValue::loadAndSaveValue_(std::istream& stream) {
   if (s != kOk) {
     return s;
   }
-  
+
   char next_char;
   stream >> std::skipws >> next_char >> std::noskipws;
   if (next_char != ':') {
     return kParseError;
   }
-  
+
   Value* value;
   s = loadValue(stream, &value);
   if (s != kOk) {
     return s;
   }
-  
+
   s = this->get(name, &value); //TODO fix this
   if (s != kOk) {
     return s;

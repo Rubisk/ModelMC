@@ -35,11 +35,11 @@ void SimpleValuesTest::testLoadFromBool() {
   Value* value = new BoolValue();
   Status s = value->loadFrom(ss);
   CPPUNIT_ASSERT(s == kOk);
-  
+
   std::stringstream os;
   ss >> os.rdbuf();
   CPPUNIT_ASSERT(os.str() == "||}}|}|<><><><");
-  
+
   bool output;
   s = value->as_bool(&output);
   CPPUNIT_ASSERT(s == kOk);
@@ -74,11 +74,11 @@ void SimpleValuesTest::testLoadFromString() {
   Value* value = new StringValue();
   Status s = value->loadFrom(ss);
   CPPUNIT_ASSERT(s == kOk);
-  
+
   std::stringstream os;
   ss >> os.rdbuf();
   CPPUNIT_ASSERT(os.str() == "||}}|}|<><><><");
-  
+
   std::string output;
   s = value->as_string(&output);
   CPPUNIT_ASSERT(s == kOk);
@@ -110,11 +110,11 @@ void SimpleValuesTest::testLoadFromInt() {
   Value* value = new IntValue();
   Status s = value->loadFrom(ss);
   CPPUNIT_ASSERT(s == kOk);
-  
+
   std::stringstream os;
   ss >> os.rdbuf();
   CPPUNIT_ASSERT(os.str() == "||}}|}|<><><><");
-  
+
   int32_t output;
   s = value->as_int(&output);
   CPPUNIT_ASSERT(s == kOk);

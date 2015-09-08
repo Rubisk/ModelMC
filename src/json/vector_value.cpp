@@ -43,7 +43,7 @@ Status VectorValue::loadFrom(std::istream &stream) {
   if (next_char != '[') {
     return kParseError;
   }
-  
+
   while (true) {
     Status s = loadAndSaveValue_(stream);
     if (s != kOk) {
@@ -51,7 +51,7 @@ Status VectorValue::loadFrom(std::istream &stream) {
     }
     stream >> std::skipws >> next_char >> std::noskipws;
     if (!stream.good()) {
-        return kUnkwownError;
+      return kUnkwownError;
     }
     switch (next_char) {
       case (','):
@@ -61,7 +61,7 @@ Status VectorValue::loadFrom(std::istream &stream) {
       default:
         return kParseError;
     }
-  }  
+  }
 }
 
 VectorValue::~VectorValue() {
