@@ -1,6 +1,8 @@
 #ifndef SIMPLE_VALUES_H
 #define	SIMPLE_VALUES_H
 
+#include "src/json/json.h"
+
 namespace json {
 
 class IntValue : public Value {

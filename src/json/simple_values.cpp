@@ -77,7 +77,7 @@ Status BoolValue::as_bool(bool* output) {
 }
 
 void BoolValue::save(std::ostream* output) {
-  *output << value_ ? "true" : "false";
+  *output << (value_ ? "true" : "false");
 }
 
 Status BoolValue::loadFrom(std::istream &stream) {
