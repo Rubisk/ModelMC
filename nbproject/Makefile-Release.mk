@@ -48,8 +48,7 @@ TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
 
 # Test Files
 TESTFILES= \
-	${TESTDIR}/TestFiles/f2 \
-	${TESTDIR}/TestFiles/f1
+	${TESTDIR}/TestFiles/f2
 
 # C Compiler Flags
 CFLAGS=`cppunit-config --cflags` 
@@ -119,10 +118,6 @@ ${TESTDIR}/TestFiles/f2: ${TESTDIR}/tests/element_test.o ${TESTDIR}/tests/elemen
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc}   -o ${TESTDIR}/TestFiles/f2 $^ ${LDLIBSOPTIONS} `cppunit-config --libs`   
 
-${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/json_load_test.o ${TESTDIR}/tests/json_object_test.o ${TESTDIR}/tests/json_save_test.o ${TESTDIR}/tests/json_simple_values_test.o ${TESTDIR}/tests/json_test.o ${TESTDIR}/tests/json_util_test.o ${OBJECTFILES:%.o=%_nomain.o}
-	${MKDIR} -p ${TESTDIR}/TestFiles
-	${LINK.cc}   -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS} `cppunit-config --libs` `cppunit-config --libs` `cppunit-config --libs`   
-
 
 ${TESTDIR}/tests/element_test.o: tests/element_test.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
@@ -134,42 +129,6 @@ ${TESTDIR}/tests/element_test_runner.o: tests/element_test_runner.cpp
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -I. `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/element_test_runner.o tests/element_test_runner.cpp
-
-
-${TESTDIR}/tests/json_load_test.o: tests/json_load_test.cpp 
-	${MKDIR} -p ${TESTDIR}/tests
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I. `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json_load_test.o tests/json_load_test.cpp
-
-
-${TESTDIR}/tests/json_object_test.o: tests/json_object_test.cpp 
-	${MKDIR} -p ${TESTDIR}/tests
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I. `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json_object_test.o tests/json_object_test.cpp
-
-
-${TESTDIR}/tests/json_save_test.o: tests/json_save_test.cpp 
-	${MKDIR} -p ${TESTDIR}/tests
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I. `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json_save_test.o tests/json_save_test.cpp
-
-
-${TESTDIR}/tests/json_simple_values_test.o: tests/json_simple_values_test.cpp 
-	${MKDIR} -p ${TESTDIR}/tests
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I. `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json_simple_values_test.o tests/json_simple_values_test.cpp
-
-
-${TESTDIR}/tests/json_test.o: tests/json_test.cpp 
-	${MKDIR} -p ${TESTDIR}/tests
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I. `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json_test.o tests/json_test.cpp
-
-
-${TESTDIR}/tests/json_util_test.o: tests/json_util_test.cpp 
-	${MKDIR} -p ${TESTDIR}/tests
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I. `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json_util_test.o tests/json_util_test.cpp
 
 
 ${OBJECTDIR}/src/element_nomain.o: ${OBJECTDIR}/src/element.o src/element.cpp 
@@ -268,7 +227,6 @@ ${OBJECTDIR}/src/main_nomain.o: ${OBJECTDIR}/src/main.o src/main.cpp
 	@if [ "${TEST}" = "" ]; \
 	then  \
 	    ${TESTDIR}/TestFiles/f2 || true; \
-	    ${TESTDIR}/TestFiles/f1 || true; \
 	else  \
 	    ./${TEST} || true; \
 	fi
