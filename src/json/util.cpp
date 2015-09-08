@@ -23,18 +23,18 @@ Status findType(std::istream &stream, ValueType* output) {
     *output = kStringValue;
     return kOk;
   } else if (a == '{') {
-    *output kObjectValue;
+    *output = kObjectValue;
     return kOk;
   } else if (a == '[') {
-    *output kVectorValue;
+    *output = kVectorValue;
     return kOk;
   } else if (a == 't' || a == 'f') {
-    *output kBoolValue;
+    *output = kBoolValue;
     return kOk;
   } else {
     for (char c : "0123456789") {
       if (c == a) {
-        *output kIntValue;
+        *output = kIntValue;
         return kOk;
       }
     }
@@ -63,7 +63,7 @@ Status loadName(std::istream &stream, std::string* output) {
   if (!stream.good()) {
     return kUnkwownError;
   }
-  output = name;
+  *output = name;
   return kOk;
 }
 
@@ -91,7 +91,7 @@ Status loadValue(std::istream &stream, Value** valueptr) {
     case (kBoolValue):
       value = new StringValue;
   }
-  Status s = value->loadFrom(stream);
+  s = value->loadFrom(stream);
 
   if (s != kOk) {
     return s;

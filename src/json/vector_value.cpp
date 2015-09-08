@@ -15,20 +15,20 @@ VectorValue::VectorValue(ValueVector* vector) {
 }
 
 void VectorValue::save(std::ostream* output) {
-  output << "[";
+  *output << "[";
 
   ValueVector::iterator it = vector_->begin();
-  output << (*it)->save();
+  (*it)->save(output);
   it++;
   while (it != vector_->end()) {
-    output << ",";
-    output << (*it)->save();
+    *output << ",";
+    (*it)->save(output);
     it++;
   }
-  output << "]";
+  *output << "]";
 }
 
-void VectorValue::get(const size_t& index, Value** valueptr) {
+Status VectorValue::get(const size_t& index, Value** valueptr) {
   while (index >= vector_->size()) {
     vector_->push_back(NULL);
   }

@@ -31,7 +31,7 @@ public:
   //      {"key": [1, 2, 3, 4, 5]}
   //
   //Returns kOk if all is well, kUnkwownError otherwise.
-  virtual void Status save(std::ostream* output) = 0;
+  virtual void save(std::ostream* output) = 0;
 
   //Access the underlaying std::string object of a StringValue.
   //Returns kValueError if the value is not a StringValue.
@@ -39,7 +39,7 @@ public:
 
   //Access the underlaying int value of an IntValue.
   //Returns kValueError if the value is not an IntValue.
-  virtual Status as_int(uint32_t* output);
+  virtual Status as_int(int32_t* output);
 
   //Access the underalaying bool value of a BoolValue.
   //Returns kValueError if the value is not a BoolValue.
@@ -91,9 +91,9 @@ Status load(std::istream &stream, Value** valueptr);
 
 Status load(const std::string &file, Value* valueptr);
 
-Status save(std::ostream &stream, Value* value);
+void save(std::ostream &stream, Value* value);
 
-Status save(const std::string &file, Value* value);
+void save(const std::string &file, Value* value);
 
 } // namespace json
 

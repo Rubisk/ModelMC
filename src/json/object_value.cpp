@@ -21,19 +21,19 @@ Status ObjectValue::get(const std::string &key, Value** valueptr) {
 }
 
 void ObjectValue::save(std::ostream* output) {
-  output << "{";
+  *output << "{";
   
   ValueMap::iterator it = values_->begin();
-  output << "\"" << it->first << "\":";
+  *output << "\"" << it->first << "\":";
   it->second->save(output);
   it++;
   
   while (it != values_->end()) {
-    output << ",\"" << it->first << "\":";
+    *output << ",\"" << it->first << "\":";
     it->second->save(output);
     it++;
   }
-  output << "}";
+  *output << "}";
 }
 
 Status ObjectValue::loadFrom(std::istream &stream) {
@@ -89,7 +89,10 @@ Status ObjectValue::loadAndSaveValue_(std::istream& stream) {
     return s;
   }
   
-  (*this)[name] = value;
+  s = this->get(name, &value); //TODO fix this
+  if (s != kOk) {
+    return s;
+  }
   return kOk;
 }
 
