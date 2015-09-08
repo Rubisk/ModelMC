@@ -1,10 +1,3 @@
-/*
- * File:   SimpleValuesTest.h
- * Author: Wouter
- *
- * Created on 8-sep-2015, 19:28:08
- */
-
 #ifndef SIMPLEVALUESTEST_H
 #define	SIMPLEVALUESTEST_H
 
@@ -44,5 +37,5 @@ private:
 
 };
 
-#endif	/* SIMPLEVALUESTEST_H */
+#endif	// SIMPLEVALUESTEST_H
 
