@@ -28,12 +28,11 @@ void VectorValue::save(std::ostream* output) {
   *output << "]";
 }
 
-Status VectorValue::get(const size_t& index, Value** valueptr) {
+Status VectorValue::get(const size_t& index, Value** &valueptr) {
   while (index >= vector_->size()) {
     vector_->push_back(NULL);
   }
-  Value* result = (*vector_)[index];
-  valueptr = &result;
+  valueptr = &(*vector_)[index];
   return kOk;
 }
 
