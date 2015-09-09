@@ -51,6 +51,7 @@ TESTFILES= \
 	${TESTDIR}/TestFiles/f2 \
 	${TESTDIR}/TestFiles/f1 \
 	${TESTDIR}/TestFiles/f3 \
+	${TESTDIR}/TestFiles/f6 \
 	${TESTDIR}/TestFiles/f5 \
 	${TESTDIR}/TestFiles/f4
 
@@ -142,6 +143,14 @@ ${TESTDIR}/TestFiles/f3: ${TESTDIR}/tests/json/simple_values_test.o ${OBJECTFILE
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -IE:\Clib\include  -o ${TESTDIR}/TestFiles/f3 $^ ${LDLIBSOPTIONS} -L/E\CLib\raw\cppunit-1.13.2\src\cppunit\.libs -lcppunit-1-13-0 
 
+${TESTDIR}/TestFiles/f6: E:\CLib\raw\nvwa\debug_new.cpp
+
+${TESTDIR}/TestFiles/f6: .\util\runner.cpp
+
+${TESTDIR}/TestFiles/f6: ${TESTDIR}/tests/json/json_test.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc} -IE:\Clib\include  -o ${TESTDIR}/TestFiles/f6 $^ ${LDLIBSOPTIONS} -L/E\CLib\raw\cppunit-1.13.2\src\cppunit\.libs -lcppunit-1-13-0 
+
 ${TESTDIR}/TestFiles/f5: E:\CLib\raw\nvwa\debug_new.cpp
 
 ${TESTDIR}/TestFiles/f5: .\util\runner.cpp
@@ -175,6 +184,12 @@ ${TESTDIR}/tests/json/simple_values_test.o: tests/json/simple_values_test.cpp
 	${MKDIR} -p ${TESTDIR}/tests/json
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I. -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/simple_values_test.o tests/json/simple_values_test.cpp
+
+
+${TESTDIR}/tests/json/json_test.o: tests/json/json_test.cpp 
+	${MKDIR} -p ${TESTDIR}/tests/json
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I. -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/json_test.o tests/json/json_test.cpp
 
 
 ${TESTDIR}/tests/json/util_test.o: tests/json/util_test.cpp 
@@ -287,6 +302,7 @@ ${OBJECTDIR}/src/main_nomain.o: ${OBJECTDIR}/src/main.o src/main.cpp
 	    ${TESTDIR}/TestFiles/f2 || true; \
 	    ${TESTDIR}/TestFiles/f1 || true; \
 	    ${TESTDIR}/TestFiles/f3 || true; \
+	    ${TESTDIR}/TestFiles/f6 || true; \
 	    ${TESTDIR}/TestFiles/f5 || true; \
 	    ${TESTDIR}/TestFiles/f4 || true; \
 	else  \
