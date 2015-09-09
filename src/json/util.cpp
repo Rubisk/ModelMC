@@ -89,7 +89,7 @@ Status loadValue(std::istream &stream, Value** valueptr) {
       value = new StringValue;
       break;
     case (kBoolValue):
-      value = new StringValue;
+      value = new BoolValue;
   }
   s = value->loadFrom(stream);
 

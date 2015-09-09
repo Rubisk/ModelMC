@@ -26,8 +26,8 @@ public:
   //Should only be called on ObjectValues, otherwise this will return
   //only part of a valid Json string. Calling this on an ArrayValue,
   //for example, will return something like:
-  //      [1, 2, 3, 4, 5] 
-  //instead of 
+  //      [1, 2, 3, 4, 5]
+  //instead of
   //      {"key": [1, 2, 3, 4, 5]}
   //
   //Returns kOk if all is well, kUnkwownError otherwise.
@@ -87,11 +87,7 @@ public:
 
 };
 
-Status load(std::istream &stream, Value** valueptr);
-
-Status load(const std::string &file, Value* valueptr);
-
-void save(std::ostream &stream, Value* value);
+Status load(const std::string &file, Value* &valueptr);
 
 void save(const std::string &file, Value* value);
 
