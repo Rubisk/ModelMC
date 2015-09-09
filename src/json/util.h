@@ -7,11 +7,11 @@
 
 namespace json {
 
-Status findType(std::istream &stream, ValueType* output);
+Status FindType(std::istream &stream, ValueType* output);
 
-Status loadName(std::istream &stream, std::string* output);
+Status LoadName(std::istream &stream, std::string* output);
 
-Status loadValue(std::istream &stream, Value** valueptr);
+Status LoadValue(std::istream &stream, Value** valueptr);
 
 } //namespace json
 

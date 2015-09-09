@@ -23,7 +23,7 @@ void SimpleValuesTest::tearDown() {
 void SimpleValuesTest::testAs_bool() {
   bool output;
   Value* value = new BoolValue(true);
-  Status s = value->as_bool(&output);
+  Status s = value->GetBoolValue(&output);
   CPPUNIT_ASSERT(s == kOk);
   CPPUNIT_ASSERT(output = true);
   delete value;
@@ -33,7 +33,7 @@ void SimpleValuesTest::testLoadFromBool() {
   std::stringstream ss;
   ss.str("true||}}|}|<><><><");
   Value* value = new BoolValue();
-  Status s = value->loadFrom(ss);
+  Status s = value->LoadValue(ss);
   CPPUNIT_ASSERT(s == kOk);
 
   std::stringstream os;
@@ -41,7 +41,7 @@ void SimpleValuesTest::testLoadFromBool() {
   CPPUNIT_ASSERT(os.str() == "||}}|}|<><><><");
 
   bool output;
-  s = value->as_bool(&output);
+  s = value->GetBoolValue(&output);
   CPPUNIT_ASSERT(s == kOk);
   CPPUNIT_ASSERT(output);
 
@@ -51,10 +51,10 @@ void SimpleValuesTest::testLoadFromBool() {
 void SimpleValuesTest::testSaveBool() {
   std::stringstream output;
   Value* value = new BoolValue(false);
-  value->save(&output);
+  value->SaveValue(&output);
   CPPUNIT_ASSERT(output.str() == "false");
   *value = true;
-  value->save(&output);
+  value->SaveValue(&output);
   CPPUNIT_ASSERT(output.str() == "falsetrue");
   delete value;
 }
@@ -62,7 +62,7 @@ void SimpleValuesTest::testSaveBool() {
 void SimpleValuesTest::testAs_string() {
   std::string output;
   Value* value = new StringValue("some_string");
-  Status s = value->as_string(&output);
+  Status s = value->GetStringValue(&output);
   CPPUNIT_ASSERT(s == kOk);
   CPPUNIT_ASSERT(output == "some_string");
   delete value;
@@ -72,7 +72,7 @@ void SimpleValuesTest::testLoadFromString() {
   std::stringstream ss;
   ss.str("\"some_string\"||}}|}|<><><><");
   Value* value = new StringValue();
-  Status s = value->loadFrom(ss);
+  Status s = value->LoadValue(ss);
   CPPUNIT_ASSERT(s == kOk);
 
   std::stringstream os;
@@ -80,7 +80,7 @@ void SimpleValuesTest::testLoadFromString() {
   CPPUNIT_ASSERT(os.str() == "||}}|}|<><><><");
 
   std::string output;
-  s = value->as_string(&output);
+  s = value->GetStringValue(&output);
   CPPUNIT_ASSERT(s == kOk);
   CPPUNIT_ASSERT(output == "some_string");
 
@@ -90,7 +90,7 @@ void SimpleValuesTest::testLoadFromString() {
 void SimpleValuesTest::testSaveString() {
   std::stringstream output;
   Value* value = new StringValue("some_string");
-  value->save(&output);
+  value->SaveValue(&output);
   CPPUNIT_ASSERT(output.str() == "\"some_string\"");
   delete value;
 }
@@ -98,7 +98,7 @@ void SimpleValuesTest::testSaveString() {
 void SimpleValuesTest::testAs_int() {
   int32_t output;
   Value* value = new IntValue(5);
-  Status s = value->as_int(&output);
+  Status s = value->GetIntValue(&output);
   CPPUNIT_ASSERT(s == kOk);
   CPPUNIT_ASSERT(output == 5);
   delete value;
@@ -108,7 +108,7 @@ void SimpleValuesTest::testLoadFromInt() {
   std::stringstream ss;
   ss.str("52||}}|}|<><><><");
   Value* value = new IntValue();
-  Status s = value->loadFrom(ss);
+  Status s = value->LoadValue(ss);
   CPPUNIT_ASSERT(s == kOk);
 
   std::stringstream os;
@@ -116,7 +116,7 @@ void SimpleValuesTest::testLoadFromInt() {
   CPPUNIT_ASSERT(os.str() == "||}}|}|<><><><");
 
   int32_t output;
-  s = value->as_int(&output);
+  s = value->GetIntValue(&output);
   CPPUNIT_ASSERT(s == kOk);
   CPPUNIT_ASSERT(output == 52);
 
@@ -126,7 +126,7 @@ void SimpleValuesTest::testLoadFromInt() {
 void SimpleValuesTest::testSaveInt() {
   std::stringstream output;
   Value* value = new IntValue(55555);
-  value->save(&output);
+  value->SaveValue(&output);
   CPPUNIT_ASSERT(output.str() == "55555");
   delete value;
 }

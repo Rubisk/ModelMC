@@ -14,21 +14,21 @@ VectorValue::VectorValue(ValueVector* vector) {
   vector_ = vector;
 }
 
-void VectorValue::save(std::ostream* output) {
+void VectorValue::SaveValue(std::ostream* output) {
   *output << "[";
 
   ValueVector::iterator it = vector_->begin();
-  (*it)->save(output);
+  (*it)->SaveValue(output);
   it++;
   while (it != vector_->end()) {
     *output << ",";
-    (*it)->save(output);
+    (*it)->SaveValue(output);
     it++;
   }
   *output << "]";
 }
 
-Status VectorValue::get(const size_t& index, Value** &valueptr) {
+Status VectorValue::GetChild(const size_t& index, Value** &valueptr) {
   while (index >= vector_->size()) {
     vector_->push_back(NULL);
   }
@@ -36,7 +36,7 @@ Status VectorValue::get(const size_t& index, Value** &valueptr) {
   return kOk;
 }
 
-Status VectorValue::loadFrom(std::istream &stream) {
+Status VectorValue::LoadValue(std::istream &stream) {
   char next_char;
   stream >> std::skipws >> next_char >> std::noskipws;
   if (next_char != '[') {
@@ -44,7 +44,7 @@ Status VectorValue::loadFrom(std::istream &stream) {
   }
 
   while (true) {
-    Status s = loadAndSaveValue_(stream);
+    Status s = LoadAndSaveValue_(stream);
     if (s != kOk) {
       return s;
     }
@@ -70,9 +70,9 @@ VectorValue::~VectorValue() {
   delete vector_;
 }
 
-Status VectorValue::loadAndSaveValue_(std::istream& stream) {
+Status VectorValue::LoadAndSaveValue_(std::istream& stream) {
   Value* value;
-  Status s = loadValue(stream, &value);
+  Status s = LoadValue(stream, &value);
   if (s != kOk) {
     return s;
   }

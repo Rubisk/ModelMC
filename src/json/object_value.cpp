@@ -15,28 +15,28 @@ ObjectValue::ObjectValue(ValueMap* values) {
   values_ = values;
 }
 
-Status ObjectValue::get(const std::string &key, Value** &valueptr) {
+Status ObjectValue::GetChild(const std::string &key, Value** &valueptr) {
   valueptr = &(*values_)[key];
   return kOk;
 }
 
-void ObjectValue::save(std::ostream* output) {
+void ObjectValue::SaveValue(std::ostream* output) {
   *output << "{";
 
   ValueMap::iterator it = values_->begin();
   *output << "\"" << it->first << "\":";
-  it->second->save(output);
+  it->second->SaveValue(output);
   it++;
 
   while (it != values_->end()) {
     *output << ",\"" << it->first << "\":";
-    it->second->save(output);
+    it->second->SaveValue(output);
     it++;
   }
   *output << "}";
 }
 
-Status ObjectValue::loadFrom(std::istream &stream) {
+Status ObjectValue::LoadValue(std::istream &stream) {
   char next_char;
   stream >> std::skipws >> next_char >> std::noskipws;
   if (next_char != '{') {
@@ -44,7 +44,7 @@ Status ObjectValue::loadFrom(std::istream &stream) {
   }
 
   while (true) {
-    Status s = loadAndSaveValue_(stream);
+    Status s = LoadAndSaveValue_(stream);
     if (s != kOk) {
       return s;
     }
@@ -70,9 +70,9 @@ ObjectValue::~ObjectValue() {
   delete values_;
 }
 
-Status ObjectValue::loadAndSaveValue_(std::istream& stream) {
+Status ObjectValue::LoadAndSaveValue_(std::istream& stream) {
   std::string name;
-  Status s = loadName(stream, &name);
+  Status s = LoadName(stream, &name);
   if (s != kOk) {
     return s;
   }
@@ -84,13 +84,13 @@ Status ObjectValue::loadAndSaveValue_(std::istream& stream) {
   }
 
   Value* value;
-  s = loadValue(stream, &value);
+  s = LoadValue(stream, &value);
   if (s != kOk) {
     return s;
   }
 
   Value** to_get;
-  s = this->get(name, to_get); //TODO fix this
+  s = this->GetChild(name, to_get); //TODO fix this
   if (s != kOk) {
     return s;
   }

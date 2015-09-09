@@ -8,23 +8,23 @@
 
 namespace json {
 
-Status Value::as_int(int32_t* output) {
+Status Value::GetIntValue(int32_t* output) {
   return kValueError;
 }
 
-Status Value::as_bool(bool* output) {
+Status Value::GetBoolValue(bool* output) {
   return kValueError;
 }
 
-Status Value::as_string(std::string* output) {
+Status Value::GetStringValue(std::string* output) {
   return kValueError;
 }
 
-Status Value::get(const std::string &key, Value** &valueptr) {
+Status Value::GetChild(const std::string &key, Value** &valueptr) {
   return kValueError;
 }
 
-Status Value::get(const size_t &index, Value** &valueptr) {
+Status Value::GetChild(const size_t &index, Value** &valueptr) {
   return kValueError;
 }
 
@@ -40,12 +40,12 @@ Status Value::operator=(const bool &value) {
   return kValueError;
 }
 
-Status load(const std::string &file, Value* &valueptr) {
+Status LoadFromFile(const std::string &file, Value* &valueptr) {
   std::ifstream stream;
   stream.open(file, std::ios::binary);
 
   Value* result;
-  Status s = loadValue(stream, &result);
+  Status s = LoadValue(stream, &result);
   if (s == kOk) {
     valueptr = result;
   }
@@ -54,11 +54,11 @@ Status load(const std::string &file, Value* &valueptr) {
   return s;
 }
 
-void save(const std::string &file, Value* value) {
+void SaveToFile(const std::string &file, Value* value) {
   std::ofstream stream;
   stream.open(file);
 
-  value->save(&stream);
+  value->SaveValue(&stream);
 
   stream.close();
 }

@@ -17,16 +17,16 @@ Status IntValue::operator=(const int32_t &value) {
   return kOk;
 }
 
-Status IntValue::as_int(int32_t* output) {
+Status IntValue::GetIntValue(int32_t* output) {
   *output = value_;
   return kOk;
 }
 
-void IntValue::save(std::ostream* stream) {
+void IntValue::SaveValue(std::ostream* stream) {
   *stream << value_;
 }
 
-Status IntValue::loadFrom(std::istream &stream) {
+Status IntValue::LoadValue(std::istream &stream) {
   stream >> std::skipws >> value_ >> std::noskipws;
   if (!stream.good()) {
     return kUnkwownError;
@@ -43,18 +43,18 @@ Status StringValue::operator=(const std::string &value) {
   return kOk;
 }
 
-void StringValue::save(std::ostream* stream) {
+void StringValue::SaveValue(std::ostream* stream) {
   *stream << "\"" << value_ << "\"";
 }
 
-Status StringValue::as_string(std::string* output) {
+Status StringValue::GetStringValue(std::string* output) {
   *output = value_;
   return kOk;
 }
 
-Status StringValue::loadFrom(std::istream &stream) {
+Status StringValue::LoadValue(std::istream &stream) {
   std::string value;
-  Status s = loadName(stream, &value);
+  Status s = LoadName(stream, &value);
   if (s != kOk) {
     return s;
   }
@@ -71,16 +71,16 @@ Status BoolValue::operator=(const bool &value) {
   return kOk;
 }
 
-Status BoolValue::as_bool(bool* output) {
+Status BoolValue::GetBoolValue(bool* output) {
   *output = value_;
   return kOk;
 }
 
-void BoolValue::save(std::ostream* output) {
+void BoolValue::SaveValue(std::ostream* output) {
   *output << (value_ ? "true" : "false");
 }
 
-Status BoolValue::loadFrom(std::istream &stream) {
+Status BoolValue::LoadValue(std::istream &stream) {
   char next_char;
   stream >> std::skipws >> next_char >> std::noskipws;
   if (!stream.good()) {

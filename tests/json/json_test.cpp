@@ -20,39 +20,39 @@ void JsonTest::tearDown() {
 void JsonTest::testAs_bool() {
   bool output;
   Value* value = new TestValue();
-  Status s = value->as_bool(&output);
+  Status s = value->GetBoolValue(&output);
   CPPUNIT_ASSERT(s == kValueError);
 }
 
 void JsonTest::testAs_int() {
   int32_t output;
   Value* value = new TestValue();
-  Status s = value->as_int(&output);
+  Status s = value->GetIntValue(&output);
   CPPUNIT_ASSERT(s == kValueError);
 }
 
 void JsonTest::testAs_string() {
   std::string output;
   Value* value = new TestValue();
-  Status s = value->as_string(&output);
+  Status s = value->GetStringValue(&output);
   CPPUNIT_ASSERT(s == kValueError);
 }
 
 void JsonTest::testGet() {
   Value** output;
   Value* value = new TestValue();
-  Status s = value->get(1, output);
+  Status s = value->GetChild(1, output);
   CPPUNIT_ASSERT(s == kValueError);
-  s = value->get("some_key", output);
+  s = value->GetChild("some_key", output);
   CPPUNIT_ASSERT(s == kValueError);
 }
 
 void JsonTest::testSaveFromFile() {
   Value* value;
-  Status s = load("./tests/testfiles/test_json.json", value);
+  Status s = LoadFromFile("./tests/testfiles/test_json.json", value);
   CPPUNIT_ASSERT(s == kOk);
 
-  save("./tests/testfiles/test_output.json", value);
+  SaveToFile("./tests/testfiles/test_output.json", value);
 
   std::ifstream original, copy;
 
@@ -71,7 +71,7 @@ void JsonTest::testSaveFromFile() {
 
 void JsonTest::testLoadFromFile() {
   Value* output;
-  Status s = load("./tests/testfiles/test_json.json", output);
+  Status s = LoadFromFile("./tests/testfiles/test_json.json", output);
   CPPUNIT_ASSERT(s == kOk);
   delete output;
 }

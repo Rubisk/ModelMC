@@ -6,9 +6,7 @@
 
 #include "src/json/json.h"
 
-
 namespace json {
-
 
 typedef std::vector<Value*> ValueVector;
 
@@ -18,17 +16,17 @@ public:
 
   VectorValue(ValueVector* values);
 
-  Status get(const size_t &index, Value** &valueptr);
+  Status GetChild(const size_t &index, Value** &valueptr);
 
-  void save(std::ostream* output);
+  void SaveValue(std::ostream* output);
 
-  Status loadFrom(std::istream &stream);
+  Status LoadValue(std::istream &stream);
 
   ~VectorValue();
 private:
   ValueVector* vector_;
 
-  Status loadAndSaveValue_(std::istream &stream);
+  Status LoadAndSaveValue_(std::istream &stream);
 };
 
 } // namespace json

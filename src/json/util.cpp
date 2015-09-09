@@ -10,7 +10,7 @@
 
 namespace json {
 
-Status findType(std::istream &stream, ValueType* output) {
+Status FindType(std::istream &stream, ValueType* output) {
   char a;
   auto old_pos = stream.tellg();
   stream >> std::skipws >> a >> std::noskipws;
@@ -42,7 +42,7 @@ Status findType(std::istream &stream, ValueType* output) {
   }
 }
 
-Status loadName(std::istream &stream, std::string* output) {
+Status LoadName(std::istream &stream, std::string* output) {
   char a;
   stream >> std::skipws >> a >> std::noskipws;
 
@@ -67,10 +67,10 @@ Status loadName(std::istream &stream, std::string* output) {
   return kOk;
 }
 
-Status loadValue(std::istream &stream, Value** valueptr) {
+Status LoadValue(std::istream &stream, Value** valueptr) {
   ValueType type;
   Value* value;
-  Status s = findType(stream, &type);
+  Status s = FindType(stream, &type);
   if (s != kOk) {
     return s;
   }
@@ -91,7 +91,7 @@ Status loadValue(std::istream &stream, Value** valueptr) {
     case (kBoolValue):
       value = new BoolValue;
   }
-  s = value->loadFrom(stream);
+  s = value->LoadValue(stream);
 
   if (s != kOk) {
     return s;

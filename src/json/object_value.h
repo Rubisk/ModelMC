@@ -15,17 +15,17 @@ public:
 
   ObjectValue(ValueMap* values);
 
-  Status get(const std::string &key, Value** &valueptr);
+  Status GetChild(const std::string &key, Value** &valueptr);
 
-  void save(std::ostream* output);
+  void SaveValue(std::ostream* output);
 
-  Status loadFrom(std::istream &stream);
+  Status LoadValue(std::istream &stream);
 
   ~ObjectValue();
 private:
   ValueMap* values_;
 
-  Status loadAndSaveValue_(std::istream &stream);
+  Status LoadAndSaveValue_(std::istream &stream);
 };
 
 } // namespace json

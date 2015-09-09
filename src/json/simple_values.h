@@ -13,13 +13,13 @@ public:
 
   IntValue(const int32_t &value);
 
-  void save(std::ostream* output);
+  void SaveValue(std::ostream* output);
 
-  Status as_int(int32_t* output);
+  Status GetIntValue(int32_t* output);
 
   Status operator=(const int32_t &value);
 
-  Status loadFrom(std::istream &stream);
+  Status LoadValue(std::istream &stream);
 private:
   int32_t value_;
 };
@@ -32,13 +32,13 @@ public:
 
   StringValue(const std::string &value);
 
-  Status as_string(std::string* output);
+  Status GetStringValue(std::string* output);
 
-  void save(std::ostream* output);
+  void SaveValue(std::ostream* output);
 
   Status operator=(const std::string &value);
 
-  Status loadFrom(std::istream &stream);
+  Status LoadValue(std::istream &stream);
 private:
   std::string value_;
 };
@@ -51,13 +51,13 @@ public:
 
   BoolValue(const bool &value);
 
-  Status as_bool(bool* output);
+  Status GetBoolValue(bool* output);
 
-  void save(std::ostream* output);
+  void SaveValue(std::ostream* output);
 
   Status operator=(const bool &value);
 
-  Status loadFrom(std::istream &stream);
+  Status LoadValue(std::istream &stream);
 private:
   bool value_;
 };
