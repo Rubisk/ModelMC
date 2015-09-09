@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "src/json/json.h"
+#include "json/json.h"
 
 namespace json {
 

@@ -5,6 +5,7 @@
 #include <iostream>
 
 namespace json {
+
 enum ValueType {
   kObjectValue, kVectorValue, kIntValue, kStringValue, kBoolValue
 };
@@ -30,7 +31,7 @@ public:
   //      {"key": [1, 2, 3, 4, 5]}
   //
   //Returns kOk if all is well, kUnkwownError otherwise.
-  virtual void SaveValue(std::ostream* output) = 0;
+  virtual void SaveToStream(std::ostream* output) = 0;
 
   //Access the underlaying std::string object of a StringValue.
   //Returns kValueError if the value is not a StringValue.
@@ -79,7 +80,7 @@ public:
   //    value->loadFrom(&stream);
   //Now value has a value of 1234, and the stream is reduced to
   //",\"asdf\":def}"
-  virtual Status LoadValue(std::istream &stream) = 0;
+  virtual Status LoadFromStream(std::istream &stream) = 0;
 
   virtual ~Value() {
   };

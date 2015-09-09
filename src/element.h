@@ -1,7 +1,7 @@
 #ifndef MODEL_H
 #define	MODEL_H
 
-#include "src/json/json.h"
+#include "json/json.h"
 
 enum AXI {
   AXIS_X, AXIS_Y, AXIS_Z, N_AXI
@@ -60,7 +60,7 @@ struct Element {
   //Specifies whether non-visible elements should be rendered for the faces.
   bool cull_faces[N_FACES];
 
-  //Rotates the texture in increments of 90 degrees. 
+  //Rotates the texture in increments of 90 degrees.
   //Must be between 0 to 3
   uint8_t rotation_faces[N_FACES];
 

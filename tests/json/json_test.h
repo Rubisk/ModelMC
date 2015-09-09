@@ -3,16 +3,16 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "src/json/json.h"
+#include "json/json.h"
 
 // Only used to be able to test json::Value default behavior;
 
 class TestValue : public json::Value {
 
-  virtual void SaveValue(std::ostream* output) {
+  virtual void SaveToStream(std::ostream* output) {
   }
 
-  virtual json::Status LoadValue(std::istream &stream) {
+  virtual json::Status LoadFromStream(std::istream &stream) {
   }
 };
 

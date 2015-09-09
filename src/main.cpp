@@ -1,5 +1,5 @@
 #include <cstdlib>
-#include "src/json/json.h"
+#include "json/json.h"
 
 using namespace json;
 

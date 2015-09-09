@@ -1,8 +1,8 @@
 #include <sstream>
 
 #include "simple_values_test.h"
-#include "src/json/simple_values.h"
-#include "src/json/json.h"
+#include "json/simple_values.h"
+#include "json/json.h"
 
 using namespace json;
 
@@ -33,7 +33,7 @@ void SimpleValuesTest::testLoadFromBool() {
   std::stringstream ss;
   ss.str("true||}}|}|<><><><");
   Value* value = new BoolValue();
-  Status s = value->LoadValue(ss);
+  Status s = value->LoadFromStream(ss);
   CPPUNIT_ASSERT(s == kOk);
 
   std::stringstream os;
@@ -51,10 +51,10 @@ void SimpleValuesTest::testLoadFromBool() {
 void SimpleValuesTest::testSaveBool() {
   std::stringstream output;
   Value* value = new BoolValue(false);
-  value->SaveValue(&output);
+  value->SaveToStream(&output);
   CPPUNIT_ASSERT(output.str() == "false");
   *value = true;
-  value->SaveValue(&output);
+  value->SaveToStream(&output);
   CPPUNIT_ASSERT(output.str() == "falsetrue");
   delete value;
 }
@@ -72,7 +72,7 @@ void SimpleValuesTest::testLoadFromString() {
   std::stringstream ss;
   ss.str("\"some_string\"||}}|}|<><><><");
   Value* value = new StringValue();
-  Status s = value->LoadValue(ss);
+  Status s = value->LoadFromStream(ss);
   CPPUNIT_ASSERT(s == kOk);
 
   std::stringstream os;
@@ -90,7 +90,7 @@ void SimpleValuesTest::testLoadFromString() {
 void SimpleValuesTest::testSaveString() {
   std::stringstream output;
   Value* value = new StringValue("some_string");
-  value->SaveValue(&output);
+  value->SaveToStream(&output);
   CPPUNIT_ASSERT(output.str() == "\"some_string\"");
   delete value;
 }
@@ -108,7 +108,7 @@ void SimpleValuesTest::testLoadFromInt() {
   std::stringstream ss;
   ss.str("52||}}|}|<><><><");
   Value* value = new IntValue();
-  Status s = value->LoadValue(ss);
+  Status s = value->LoadFromStream(ss);
   CPPUNIT_ASSERT(s == kOk);
 
   std::stringstream os;
@@ -126,7 +126,7 @@ void SimpleValuesTest::testLoadFromInt() {
 void SimpleValuesTest::testSaveInt() {
   std::stringstream output;
   Value* value = new IntValue(55555);
-  value->SaveValue(&output);
+  value->SaveToStream(&output);
   CPPUNIT_ASSERT(output.str() == "55555");
   delete value;
 }

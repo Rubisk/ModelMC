@@ -2,9 +2,8 @@
 #include <cstdlib>
 #include <fstream>
 
-#include "src/json/json.h"
-#include "src/json/util.h"
-
+#include "json/json.h"
+#include "json/util.h"
 
 namespace json {
 
@@ -58,7 +57,7 @@ void SaveToFile(const std::string &file, Value* value) {
   std::ofstream stream;
   stream.open(file);
 
-  value->SaveValue(&stream);
+  value->SaveToStream(&stream);
 
   stream.close();
 }

@@ -1,7 +1,7 @@
 #ifndef SIMPLE_VALUES_H
 #define	SIMPLE_VALUES_H
 
-#include "src/json/json.h"
+#include "json/json.h"
 
 namespace json {
 
@@ -13,13 +13,13 @@ public:
 
   IntValue(const int32_t &value);
 
-  void SaveValue(std::ostream* output);
+  void SaveToStream(std::ostream* output);
 
   Status GetIntValue(int32_t* output);
 
   Status operator=(const int32_t &value);
 
-  Status LoadValue(std::istream &stream);
+  Status LoadFromStream(std::istream &stream);
 private:
   int32_t value_;
 };
@@ -34,11 +34,11 @@ public:
 
   Status GetStringValue(std::string* output);
 
-  void SaveValue(std::ostream* output);
+  void SaveToStream(std::ostream* output);
 
   Status operator=(const std::string &value);
 
-  Status LoadValue(std::istream &stream);
+  Status LoadFromStream(std::istream &stream);
 private:
   std::string value_;
 };
@@ -53,11 +53,11 @@ public:
 
   Status GetBoolValue(bool* output);
 
-  void SaveValue(std::ostream* output);
+  void SaveToStream(std::ostream* output);
 
   Status operator=(const bool &value);
 
-  Status LoadValue(std::istream &stream);
+  Status LoadFromStream(std::istream &stream);
 private:
   bool value_;
 };

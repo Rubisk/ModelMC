@@ -1,8 +1,8 @@
 #include <sstream>
 
-#include "src/json/json.h"
-#include "src/json/vector_value.h"
-#include "src/json/util.h"
+#include "json/json.h"
+#include "json/vector_value.h"
+#include "json/util.h"
 
 namespace json {
 
@@ -14,15 +14,15 @@ VectorValue::VectorValue(ValueVector* vector) {
   vector_ = vector;
 }
 
-void VectorValue::SaveValue(std::ostream* output) {
+void VectorValue::SaveToStream(std::ostream* output) {
   *output << "[";
 
   ValueVector::iterator it = vector_->begin();
-  (*it)->SaveValue(output);
+  (*it)->SaveToStream(output);
   it++;
   while (it != vector_->end()) {
     *output << ",";
-    (*it)->SaveValue(output);
+    (*it)->SaveToStream(output);
     it++;
   }
   *output << "]";
@@ -36,7 +36,7 @@ Status VectorValue::GetChild(const size_t& index, Value** &valueptr) {
   return kOk;
 }
 
-Status VectorValue::LoadValue(std::istream &stream) {
+Status VectorValue::LoadFromStream(std::istream &stream) {
   char next_char;
   stream >> std::skipws >> next_char >> std::noskipws;
   if (next_char != '[') {

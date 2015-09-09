@@ -101,7 +101,7 @@
           <incDir>
             <pElem>.</pElem>
             <pElem>../../CLib/include</pElem>
-            <pElem>.</pElem>
+            <pElem>./src</pElem>
           </incDir>
         </ccTool>
         <linkerTool>

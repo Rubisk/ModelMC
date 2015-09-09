@@ -1,9 +1,9 @@
 #include <iostream>
 #include <sstream>
 
-#include "src/json/json.h"
-#include "src/json/object_value.h"
-#include "src/json/util.h"
+#include "json/json.h"
+#include "json/object_value.h"
+#include "json/util.h"
 
 namespace json {
 
@@ -20,23 +20,23 @@ Status ObjectValue::GetChild(const std::string &key, Value** &valueptr) {
   return kOk;
 }
 
-void ObjectValue::SaveValue(std::ostream* output) {
+void ObjectValue::SaveToStream(std::ostream* output) {
   *output << "{";
 
   ValueMap::iterator it = values_->begin();
   *output << "\"" << it->first << "\":";
-  it->second->SaveValue(output);
+  it->second->SaveToStream(output);
   it++;
 
   while (it != values_->end()) {
     *output << ",\"" << it->first << "\":";
-    it->second->SaveValue(output);
+    it->second->SaveToStream(output);
     it++;
   }
   *output << "}";
 }
 
-Status ObjectValue::LoadValue(std::istream &stream) {
+Status ObjectValue::LoadFromStream(std::istream &stream) {
   char next_char;
   stream >> std::skipws >> next_char >> std::noskipws;
   if (next_char != '{') {

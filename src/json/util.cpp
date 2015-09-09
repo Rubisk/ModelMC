@@ -2,11 +2,11 @@
 #include <iostream>
 #include <sstream>
 
-#include "src/json/json.h"
-#include "src/json/util.h"
-#include "src/json/object_value.h"
-#include "src/json/vector_value.h"
-#include "src/json/simple_values.h"
+#include "json/json.h"
+#include "json/util.h"
+#include "json/object_value.h"
+#include "json/vector_value.h"
+#include "json/simple_values.h"
 
 namespace json {
 
@@ -91,7 +91,7 @@ Status LoadValue(std::istream &stream, Value** valueptr) {
     case (kBoolValue):
       value = new BoolValue;
   }
-  s = value->LoadValue(stream);
+  s = value->LoadFromStream(stream);
 
   if (s != kOk) {
     return s;

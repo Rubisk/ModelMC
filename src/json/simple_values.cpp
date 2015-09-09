@@ -2,8 +2,8 @@
 #include <iostream>
 #include <sstream>
 
-#include "src/json/json.h"
-#include "src/json/simple_values.h"
+#include "json/json.h"
+#include "json/simple_values.h"
 #include "util.h"
 
 namespace json {
@@ -22,11 +22,11 @@ Status IntValue::GetIntValue(int32_t* output) {
   return kOk;
 }
 
-void IntValue::SaveValue(std::ostream* stream) {
+void IntValue::SaveToStream(std::ostream* stream) {
   *stream << value_;
 }
 
-Status IntValue::LoadValue(std::istream &stream) {
+Status IntValue::LoadFromStream(std::istream &stream) {
   stream >> std::skipws >> value_ >> std::noskipws;
   if (!stream.good()) {
     return kUnkwownError;
@@ -43,7 +43,7 @@ Status StringValue::operator=(const std::string &value) {
   return kOk;
 }
 
-void StringValue::SaveValue(std::ostream* stream) {
+void StringValue::SaveToStream(std::ostream* stream) {
   *stream << "\"" << value_ << "\"";
 }
 
@@ -52,7 +52,7 @@ Status StringValue::GetStringValue(std::string* output) {
   return kOk;
 }
 
-Status StringValue::LoadValue(std::istream &stream) {
+Status StringValue::LoadFromStream(std::istream &stream) {
   std::string value;
   Status s = LoadName(stream, &value);
   if (s != kOk) {
@@ -76,11 +76,11 @@ Status BoolValue::GetBoolValue(bool* output) {
   return kOk;
 }
 
-void BoolValue::SaveValue(std::ostream* output) {
+void BoolValue::SaveToStream(std::ostream* output) {
   *output << (value_ ? "true" : "false");
 }
 
-Status BoolValue::LoadValue(std::istream &stream) {
+Status BoolValue::LoadFromStream(std::istream &stream) {
   char next_char;
   stream >> std::skipws >> next_char >> std::noskipws;
   if (!stream.good()) {

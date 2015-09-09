@@ -1,6 +1,6 @@
 #include "object_values_test.h"
-#include "src/json/object_value.h"
-#include "src/json/simple_values.h"
+#include "json/object_value.h"
+#include "json/simple_values.h"
 
 using namespace json;
 
@@ -39,7 +39,7 @@ void ObjectValueTest::testLoadFrom() {
   std::stringstream ss;
   ss.str("{\"int_value\":5,\"string_value\":\"string\"}{|)");
   Value* value = new ObjectValue();
-  Status s = value->LoadValue(ss);
+  Status s = value->LoadFromStream(ss);
   CPPUNIT_ASSERT(s == kOk);
 
   std::stringstream os;
@@ -68,11 +68,11 @@ void ObjectValueTest::testSave() {
   std::stringstream input_stream;
   input_stream.str(test_str);
   Value* value = new ObjectValue();
-  Status s = value->LoadValue(input_stream);
+  Status s = value->LoadFromStream(input_stream);
   CPPUNIT_ASSERT(s == kOk);
 
   std::stringstream output_stream;
-  value->SaveValue(&output_stream);
+  value->SaveToStream(&output_stream);
   CPPUNIT_ASSERT(output_stream.str() == test_str);
   delete value;
 }

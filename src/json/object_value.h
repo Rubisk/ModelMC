@@ -3,7 +3,7 @@
 
 #include <map>
 
-#include "src/json/json.h"
+#include "json/json.h"
 
 namespace json {
 
@@ -17,9 +17,9 @@ public:
 
   Status GetChild(const std::string &key, Value** &valueptr);
 
-  void SaveValue(std::ostream* output);
+  void SaveToStream(std::ostream* output);
 
-  Status LoadValue(std::istream &stream);
+  Status LoadFromStream(std::istream &stream);
 
   ~ObjectValue();
 private:

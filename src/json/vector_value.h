@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 
-#include "src/json/json.h"
+#include "json/json.h"
 
 namespace json {
 
@@ -18,9 +18,9 @@ public:
 
   Status GetChild(const size_t &index, Value** &valueptr);
 
-  void SaveValue(std::ostream* output);
+  void SaveToStream(std::ostream* output);
 
-  Status LoadValue(std::istream &stream);
+  Status LoadFromStream(std::istream &stream);
 
   ~VectorValue();
 private:
