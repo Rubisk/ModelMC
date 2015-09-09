@@ -49,8 +49,9 @@ TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
 # Test Files
 TESTFILES= \
 	${TESTDIR}/TestFiles/f2 \
+	${TESTDIR}/TestFiles/f1 \
 	${TESTDIR}/TestFiles/f3 \
-	${TESTDIR}/TestFiles/f1
+	${TESTDIR}/TestFiles/f4
 
 # C Compiler Flags
 CFLAGS=`cppunit-config --cflags` 
@@ -120,13 +121,17 @@ ${TESTDIR}/TestFiles/f2: ${TESTDIR}/tests/element_test.o ${TESTDIR}/tests/elemen
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc}   -o ${TESTDIR}/TestFiles/f2 $^ ${LDLIBSOPTIONS} `cppunit-config --libs`   
 
+${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/json/object_value_test_runner.o ${TESTDIR}/tests/json/object_values_test.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc}   -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS} `cppunit-config --libs` `cppunit-config --libs` `cppunit-config --libs` `cppunit-config --libs` `cppunit-config --libs`   
+
 ${TESTDIR}/TestFiles/f3: ${TESTDIR}/tests/json/simple_values_test.o ${TESTDIR}/tests/json/simple_values_test_runner.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc}   -o ${TESTDIR}/TestFiles/f3 $^ ${LDLIBSOPTIONS} `cppunit-config --libs`   
 
-${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/json/object_value_test_runner.o ${TESTDIR}/tests/json/object_values_test.o ${OBJECTFILES:%.o=%_nomain.o}
+${TESTDIR}/TestFiles/f4: ${TESTDIR}/tests/json/vector_value_test.o ${TESTDIR}/tests/json/vector_value_test_runner.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
-	${LINK.cc}   -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS} `cppunit-config --libs` `cppunit-config --libs` `cppunit-config --libs` `cppunit-config --libs` `cppunit-config --libs`   
+	${LINK.cc}   -o ${TESTDIR}/TestFiles/f4 $^ ${LDLIBSOPTIONS} `cppunit-config --libs`   
 
 
 ${TESTDIR}/tests/element_test.o: tests/element_test.cpp 
@@ -141,6 +146,18 @@ ${TESTDIR}/tests/element_test_runner.o: tests/element_test_runner.cpp
 	$(COMPILE.cc) -O2 -I. `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/element_test_runner.o tests/element_test_runner.cpp
 
 
+${TESTDIR}/tests/json/object_value_test_runner.o: tests/json/object_value_test_runner.cpp 
+	${MKDIR} -p ${TESTDIR}/tests/json
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/object_value_test_runner.o tests/json/object_value_test_runner.cpp
+
+
+${TESTDIR}/tests/json/object_values_test.o: tests/json/object_values_test.cpp 
+	${MKDIR} -p ${TESTDIR}/tests/json
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/object_values_test.o tests/json/object_values_test.cpp
+
+
 ${TESTDIR}/tests/json/simple_values_test.o: tests/json/simple_values_test.cpp 
 	${MKDIR} -p ${TESTDIR}/tests/json
 	${RM} "$@.d"
@@ -153,16 +170,16 @@ ${TESTDIR}/tests/json/simple_values_test_runner.o: tests/json/simple_values_test
 	$(COMPILE.cc) -O2 -I. `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/simple_values_test_runner.o tests/json/simple_values_test_runner.cpp
 
 
-${TESTDIR}/tests/json/object_value_test_runner.o: tests/json/object_value_test_runner.cpp 
+${TESTDIR}/tests/json/vector_value_test.o: tests/json/vector_value_test.cpp 
 	${MKDIR} -p ${TESTDIR}/tests/json
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I. `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/object_value_test_runner.o tests/json/object_value_test_runner.cpp
+	$(COMPILE.cc) -O2 -I. `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/vector_value_test.o tests/json/vector_value_test.cpp
 
 
-${TESTDIR}/tests/json/object_values_test.o: tests/json/object_values_test.cpp 
+${TESTDIR}/tests/json/vector_value_test_runner.o: tests/json/vector_value_test_runner.cpp 
 	${MKDIR} -p ${TESTDIR}/tests/json
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I. `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/object_values_test.o tests/json/object_values_test.cpp
+	$(COMPILE.cc) -O2 -I. `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/vector_value_test_runner.o tests/json/vector_value_test_runner.cpp
 
 
 ${OBJECTDIR}/src/element_nomain.o: ${OBJECTDIR}/src/element.o src/element.cpp 
@@ -261,8 +278,9 @@ ${OBJECTDIR}/src/main_nomain.o: ${OBJECTDIR}/src/main.o src/main.cpp
 	@if [ "${TEST}" = "" ]; \
 	then  \
 	    ${TESTDIR}/TestFiles/f2 || true; \
-	    ${TESTDIR}/TestFiles/f3 || true; \
 	    ${TESTDIR}/TestFiles/f1 || true; \
+	    ${TESTDIR}/TestFiles/f3 || true; \
+	    ${TESTDIR}/TestFiles/f4 || true; \
 	else  \
 	    ./${TEST} || true; \
 	fi
