@@ -22,6 +22,7 @@ void JsonTest::testAs_bool() {
   Value* value = new TestValue();
   Status s = value->GetBoolValue(&output);
   CPPUNIT_ASSERT(s == kValueError);
+  delete value;
 }
 
 void JsonTest::testAs_int() {
@@ -29,6 +30,7 @@ void JsonTest::testAs_int() {
   Value* value = new TestValue();
   Status s = value->GetIntValue(&output);
   CPPUNIT_ASSERT(s == kValueError);
+  delete value;
 }
 
 void JsonTest::testAs_string() {
@@ -36,6 +38,7 @@ void JsonTest::testAs_string() {
   Value* value = new TestValue();
   Status s = value->GetStringValue(&output);
   CPPUNIT_ASSERT(s == kValueError);
+  delete value;
 }
 
 void JsonTest::testGet() {
@@ -45,6 +48,7 @@ void JsonTest::testGet() {
   CPPUNIT_ASSERT(s == kValueError);
   s = value->GetChild("some_key", output);
   CPPUNIT_ASSERT(s == kValueError);
+  delete value;
 }
 
 void JsonTest::testSaveFromFile() {
