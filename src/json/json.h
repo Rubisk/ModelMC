@@ -19,6 +19,8 @@ enum Status {
 
 class Value {
 public:
+  //Get the type of value.
+  virtual ValueType GetValueType() = 0;
   //Saves the value as valid json formatting.
   //
   //Paramater output should specify the stream to write the saved value to.

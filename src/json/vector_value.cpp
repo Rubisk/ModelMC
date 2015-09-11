@@ -6,6 +6,10 @@
 
 namespace json {
 
+ValueType VectorValue::GetValueType() {
+  return kVectorValue;
+}
+
 VectorValue::VectorValue() {
   vector_ = new ValueVector();
 }

@@ -21,6 +21,7 @@ void VectorValueTest::tearDown() {
 void VectorValueTest::testGet() {
   Value** valueptr;
   Value* value = new VectorValue();
+  CPPUNIT_ASSERT(value->GetValueType() == kVectorValue);
   Status s = value->GetChild(5, valueptr);
   CPPUNIT_ASSERT(s == kOk);
   CPPUNIT_ASSERT(*valueptr == NULL);

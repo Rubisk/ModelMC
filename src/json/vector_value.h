@@ -16,6 +16,8 @@ public:
 
   VectorValue(ValueVector* values);
 
+  ValueType GetValueType();
+
   Status GetChild(const size_t &index, Value** &valueptr);
 
   void SaveToStream(std::ostream* output);

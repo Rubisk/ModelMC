@@ -9,10 +9,13 @@
 
 class TestValue : public json::Value {
 
-  virtual void SaveToStream(std::ostream* output) {
+  json::ValueType GetValueType() {
   }
 
-  virtual json::Status LoadFromStream(std::istream &stream) {
+  void SaveToStream(std::ostream* output) {
+  }
+
+  json::Status LoadFromStream(std::istream &stream) {
   }
 };
 

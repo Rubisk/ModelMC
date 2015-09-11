@@ -8,6 +8,10 @@
 
 namespace json {
 
+ValueType IntValue::GetValueType() {
+  return kIntValue;
+}
+
 IntValue::IntValue(const int32_t &value) {
   value_ = value;
 }
@@ -32,6 +36,10 @@ Status IntValue::LoadFromStream(std::istream &stream) {
     return kUnkwownError;
   }
   return kOk;
+}
+
+ValueType StringValue::GetValueType() {
+  return kStringValue;
 }
 
 StringValue::StringValue(const std::string &value) {
@@ -60,6 +68,10 @@ Status StringValue::LoadFromStream(std::istream &stream) {
   }
   value_ = value;
   return kOk;
+}
+
+ValueType BoolValue::GetValueType() {
+  return kBoolValue;
 }
 
 BoolValue::BoolValue(const bool &value) {

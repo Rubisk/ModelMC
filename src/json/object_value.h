@@ -15,6 +15,8 @@ public:
 
   ObjectValue(ValueMap* values);
 
+  ValueType GetValueType();
+
   Status GetChild(const std::string &key, Value** &valueptr);
 
   void SaveToStream(std::ostream* output);

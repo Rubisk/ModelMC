@@ -22,6 +22,7 @@ void ObjectValueTest::testGet() {
   const std::string key = "some_key";
   Value** valueptr;
   Value* value = new ObjectValue();
+  CPPUNIT_ASSERT(value->GetValueType() == kObjectValue);
   Status s = value->GetChild(key, valueptr);
   CPPUNIT_ASSERT(s == kOk);
   CPPUNIT_ASSERT(*valueptr == NULL);

@@ -7,6 +7,10 @@
 
 namespace json {
 
+ValueType ObjectValue::GetValueType() {
+  return kObjectValue;
+}
+
 ObjectValue::ObjectValue() {
   values_ = new ValueMap();
 }

@@ -11,6 +11,8 @@ public:
   IntValue() {
   };
 
+  ValueType GetValueType();
+
   IntValue(const int32_t &value);
 
   void SaveToStream(std::ostream* output);
@@ -30,6 +32,8 @@ public:
   StringValue() {
   };
 
+  ValueType GetValueType();
+
   StringValue(const std::string &value);
 
   Status GetStringValue(std::string* output);
@@ -48,6 +52,8 @@ public:
 
   BoolValue() {
   };
+  
+  ValueType GetValueType();
 
   BoolValue(const bool &value);
 

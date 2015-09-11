@@ -23,6 +23,7 @@ void SimpleValuesTest::tearDown() {
 void SimpleValuesTest::testAs_bool() {
   bool output;
   Value* value = new BoolValue(true);
+  CPPUNIT_ASSERT(value->GetValueType() == kBoolValue);
   Status s = value->GetBoolValue(&output);
   CPPUNIT_ASSERT(s == kOk);
   CPPUNIT_ASSERT(output = true);
@@ -62,6 +63,7 @@ void SimpleValuesTest::testSaveBool() {
 void SimpleValuesTest::testAs_string() {
   std::string output;
   Value* value = new StringValue("some_string");
+  CPPUNIT_ASSERT(value->GetValueType() == kStringValue);
   Status s = value->GetStringValue(&output);
   CPPUNIT_ASSERT(s == kOk);
   CPPUNIT_ASSERT(output == "some_string");
@@ -98,6 +100,7 @@ void SimpleValuesTest::testSaveString() {
 void SimpleValuesTest::testAs_int() {
   int32_t output;
   Value* value = new IntValue(5);
+  CPPUNIT_ASSERT(value->GetValueType() == kIntValue);
   Status s = value->GetIntValue(&output);
   CPPUNIT_ASSERT(s == kOk);
   CPPUNIT_ASSERT(output == 5);
