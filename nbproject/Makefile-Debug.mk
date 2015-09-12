@@ -41,7 +41,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/json/simple_values.o \
 	${OBJECTDIR}/src/json/util.o \
 	${OBJECTDIR}/src/json/vector_value.o \
-	${OBJECTDIR}/src/main.o
+	${OBJECTDIR}/src/main.o \
+	${OBJECTDIR}/util/status.o
 
 # Test Directory
 TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
@@ -53,7 +54,8 @@ TESTFILES= \
 	${TESTDIR}/TestFiles/f3 \
 	${TESTDIR}/TestFiles/f6 \
 	${TESTDIR}/TestFiles/f5 \
-	${TESTDIR}/TestFiles/f4
+	${TESTDIR}/TestFiles/f4 \
+	${TESTDIR}/TestFiles/f7
 
 # C Compiler Flags
 CFLAGS=`cppunit-config --cflags` 
@@ -82,37 +84,42 @@ ${TESTDIR}/TestFiles/f3.exe: ${OBJECTFILES}
 ${OBJECTDIR}/src/element.o: src/element.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/element.o src/element.cpp
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/element.o src/element.cpp
 
 ${OBJECTDIR}/src/json/json.o: src/json/json.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/json
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/json.o src/json/json.cpp
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/json.o src/json/json.cpp
 
 ${OBJECTDIR}/src/json/object_value.o: src/json/object_value.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/json
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/object_value.o src/json/object_value.cpp
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/object_value.o src/json/object_value.cpp
 
 ${OBJECTDIR}/src/json/simple_values.o: src/json/simple_values.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/json
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/simple_values.o src/json/simple_values.cpp
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/simple_values.o src/json/simple_values.cpp
 
 ${OBJECTDIR}/src/json/util.o: src/json/util.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/json
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/util.o src/json/util.cpp
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/util.o src/json/util.cpp
 
 ${OBJECTDIR}/src/json/vector_value.o: src/json/vector_value.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/json
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/vector_value.o src/json/vector_value.cpp
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/vector_value.o src/json/vector_value.cpp
 
 ${OBJECTDIR}/src/main.o: src/main.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/main.o src/main.cpp
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/main.o src/main.cpp
+
+${OBJECTDIR}/util/status.o: util/status.cpp 
+	${MKDIR} -p ${OBJECTDIR}/util
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/util/status.o util/status.cpp
 
 # Subprojects
 .build-subprojects:
@@ -167,41 +174,55 @@ ${TESTDIR}/TestFiles/f4: ${TESTDIR}/tests/json/vector_value_test.o ${OBJECTFILES
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -IE:\Clib\include  -o ${TESTDIR}/TestFiles/f4 $^ ${LDLIBSOPTIONS} -L/E\CLib\raw\cppunit-1.13.2\src\cppunit\.libs -lcppunit-1-13-0 
 
+${TESTDIR}/TestFiles/f7: E:\CLib\raw\nvwa\debug_new.cpp
+
+${TESTDIR}/TestFiles/f7: .\util\runner.cpp
+
+${TESTDIR}/TestFiles/f7: ${TESTDIR}/tests/status_test.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc} -IE:\Clib\include  -o ${TESTDIR}/TestFiles/f7 $^ ${LDLIBSOPTIONS} -L/E\CLib\raw\cppunit-1.13.2\src\cppunit\.libs -lcppunit-1-13-0 
+
 
 ${TESTDIR}/tests/element_test.o: tests/element_test.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/element_test.o tests/element_test.cpp
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/element_test.o tests/element_test.cpp
 
 
 ${TESTDIR}/tests/json/object_values_test.o: tests/json/object_values_test.cpp 
 	${MKDIR} -p ${TESTDIR}/tests/json
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/object_values_test.o tests/json/object_values_test.cpp
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/object_values_test.o tests/json/object_values_test.cpp
 
 
 ${TESTDIR}/tests/json/simple_values_test.o: tests/json/simple_values_test.cpp 
 	${MKDIR} -p ${TESTDIR}/tests/json
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/simple_values_test.o tests/json/simple_values_test.cpp
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/simple_values_test.o tests/json/simple_values_test.cpp
 
 
 ${TESTDIR}/tests/json/json_test.o: tests/json/json_test.cpp 
 	${MKDIR} -p ${TESTDIR}/tests/json
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/json_test.o tests/json/json_test.cpp
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/json_test.o tests/json/json_test.cpp
 
 
 ${TESTDIR}/tests/json/util_test.o: tests/json/util_test.cpp 
 	${MKDIR} -p ${TESTDIR}/tests/json
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/util_test.o tests/json/util_test.cpp
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/util_test.o tests/json/util_test.cpp
 
 
 ${TESTDIR}/tests/json/vector_value_test.o: tests/json/vector_value_test.cpp 
 	${MKDIR} -p ${TESTDIR}/tests/json
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/vector_value_test.o tests/json/vector_value_test.cpp
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/vector_value_test.o tests/json/vector_value_test.cpp
+
+
+${TESTDIR}/tests/status_test.o: tests/status_test.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/status_test.o tests/status_test.cpp
 
 
 ${OBJECTDIR}/src/element_nomain.o: ${OBJECTDIR}/src/element.o src/element.cpp 
@@ -212,7 +233,7 @@ ${OBJECTDIR}/src/element_nomain.o: ${OBJECTDIR}/src/element.o src/element.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/element_nomain.o src/element.cpp;\
+	    $(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/element_nomain.o src/element.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/src/element.o ${OBJECTDIR}/src/element_nomain.o;\
 	fi
@@ -225,7 +246,7 @@ ${OBJECTDIR}/src/json/json_nomain.o: ${OBJECTDIR}/src/json/json.o src/json/json.
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/json_nomain.o src/json/json.cpp;\
+	    $(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/json_nomain.o src/json/json.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/src/json/json.o ${OBJECTDIR}/src/json/json_nomain.o;\
 	fi
@@ -238,7 +259,7 @@ ${OBJECTDIR}/src/json/object_value_nomain.o: ${OBJECTDIR}/src/json/object_value.
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/object_value_nomain.o src/json/object_value.cpp;\
+	    $(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/object_value_nomain.o src/json/object_value.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/src/json/object_value.o ${OBJECTDIR}/src/json/object_value_nomain.o;\
 	fi
@@ -251,7 +272,7 @@ ${OBJECTDIR}/src/json/simple_values_nomain.o: ${OBJECTDIR}/src/json/simple_value
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/simple_values_nomain.o src/json/simple_values.cpp;\
+	    $(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/simple_values_nomain.o src/json/simple_values.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/src/json/simple_values.o ${OBJECTDIR}/src/json/simple_values_nomain.o;\
 	fi
@@ -264,7 +285,7 @@ ${OBJECTDIR}/src/json/util_nomain.o: ${OBJECTDIR}/src/json/util.o src/json/util.
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/util_nomain.o src/json/util.cpp;\
+	    $(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/util_nomain.o src/json/util.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/src/json/util.o ${OBJECTDIR}/src/json/util_nomain.o;\
 	fi
@@ -277,7 +298,7 @@ ${OBJECTDIR}/src/json/vector_value_nomain.o: ${OBJECTDIR}/src/json/vector_value.
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/vector_value_nomain.o src/json/vector_value.cpp;\
+	    $(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/vector_value_nomain.o src/json/vector_value.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/src/json/vector_value.o ${OBJECTDIR}/src/json/vector_value_nomain.o;\
 	fi
@@ -290,9 +311,22 @@ ${OBJECTDIR}/src/main_nomain.o: ${OBJECTDIR}/src/main.o src/main.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/main_nomain.o src/main.cpp;\
+	    $(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/main_nomain.o src/main.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/src/main.o ${OBJECTDIR}/src/main_nomain.o;\
+	fi
+
+${OBJECTDIR}/util/status_nomain.o: ${OBJECTDIR}/util/status.o util/status.cpp 
+	${MKDIR} -p ${OBJECTDIR}/util
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/util/status.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/util/status_nomain.o util/status.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/util/status.o ${OBJECTDIR}/util/status_nomain.o;\
 	fi
 
 # Run Test Targets
@@ -305,6 +339,7 @@ ${OBJECTDIR}/src/main_nomain.o: ${OBJECTDIR}/src/main.o src/main.cpp
 	    ${TESTDIR}/TestFiles/f6 || true; \
 	    ${TESTDIR}/TestFiles/f5 || true; \
 	    ${TESTDIR}/TestFiles/f4 || true; \
+	    ${TESTDIR}/TestFiles/f7 || true; \
 	else  \
 	    ./${TEST} || true; \
 	fi

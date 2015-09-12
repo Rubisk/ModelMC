@@ -41,7 +41,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/json/simple_values.o \
 	${OBJECTDIR}/src/json/util.o \
 	${OBJECTDIR}/src/json/vector_value.o \
-	${OBJECTDIR}/src/main.o
+	${OBJECTDIR}/src/main.o \
+	${OBJECTDIR}/util/status.o
 
 # Test Directory
 TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
@@ -53,7 +54,8 @@ TESTFILES= \
 	${TESTDIR}/TestFiles/f3 \
 	${TESTDIR}/TestFiles/f6 \
 	${TESTDIR}/TestFiles/f5 \
-	${TESTDIR}/TestFiles/f4
+	${TESTDIR}/TestFiles/f4 \
+	${TESTDIR}/TestFiles/f7
 
 # C Compiler Flags
 CFLAGS=`cppunit-config --cflags` 
@@ -114,6 +116,11 @@ ${OBJECTDIR}/src/main.o: src/main.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/main.o src/main.cpp
 
+${OBJECTDIR}/util/status.o: util/status.cpp 
+	${MKDIR} -p ${OBJECTDIR}/util
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/util/status.o util/status.cpp
+
 # Subprojects
 .build-subprojects:
 
@@ -142,6 +149,10 @@ ${TESTDIR}/TestFiles/f5: ${TESTDIR}/tests/json/util_test.o ${OBJECTFILES:%.o=%_n
 ${TESTDIR}/TestFiles/f4: ${TESTDIR}/tests/json/vector_value_test.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc}   -o ${TESTDIR}/TestFiles/f4 $^ ${LDLIBSOPTIONS} `cppunit-config --libs`   
+
+${TESTDIR}/TestFiles/f7: ${TESTDIR}/tests/status_test.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc}   -o ${TESTDIR}/TestFiles/f7 $^ ${LDLIBSOPTIONS} `cppunit-config --libs`   
 
 
 ${TESTDIR}/tests/element_test.o: tests/element_test.cpp 
@@ -178,6 +189,12 @@ ${TESTDIR}/tests/json/vector_value_test.o: tests/json/vector_value_test.cpp
 	${MKDIR} -p ${TESTDIR}/tests/json
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -I. `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/json/vector_value_test.o tests/json/vector_value_test.cpp
+
+
+${TESTDIR}/tests/status_test.o: tests/status_test.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I. `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/status_test.o tests/status_test.cpp
 
 
 ${OBJECTDIR}/src/element_nomain.o: ${OBJECTDIR}/src/element.o src/element.cpp 
@@ -271,6 +288,19 @@ ${OBJECTDIR}/src/main_nomain.o: ${OBJECTDIR}/src/main.o src/main.cpp
 	    ${CP} ${OBJECTDIR}/src/main.o ${OBJECTDIR}/src/main_nomain.o;\
 	fi
 
+${OBJECTDIR}/util/status_nomain.o: ${OBJECTDIR}/util/status.o util/status.cpp 
+	${MKDIR} -p ${OBJECTDIR}/util
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/util/status.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/util/status_nomain.o util/status.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/util/status.o ${OBJECTDIR}/util/status_nomain.o;\
+	fi
+
 # Run Test Targets
 .test-conf:
 	@if [ "${TEST}" = "" ]; \
@@ -281,6 +311,7 @@ ${OBJECTDIR}/src/main_nomain.o: ${OBJECTDIR}/src/main.o src/main.cpp
 	    ${TESTDIR}/TestFiles/f6 || true; \
 	    ${TESTDIR}/TestFiles/f5 || true; \
 	    ${TESTDIR}/TestFiles/f4 || true; \
+	    ${TESTDIR}/TestFiles/f7 || true; \
 	else  \
 	    ./${TEST} || true; \
 	fi

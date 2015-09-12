@@ -8,6 +8,7 @@
       <itemPath>src/json/json.h</itemPath>
       <itemPath>src/json/object_value.h</itemPath>
       <itemPath>src/json/simple_values.h</itemPath>
+      <itemPath>util/status.h</itemPath>
       <itemPath>src/json/util.h</itemPath>
       <itemPath>src/json/vector_value.h</itemPath>
     </logicalFolder>
@@ -23,6 +24,7 @@
       <itemPath>src/main.cpp</itemPath>
       <itemPath>src/json/object_value.cpp</itemPath>
       <itemPath>src/json/simple_values.cpp</itemPath>
+      <itemPath>util/status.cpp</itemPath>
       <itemPath>src/json/util.cpp</itemPath>
       <itemPath>src/json/vector_value.cpp</itemPath>
     </logicalFolder>
@@ -72,6 +74,13 @@
         <itemPath>tests/json/vector_value_test.cpp</itemPath>
         <itemPath>tests/json/vector_value_test.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="f7"
+                     displayName="Status Test"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/status_test.cpp</itemPath>
+        <itemPath>tests/status_test.h</itemPath>
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -102,6 +111,7 @@
             <pElem>.</pElem>
             <pElem>../../CLib/include</pElem>
             <pElem>./src</pElem>
+            <pElem>./util</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
@@ -154,6 +164,11 @@
           <output>${TESTDIR}/TestFiles/f6</output>
         </linkerTool>
       </folder>
+      <folder path="TestFiles/f7">
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f7</output>
+        </linkerTool>
+      </folder>
       <item path="src/element.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/element.h" ex="false" tool="3" flavor2="0">
@@ -203,6 +218,14 @@
       <item path="tests/json/vector_value_test.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/json/vector_value_test.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/status_test.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/status_test.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/status.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/status.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -332,6 +355,20 @@
           </linkerLibItems>
         </linkerTool>
       </folder>
+      <folder path="TestFiles/f7">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f7</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
       <item path="src/element.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/element.h" ex="false" tool="3" flavor2="0">
@@ -381,6 +418,14 @@
       <item path="tests/json/vector_value_test.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/json/vector_value_test.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/status_test.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/status_test.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="util/status.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="util/status.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>
