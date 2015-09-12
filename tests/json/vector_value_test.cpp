@@ -23,17 +23,17 @@ void VectorValueTest::testGet() {
   Value* value = new VectorValue();
   CPPUNIT_ASSERT(value->GetValueType() == kVectorValue);
   Status s = value->GetChild(5, valueptr);
-  CPPUNIT_ASSERT(s == kOk);
+  CPPUNIT_ASSERT(s.IsOk());
   CPPUNIT_ASSERT(*valueptr == NULL);
 
   *valueptr = new IntValue(10);
 
   Value** new_value_pointer;
   s = value->GetChild(5, new_value_pointer);
-  CPPUNIT_ASSERT(s == kOk);
+  CPPUNIT_ASSERT(s.IsOk());
   int32_t output;
   s = (*new_value_pointer)->GetIntValue(&output);
-  CPPUNIT_ASSERT(s == kOk);
+  CPPUNIT_ASSERT(s.IsOk());
   CPPUNIT_ASSERT(output == 10);
   delete value;
 }
@@ -43,7 +43,7 @@ void VectorValueTest::testLoadFrom() {
   ss.str("[5,8]");
   Value* value = new VectorValue();
   Status s = value->LoadFromStream(ss);
-  CPPUNIT_ASSERT(s == kOk);
+  CPPUNIT_ASSERT(s.IsOk());
 
   std::stringstream os;
   ss >> os.rdbuf();
@@ -53,14 +53,14 @@ void VectorValueTest::testLoadFrom() {
 
   int int_value;
   s = value->GetChild(0, output);
-  CPPUNIT_ASSERT(s == kOk);
+  CPPUNIT_ASSERT(s.IsOk());
   s = (*output)->GetIntValue(&int_value);
-  CPPUNIT_ASSERT(s == kOk);
+  CPPUNIT_ASSERT(s.IsOk());
   CPPUNIT_ASSERT(int_value == 5);
   s = value->GetChild(1, output);
-  CPPUNIT_ASSERT(s == kOk);
+  CPPUNIT_ASSERT(s.IsOk());
   s = (*output)->GetIntValue(&int_value);
-  CPPUNIT_ASSERT(s == kOk);
+  CPPUNIT_ASSERT(s.IsOk());
   CPPUNIT_ASSERT(int_value == 8);
   delete value;
 }
@@ -71,7 +71,7 @@ void VectorValueTest::testSave() {
   input_stream.str(test_str);
   Value* value = new VectorValue();
   Status s = value->LoadFromStream(input_stream);
-  CPPUNIT_ASSERT(s == kOk);
+  CPPUNIT_ASSERT(s.IsOk());
 
   std::stringstream output_stream;
   value->SaveToStream(&output_stream);

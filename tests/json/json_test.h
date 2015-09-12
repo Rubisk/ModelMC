@@ -15,7 +15,7 @@ class TestValue : public json::Value {
   void SaveToStream(std::ostream* output) {
   }
 
-  json::Status LoadFromStream(std::istream &stream) {
+  Status LoadFromStream(std::istream &stream) {
   }
 };
 

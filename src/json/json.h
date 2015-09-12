@@ -4,17 +4,12 @@
 #include <stdexcept>
 #include <iostream>
 
+#include "status.h"
+
 namespace json {
 
 enum ValueType {
   kObjectValue, kVectorValue, kIntValue, kStringValue, kBoolValue
-};
-
-enum Status {
-  kOk,
-  kParseError,
-  kValueError,
-  kUnkwownError,
 };
 
 class Value {

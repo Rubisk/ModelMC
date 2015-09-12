@@ -33,36 +33,39 @@ void VectorValue::SaveToStream(std::ostream* output) {
 }
 
 Status VectorValue::GetChild(const size_t& index, Value** &valueptr) {
+  Status s;
   while (index >= vector_->size()) {
     vector_->push_back(NULL);
   }
   valueptr = &(*vector_)[index];
-  return kOk;
+  return s;
 }
 
 Status VectorValue::LoadFromStream(std::istream &stream) {
   char next_char;
   stream >> std::skipws >> next_char >> std::noskipws;
   if (next_char != '[') {
-    return kParseError;
+    return Status(kJsonError,
+            "Parsing Error: Expected '[', found '" + next_char);
   }
 
   while (true) {
     Status s = LoadAndSaveValue_(stream);
-    if (s != kOk) {
+    if (!s.IsOk()) {
       return s;
     }
     stream >> std::skipws >> next_char >> std::noskipws;
     if (!stream.good()) {
-      return kUnkwownError;
+      return Status(kJsonError, "Parsing Error: Stream corrupted.");
     }
     switch (next_char) {
       case (','):
         continue;
       case (']'):
-        return kOk;
+        return s;
       default:
-        return kParseError;
+        return Status(kJsonError,
+                "Parsing Error: Expected ']' or ',', found '" + next_char);
     }
   }
 }
@@ -77,11 +80,11 @@ VectorValue::~VectorValue() {
 Status VectorValue::LoadAndSaveValue_(std::istream& stream) {
   Value* value;
   Status s = LoadValue(stream, &value);
-  if (s != kOk) {
+  if (!s.IsOk()) {
     return s;
   }
   vector_->push_back(value);
-  return kOk;
+  return s;
 }
 
 } // namespace json

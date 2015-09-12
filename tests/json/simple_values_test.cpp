@@ -25,7 +25,7 @@ void SimpleValuesTest::testAs_bool() {
   Value* value = new BoolValue(true);
   CPPUNIT_ASSERT(value->GetValueType() == kBoolValue);
   Status s = value->GetBoolValue(&output);
-  CPPUNIT_ASSERT(s == kOk);
+  CPPUNIT_ASSERT(s.IsOk());
   CPPUNIT_ASSERT(output = true);
   delete value;
 }
@@ -35,7 +35,7 @@ void SimpleValuesTest::testLoadFromBool() {
   ss.str("true||}}|}|<><><><");
   Value* value = new BoolValue();
   Status s = value->LoadFromStream(ss);
-  CPPUNIT_ASSERT(s == kOk);
+  CPPUNIT_ASSERT(s.IsOk());
 
   std::stringstream os;
   ss >> os.rdbuf();
@@ -43,7 +43,7 @@ void SimpleValuesTest::testLoadFromBool() {
 
   bool output;
   s = value->GetBoolValue(&output);
-  CPPUNIT_ASSERT(s == kOk);
+  CPPUNIT_ASSERT(s.IsOk());
   CPPUNIT_ASSERT(output);
 
   delete value;
@@ -65,7 +65,7 @@ void SimpleValuesTest::testAs_string() {
   Value* value = new StringValue("some_string");
   CPPUNIT_ASSERT(value->GetValueType() == kStringValue);
   Status s = value->GetStringValue(&output);
-  CPPUNIT_ASSERT(s == kOk);
+  CPPUNIT_ASSERT(s.IsOk());
   CPPUNIT_ASSERT(output == "some_string");
   delete value;
 }
@@ -75,7 +75,7 @@ void SimpleValuesTest::testLoadFromString() {
   ss.str("\"some_string\"||}}|}|<><><><");
   Value* value = new StringValue();
   Status s = value->LoadFromStream(ss);
-  CPPUNIT_ASSERT(s == kOk);
+  CPPUNIT_ASSERT(s.IsOk());
 
   std::stringstream os;
   ss >> os.rdbuf();
@@ -83,7 +83,7 @@ void SimpleValuesTest::testLoadFromString() {
 
   std::string output;
   s = value->GetStringValue(&output);
-  CPPUNIT_ASSERT(s == kOk);
+  CPPUNIT_ASSERT(s.IsOk());
   CPPUNIT_ASSERT(output == "some_string");
 
   delete value;
@@ -102,7 +102,7 @@ void SimpleValuesTest::testAs_int() {
   Value* value = new IntValue(5);
   CPPUNIT_ASSERT(value->GetValueType() == kIntValue);
   Status s = value->GetIntValue(&output);
-  CPPUNIT_ASSERT(s == kOk);
+  CPPUNIT_ASSERT(s.IsOk());
   CPPUNIT_ASSERT(output == 5);
   delete value;
 }
@@ -112,7 +112,7 @@ void SimpleValuesTest::testLoadFromInt() {
   ss.str("52||}}|}|<><><><");
   Value* value = new IntValue();
   Status s = value->LoadFromStream(ss);
-  CPPUNIT_ASSERT(s == kOk);
+  CPPUNIT_ASSERT(s.IsOk());
 
   std::stringstream os;
   ss >> os.rdbuf();
@@ -120,7 +120,7 @@ void SimpleValuesTest::testLoadFromInt() {
 
   int32_t output;
   s = value->GetIntValue(&output);
-  CPPUNIT_ASSERT(s == kOk);
+  CPPUNIT_ASSERT(s.IsOk());
   CPPUNIT_ASSERT(output == 52);
 
   delete value;

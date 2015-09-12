@@ -17,13 +17,15 @@ IntValue::IntValue(const int32_t &value) {
 }
 
 Status IntValue::operator=(const int32_t &value) {
+  Status s;
   value_ = value;
-  return kOk;
+  return s;
 }
 
 Status IntValue::GetIntValue(int32_t* output) {
+  Status s;
   *output = value_;
-  return kOk;
+  return s;
 }
 
 void IntValue::SaveToStream(std::ostream* stream) {
@@ -31,11 +33,12 @@ void IntValue::SaveToStream(std::ostream* stream) {
 }
 
 Status IntValue::LoadFromStream(std::istream &stream) {
+  Status s;
   stream >> std::skipws >> value_ >> std::noskipws;
   if (!stream.good()) {
-    return kUnkwownError;
+    return Status(kJsonError, "Parsing Error: Stream corrupted.");
   }
-  return kOk;
+  return s;
 }
 
 ValueType StringValue::GetValueType() {
@@ -47,8 +50,9 @@ StringValue::StringValue(const std::string &value) {
 }
 
 Status StringValue::operator=(const std::string &value) {
+  Status s;
   value_ = value;
-  return kOk;
+  return s;
 }
 
 void StringValue::SaveToStream(std::ostream* stream) {
@@ -56,18 +60,19 @@ void StringValue::SaveToStream(std::ostream* stream) {
 }
 
 Status StringValue::GetStringValue(std::string* output) {
+  Status s;
   *output = value_;
-  return kOk;
+  return s;
 }
 
 Status StringValue::LoadFromStream(std::istream &stream) {
   std::string value;
   Status s = LoadName(stream, &value);
-  if (s != kOk) {
+  if (!s.IsOk()) {
     return s;
   }
   value_ = value;
-  return kOk;
+  return s;
 }
 
 ValueType BoolValue::GetValueType() {
@@ -79,13 +84,15 @@ BoolValue::BoolValue(const bool &value) {
 }
 
 Status BoolValue::operator=(const bool &value) {
+  Status s;
   value_ = value;
-  return kOk;
+  return s;
 }
 
 Status BoolValue::GetBoolValue(bool* output) {
+  Status s;
   *output = value_;
-  return kOk;
+  return s;
 }
 
 void BoolValue::SaveToStream(std::ostream* output) {
@@ -93,41 +100,45 @@ void BoolValue::SaveToStream(std::ostream* output) {
 }
 
 Status BoolValue::LoadFromStream(std::istream &stream) {
+  Status s;
   char next_char;
   stream >> std::skipws >> next_char >> std::noskipws;
   if (!stream.good()) {
-    return kUnkwownError;
+    return Status(kJsonError, "Parsing Error: Stream corrupted.");
   }
   if (next_char == 'f') {
     for (char c : "alse") {
       stream >> next_char;
       if (!stream.good()) {
-        return kUnkwownError;
+        return Status(kJsonError, "Parsing Error: Stream corrupted.");
       }
       if (next_char != c) {
-        return kParseError;
+        return Status(kJsonError,
+                "Unexpected char while loading bool: " + next_char);
       }
       if (c == 'e') {
         value_ = false;
-        return kOk;
+        return s;
       }
     }
   } else if (next_char == 't') {
     for (char c : "rue") {
       stream >> next_char;
       if (!stream.good()) {
-        return kUnkwownError;
+        return Status(kJsonError, "Parsing Error: Stream corrupted.");
       }
       if (next_char != c) {
-        return kParseError;
+        return Status(kJsonError,
+                "Unexpected char while loading bool: " + next_char);
       }
       if (c == 'e') {
         value_ = true;
-        return kOk;
+        return s;
       };
     }
   }
-  return kParseError;
+  return Status(kJsonError,
+          "Unexpected char while loading bool: " + next_char);
 }
 
 } // namespace json

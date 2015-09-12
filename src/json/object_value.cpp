@@ -20,8 +20,9 @@ ObjectValue::ObjectValue(ValueMap* values) {
 }
 
 Status ObjectValue::GetChild(const std::string &key, Value** &valueptr) {
+  Status s;
   valueptr = &(*values_)[key];
-  return kOk;
+  return s;
 }
 
 void ObjectValue::SaveToStream(std::ostream* output) {
@@ -44,25 +45,27 @@ Status ObjectValue::LoadFromStream(std::istream &stream) {
   char next_char;
   stream >> std::skipws >> next_char >> std::noskipws;
   if (next_char != '{') {
-    return kParseError;
+    return Status(kJsonError,
+            "Parsing Error: Expected '{', found '" + next_char);
   }
 
   while (true) {
     Status s = LoadAndSaveValue_(stream);
-    if (s != kOk) {
+    if (!s.IsOk()) {
       return s;
     }
     stream >> std::skipws >> next_char >> std::noskipws;
     if (!stream.good()) {
-      return kUnkwownError;
+      return Status(kJsonError, "Parsing Error: Stream corrupted.");
     }
     switch (next_char) {
       case (','):
         continue;
       case ('}'):
-        return kOk;
+        return Status();
       default:
-        return kParseError;
+        return Status(kJsonError,
+              "Parsing Error: Expected '}' or ',', found '" + next_char);
     }
   }
 }
@@ -77,29 +80,30 @@ ObjectValue::~ObjectValue() {
 Status ObjectValue::LoadAndSaveValue_(std::istream& stream) {
   std::string name;
   Status s = LoadName(stream, &name);
-  if (s != kOk) {
+  if (!s.IsOk()) {
     return s;
   }
 
   char next_char;
   stream >> std::skipws >> next_char >> std::noskipws;
   if (next_char != ':') {
-    return kParseError;
+    return Status(kJsonError,
+            "Parsing Error: Expected ':', found '" + next_char);
   }
 
   Value* value;
   s = LoadValue(stream, &value);
-  if (s != kOk) {
+  if (!s.IsOk()) {
     return s;
   }
 
   Value** to_get;
   s = this->GetChild(name, to_get); //TODO fix this
-  if (s != kOk) {
+  if (!s.IsOk()) {
     return s;
   }
   *to_get = value;
-  return kOk;
+  return s;
 }
 
 } // namespace json

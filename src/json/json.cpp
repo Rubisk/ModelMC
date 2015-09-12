@@ -8,35 +8,35 @@
 namespace json {
 
 Status Value::GetIntValue(int32_t* output) {
-  return kValueError;
+  return Status(kJsonError, "Value has no 'int' attribute.");
 }
 
 Status Value::GetBoolValue(bool* output) {
-  return kValueError;
+  return Status(kJsonError, "Value has no 'bool' attribute.");
 }
 
 Status Value::GetStringValue(std::string* output) {
-  return kValueError;
+  return Status(kJsonError, "Value has no 'string' attribute.");
 }
 
 Status Value::GetChild(const std::string &key, Value** &valueptr) {
-  return kValueError;
+  return Status(kJsonError, "Value can't lookup by string.");
 }
 
 Status Value::GetChild(const size_t &index, Value** &valueptr) {
-  return kValueError;
+  return Status(kJsonError, "Value can't lookup by int.");
 }
 
 Status Value::operator=(const std::string &value) {
-  return kValueError;
+  return Status(kJsonError, "Value can't assign a string.");
 }
 
 Status Value::operator=(const int32_t &value) {
-  return kValueError;
+  return Status(kJsonError, "Value can't assign an int.");
 }
 
 Status Value::operator=(const bool &value) {
-  return kValueError;
+  return Status(kJsonError, "Value can't assign a bool.");
 }
 
 Status LoadFromFile(const std::string &file, Value* &valueptr) {
@@ -45,7 +45,7 @@ Status LoadFromFile(const std::string &file, Value* &valueptr) {
 
   Value* result;
   Status s = LoadValue(stream, &result);
-  if (s == kOk) {
+  if (s.IsOk()) {
     valueptr = result;
   }
 

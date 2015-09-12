@@ -11,34 +11,35 @@
 namespace json {
 
 Status FindType(std::istream &stream, ValueType* output) {
+  Status s;
   char a;
   auto old_pos = stream.tellg();
   stream >> std::skipws >> a >> std::noskipws;
   stream.seekg(old_pos);
   if (!stream.good()) {
-    return kUnkwownError;
+    return Status(kJsonError, "Parsing Error: Stream corrupted.");
   }
 
   if (a == '\"') {
     *output = kStringValue;
-    return kOk;
+    return s;
   } else if (a == '{') {
     *output = kObjectValue;
-    return kOk;
+    return s;
   } else if (a == '[') {
     *output = kVectorValue;
-    return kOk;
+    return s;
   } else if (a == 't' || a == 'f') {
     *output = kBoolValue;
-    return kOk;
+    return s;
   } else {
     for (char c : "0123456789") {
       if (c == a) {
         *output = kIntValue;
-        return kOk;
+        return s;
       }
     }
-    return kParseError;
+    return Status(kJsonError, "Parsing Error: Value started with: '" + a);
   }
 }
 
@@ -47,31 +48,31 @@ Status LoadName(std::istream &stream, std::string* output) {
   stream >> std::skipws >> a >> std::noskipws;
 
   if (!stream.good()) {
-    return kUnkwownError;
+    return Status(kJsonError, "Parsing Error: Stream corrupted.");
   } else if (a != '"') {
-    return kParseError;
+    return Status(kJsonError, "Parsing Error: String didn't start with '\"'.");
   }
 
   std::string name = "";
   while (stream >> a && a != '"') {
     name += a;
     if (name.size() > 1000) {
-      return kParseError;
+      return Status(kJsonError, "Parsing Error: Name longer then 1000 chars.");
     }
   }
 
   if (!stream.good()) {
-    return kUnkwownError;
+    return Status(kJsonError, "Parsing Error: Stream corrupted.");
   }
   *output = name;
-  return kOk;
+  return Status();
 }
 
 Status LoadValue(std::istream &stream, Value** valueptr) {
   ValueType type;
   Value* value;
   Status s = FindType(stream, &type);
-  if (s != kOk) {
+  if (!s.IsOk()) {
     return s;
   }
 
@@ -93,7 +94,7 @@ Status LoadValue(std::istream &stream, Value** valueptr) {
   }
   s = value->LoadFromStream(stream);
 
-  if (s != kOk) {
+  if (!s.IsOk()) {
     return s;
   }
   *valueptr = value;
