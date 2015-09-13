@@ -4,21 +4,13 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ElementTest);
 
-ElementTest::ElementTest() {
+ElementTest::ElementTest() { }
 
-}
+ElementTest::~ElementTest() { }
 
-ElementTest::~ElementTest() {
+void ElementTest::setUp() { }
 
-}
-
-void ElementTest::setUp() {
-
-}
-
-void ElementTest::tearDown() {
-
-}
+void ElementTest::tearDown() { }
 
 void ElementTest::testLoadElement() {
   //  json::Value* element = json::load("./tests/testfiles/test_element.json");
@@ -30,15 +22,9 @@ void ElementTest::testLoadElement() {
   //  delete result;
 }
 
-void ElementTest::testLoadElement2() {
+void ElementTest::testLoadElement2() { }
 
-}
+void ElementTest::testSaveElement() { }
 
-void ElementTest::testSaveElement() {
-
-}
-
-void ElementTest::testSaveElement2() {
-
-}
+void ElementTest::testSaveElement2() { }
 

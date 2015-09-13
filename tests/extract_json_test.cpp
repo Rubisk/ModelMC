@@ -59,3 +59,16 @@ void ExtractJsonTest::TestFindValueForPath() {
   delete value;
 }
 
+void ExtractJsonTest::TestFindValueForInvalidPath() {
+  Status s;
+  Value** output;
+
+  std::string invalid_key = "Can't find me, hah!";
+  std::vector<void*> path = {&invalid_key};
+  Value* value = new ObjectValue();
+  s = FindValueForPath(value, path, *output);
+  CPPUNIT_ASSERT(!s.IsOk());
+  CPPUNIT_ASSERT(s.GetError() == kIOException);
+  CPPUNIT_ASSERT(*s.GetErrorMessage() == "Invalid key: " + invalid_key);
+  delete *output;
+}

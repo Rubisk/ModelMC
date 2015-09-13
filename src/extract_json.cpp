@@ -15,9 +15,12 @@ Status FindValueForPath(Value* root_tag, std::vector<void*> path, Value* &output
         s = root_tag->GetChild(*i_key, result);
         if (!s.IsOk()) {
           return s;
+        } else if (*result == NULL) {
+          return Status(kIOException, "Invalid key: " + *i_key);
+        } else {
+          root_tag = *result;
+          continue;
         }
-        root_tag = *result;
-        continue;
       }
       case kObjectValue:
       {
@@ -26,9 +29,12 @@ Status FindValueForPath(Value* root_tag, std::vector<void*> path, Value* &output
         s = root_tag->GetChild(*s_key, result);
         if (!s.IsOk()) {
           return s;
+        } else if (*result == NULL) {
+          return Status(kIOException, "Invalid key: " + *s_key);
+        } else {
+          root_tag = *result;
+          continue;
         }
-        root_tag = *result;
-        continue;
       }
       default:
       {

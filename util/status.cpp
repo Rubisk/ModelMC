@@ -4,7 +4,8 @@ namespace { // anonymous namespace
 
 const char* ErrorStrings[] = {
   "",
-  "Json Exception: "
+  "Json Exception: ",
+  "IOException: "
 };
 
 } // anonymous namespace

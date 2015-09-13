@@ -6,6 +6,7 @@
 enum ErrorState {
   kGood,
   kJsonError,
+  kIOException,
 };
 
 class Status {
