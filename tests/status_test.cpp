@@ -27,7 +27,7 @@ void StatusTest::testError() {
 void StatusTest::testGood() {
   Status s = ReturnGoodStatus_();
   CPPUNIT_ASSERT(s.IsOk());
-  CPPUNIT_ASSERT(s.GetError() == kOk);
+  CPPUNIT_ASSERT(s.GetError() == kGood);
   CPPUNIT_ASSERT(*s.GetErrorMessage() == "");
 
   std::stringstream ss;
@@ -36,7 +36,7 @@ void StatusTest::testGood() {
 }
 
 Status StatusTest::ReturnGoodStatus_() {
-  return Status(kOk);
+  return Status(kGood);
 }
 
 Status StatusTest::ReturnJsonException_() {
