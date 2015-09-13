@@ -44,7 +44,7 @@ Status LoadFromFile(const std::string &file, Value* &valueptr) {
   stream.open(file, std::ios::binary);
 
   Value* result;
-  Status s = LoadValue(stream, &result);
+  Status s = LoadValue(stream, result);
   if (s.IsOk()) {
     valueptr = result;
   }

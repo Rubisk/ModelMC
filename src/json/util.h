@@ -11,7 +11,7 @@ Status FindType(std::istream &stream, ValueType* output);
 
 Status LoadName(std::istream &stream, std::string* output);
 
-Status LoadValue(std::istream &stream, Value** valueptr);
+Status LoadValue(std::istream &stream, Value* &valueptr);
 
 } //namespace json
 

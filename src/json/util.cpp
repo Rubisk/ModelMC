@@ -73,7 +73,7 @@ Status LoadName(std::istream &stream, std::string* output) {
   return Status();
 }
 
-Status LoadValue(std::istream &stream, Value** valueptr) {
+Status LoadValue(std::istream &stream, Value* &valueptr) {
   ValueType type;
   Value* value;
   Status s = FindType(stream, &type);
@@ -102,8 +102,7 @@ Status LoadValue(std::istream &stream, Value** valueptr) {
   if (!s.IsOk()) {
     return s;
   }
-  *valueptr = value;
-  return s;
+  valueptr = value;
 }
 
 } // namespace json

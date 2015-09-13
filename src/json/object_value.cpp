@@ -92,7 +92,7 @@ Status ObjectValue::LoadAndSaveValue_(std::istream& stream) {
   }
 
   Value* value;
-  s = LoadValue(stream, &value);
+  s = LoadValue(stream, value);
   if (!s.IsOk()) {
     return s;
   }

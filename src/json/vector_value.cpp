@@ -79,7 +79,7 @@ VectorValue::~VectorValue() {
 
 Status VectorValue::LoadAndSaveValue_(std::istream& stream) {
   Value* value;
-  Status s = LoadValue(stream, &value);
+  Status s = LoadValue(stream, value);
   if (!s.IsOk()) {
     return s;
   }

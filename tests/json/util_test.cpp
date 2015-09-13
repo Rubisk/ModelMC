@@ -62,7 +62,7 @@ void UtilTest::TestLoadValue() {
   std::stringstream ss;
   Status s;
   ss.str("\"my_name\"");
-  s = LoadValue(ss, &output);
+  s = LoadValue(ss, output);
   CPPUNIT_ASSERT(s.IsOk());
   std::string value_of;
   s = output->GetStringValue(&value_of);
