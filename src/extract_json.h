@@ -12,5 +12,12 @@
 Status FindValueForPath(json::Value* root_tag, std::vector<void*> path,
         json::Value* &output_tag);
 
+//Loads an int[] from a Value tag.
+//Name should be the key to find the array at. Size is the size of the array.
+//The values will be written to output. Make sure output is big enough
+//to store (size) elements, otherwise a SIGSEGV will be send out.
+Status LoadIntArray(json::Value* tag, std::string name,
+        size_t size, int32_t* output);
+
 #endif	// EXTRACT_JSON_H
 

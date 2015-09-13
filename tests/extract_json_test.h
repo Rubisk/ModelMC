@@ -7,6 +7,8 @@ class ExtractJsonTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST_SUITE(ExtractJsonTest);
 
   CPPUNIT_TEST(TestFindValueForPath);
+  CPPUNIT_TEST(TestFindValueForInvalidPath);
+  CPPUNIT_TEST(TestLoadIntArray);
 
   CPPUNIT_TEST_SUITE_END();
 
@@ -18,6 +20,8 @@ public:
 
 private:
   void TestFindValueForPath();
+  void TestFindValueForInvalidPath();
+  void TestLoadIntArray();
 
 };
 

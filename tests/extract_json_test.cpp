@@ -54,3 +54,19 @@ void ExtractJsonTest::TestFindValueForInvalidPath() {
   CPPUNIT_ASSERT(*s.GetErrorMessage() == "Invalid key: " + invalid_key);
   delete value;
 }
+
+void ExtractJsonTest::TestLoadIntArray() {
+  Status s;
+  Value** output;
+  int32_t output_array[7];
+  const std::string sample =
+          "{\"int_array_key\":[1,2,3,4,5,6,7]}";
+  std::stringstream ss;
+  ss.str(sample);
+  s = json::LoadValue(ss, output);
+  Value* value = *output;
+
+  s = LoadIntArray(value, "int_array_key", 7, output_array);
+  CPPUNIT_ASSERT(s.IsOk());
+  CPPUNIT_ASSERT(output_array[6] = 7);
+}

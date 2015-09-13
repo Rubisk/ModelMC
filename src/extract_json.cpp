@@ -45,3 +45,28 @@ Status FindValueForPath(Value* root_tag, std::vector<void*> path, Value* &output
   output_tag = root_tag;
   return s;
 }
+
+Status LoadIntArray(Value* tag, std::string name, size_t size, int32_t* output) {
+  Value** output_tag;
+  int32_t output_int;
+  Status s;
+
+  s = tag->GetChild(name, output_tag);
+  if (!s.IsOk()) {
+    return s;
+  }
+
+  for (int i = 0; i < size; ++i) {
+    Value** int_tag;
+    ++output;
+    (*output_tag)->GetChild(i, int_tag);
+    if (!s.IsOk()) {
+      return s;
+    }
+    s = (*int_tag)->GetIntValue(&output_int);
+    if (!s.IsOk()) {
+      return s;
+    }
+    *(output) = output_int;
+  }
+}
