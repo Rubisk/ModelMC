@@ -26,8 +26,8 @@ void ExtractJsonTest::TestFindValueForPath() {
           "[0,1,2,3,4,{\"final_key\":\"Find me please!\"}]}}]}";
   std::stringstream ss;
   ss.str(sample);
-  s = json::LoadValue(ss, output);
-  Value* value = *output;
+  Value* value;
+  s = json::LoadValue(ss, value);
 
   std::string s_keys[] = {"first_key", "third_key", "fourth_key", "final_key"};
   int i_keys[] = {1, 5};
@@ -57,14 +57,13 @@ void ExtractJsonTest::TestFindValueForInvalidPath() {
 
 void ExtractJsonTest::TestLoadIntArray() {
   Status s;
-  Value** output;
   int32_t output_array[7];
   const std::string sample =
           "{\"int_array_key\":[1,2,3,4,5,6,7]}";
   std::stringstream ss;
   ss.str(sample);
-  s = json::LoadValue(ss, output);
-  Value* value = *output;
+  Value* value;
+  s = json::LoadValue(ss, value);
 
   s = LoadIntArray(value, "int_array_key", 7, output_array);
   CPPUNIT_ASSERT(s.IsOk());

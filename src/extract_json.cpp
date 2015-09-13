@@ -48,7 +48,7 @@ Status FindValueForPath(Value* root_tag, std::vector<void*> path, Value* &output
 
 Status LoadIntArray(Value* tag, std::string name, size_t size, int32_t* output) {
   Value** output_tag;
-  int32_t output_int;
+  int32_t output_int[size];
   Status s;
 
   s = tag->GetChild(name, output_tag);
@@ -58,15 +58,17 @@ Status LoadIntArray(Value* tag, std::string name, size_t size, int32_t* output) 
 
   for (int i = 0; i < size; ++i) {
     Value** int_tag;
-    ++output;
     (*output_tag)->GetChild(i, int_tag);
     if (!s.IsOk()) {
       return s;
     }
-    s = (*int_tag)->GetIntValue(&output_int);
+    s = (*int_tag)->GetIntValue(&output_int[i]);
     if (!s.IsOk()) {
       return s;
     }
-    *(output) = output_int;
+  }
+  for (int i = 0; i < size; ++i) {
+    *output = output_int[i];
+    ++output;
   }
 }
