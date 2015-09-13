@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/src/element.o \
+	${OBJECTDIR}/src/extract_json.o \
 	${OBJECTDIR}/src/json/json.o \
 	${OBJECTDIR}/src/json/object_value.o \
 	${OBJECTDIR}/src/json/simple_values.o \
@@ -50,6 +51,7 @@ TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
 # Test Files
 TESTFILES= \
 	${TESTDIR}/TestFiles/f2 \
+	${TESTDIR}/TestFiles/f8 \
 	${TESTDIR}/TestFiles/f1 \
 	${TESTDIR}/TestFiles/f3 \
 	${TESTDIR}/TestFiles/f6 \
@@ -85,6 +87,11 @@ ${OBJECTDIR}/src/element.o: src/element.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/element.o src/element.cpp
+
+${OBJECTDIR}/src/extract_json.o: src/extract_json.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/extract_json.o src/extract_json.cpp
 
 ${OBJECTDIR}/src/json/json.o: src/json/json.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/json
@@ -133,6 +140,14 @@ ${TESTDIR}/TestFiles/f2: .\util\runner.cpp
 ${TESTDIR}/TestFiles/f2: ${TESTDIR}/tests/element_test.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -IE:\Clib\include  -o ${TESTDIR}/TestFiles/f2 $^ ${LDLIBSOPTIONS} -L/E\CLib\raw\cppunit-1.13.2\src\cppunit\.libs -lcppunit-1-13-0 
+
+${TESTDIR}/TestFiles/f8: E:\CLib\raw\nvwa\debug_new.cpp
+
+${TESTDIR}/TestFiles/f8: .\util\runner.cpp
+
+${TESTDIR}/TestFiles/f8: ${TESTDIR}/tests/extract_json_test.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc} -IE:\Clib\include  -o ${TESTDIR}/TestFiles/f8 $^ ${LDLIBSOPTIONS} -L/E\CLib\raw\cppunit-1.13.2\src\cppunit\.libs -lcppunit-1-13-0 
 
 ${TESTDIR}/TestFiles/f1: E:\CLib\raw\nvwa\debug_new.cpp
 
@@ -189,6 +204,12 @@ ${TESTDIR}/tests/element_test.o: tests/element_test.cpp
 	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/element_test.o tests/element_test.cpp
 
 
+${TESTDIR}/tests/extract_json_test.o: tests/extract_json_test.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/extract_json_test.o tests/extract_json_test.cpp
+
+
 ${TESTDIR}/tests/json/object_values_test.o: tests/json/object_values_test.cpp 
 	${MKDIR} -p ${TESTDIR}/tests/json
 	${RM} "$@.d"
@@ -236,6 +257,19 @@ ${OBJECTDIR}/src/element_nomain.o: ${OBJECTDIR}/src/element.o src/element.cpp
 	    $(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/element_nomain.o src/element.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/src/element.o ${OBJECTDIR}/src/element_nomain.o;\
+	fi
+
+${OBJECTDIR}/src/extract_json_nomain.o: ${OBJECTDIR}/src/extract_json.o src/extract_json.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/src/extract_json.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -s -I. -I../../CLib/include -I./src -I./util -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/extract_json_nomain.o src/extract_json.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/src/extract_json.o ${OBJECTDIR}/src/extract_json_nomain.o;\
 	fi
 
 ${OBJECTDIR}/src/json/json_nomain.o: ${OBJECTDIR}/src/json/json.o src/json/json.cpp 
@@ -334,6 +368,7 @@ ${OBJECTDIR}/util/status_nomain.o: ${OBJECTDIR}/util/status.o util/status.cpp
 	@if [ "${TEST}" = "" ]; \
 	then  \
 	    ${TESTDIR}/TestFiles/f2 || true; \
+	    ${TESTDIR}/TestFiles/f8 || true; \
 	    ${TESTDIR}/TestFiles/f1 || true; \
 	    ${TESTDIR}/TestFiles/f3 || true; \
 	    ${TESTDIR}/TestFiles/f6 || true; \

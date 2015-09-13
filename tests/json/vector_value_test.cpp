@@ -6,17 +6,13 @@ using namespace json;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(VectorValueTest);
 
-VectorValueTest::VectorValueTest() {
-}
+VectorValueTest::VectorValueTest() { }
 
-VectorValueTest::~VectorValueTest() {
-}
+VectorValueTest::~VectorValueTest() { }
 
-void VectorValueTest::setUp() {
-}
+void VectorValueTest::setUp() { }
 
-void VectorValueTest::tearDown() {
-}
+void VectorValueTest::tearDown() { }
 
 void VectorValueTest::testGet() {
   Value** valueptr;

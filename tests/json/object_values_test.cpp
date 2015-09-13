@@ -6,17 +6,13 @@ using namespace json;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ObjectValueTest);
 
-ObjectValueTest::ObjectValueTest() {
-}
+ObjectValueTest::ObjectValueTest() { }
 
-ObjectValueTest::~ObjectValueTest() {
-}
+ObjectValueTest::~ObjectValueTest() { }
 
-void ObjectValueTest::setUp() {
-}
+void ObjectValueTest::setUp() { }
 
-void ObjectValueTest::tearDown() {
-}
+void ObjectValueTest::tearDown() { }
 
 void ObjectValueTest::testGet() {
   const std::string key = "some_key";

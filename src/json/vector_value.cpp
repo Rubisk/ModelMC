@@ -46,7 +46,7 @@ Status VectorValue::LoadFromStream(std::istream &stream) {
   stream >> std::skipws >> next_char >> std::noskipws;
   if (next_char != '[') {
     return Status(kJsonError,
-            "Parsing Error: Expected '[', found '" + next_char);
+                  "Parsing Error: Expected '[', found '" + next_char);
   }
 
   while (true) {
@@ -59,13 +59,13 @@ Status VectorValue::LoadFromStream(std::istream &stream) {
       return Status(kJsonError, "Parsing Error: Stream corrupted.");
     }
     switch (next_char) {
-      case (','):
-        continue;
-      case (']'):
-        return s;
-      default:
-        return Status(kJsonError,
-                "Parsing Error: Expected ']' or ',', found '" + next_char);
+    case (','):
+      continue;
+    case (']'):
+      return s;
+    default:
+      return Status(kJsonError,
+                    "Parsing Error: Expected ']' or ',', found '" + next_char);
     }
   }
 }

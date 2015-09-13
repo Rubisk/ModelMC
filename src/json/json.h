@@ -79,8 +79,7 @@ public:
   //",\"asdf\":def}"
   virtual Status LoadFromStream(std::istream &stream) = 0;
 
-  virtual ~Value() {
-  };
+  virtual ~Value() { };
 
 };
 

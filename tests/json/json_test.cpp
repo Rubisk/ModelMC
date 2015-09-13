@@ -5,17 +5,13 @@ using namespace json;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(JsonTest);
 
-JsonTest::JsonTest() {
-}
+JsonTest::JsonTest() { }
 
-JsonTest::~JsonTest() {
-}
+JsonTest::~JsonTest() { }
 
-void JsonTest::setUp() {
-}
+void JsonTest::setUp() { }
 
-void JsonTest::tearDown() {
-}
+void JsonTest::tearDown() { }
 
 void JsonTest::testAs_bool() {
   bool output;
@@ -64,8 +60,8 @@ void JsonTest::testSaveFromFile() {
   copy.open("./tests/testfiles/test_output.json");
 
   CPPUNIT_ASSERT(std::equal(std::istreambuf_iterator<char>(original),
-          std::istreambuf_iterator<char>(),
-          std::istreambuf_iterator<char>(copy)));
+                            std::istreambuf_iterator<char>(),
+                            std::istreambuf_iterator<char>(copy)));
 
   original.close();
   copy.close();

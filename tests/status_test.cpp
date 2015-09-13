@@ -5,17 +5,13 @@ std::string kJsonErrorText = "Found semicolon while parsing, expected comma";
 
 CPPUNIT_TEST_SUITE_REGISTRATION(StatusTest);
 
-StatusTest::StatusTest() {
-}
+StatusTest::StatusTest() { }
 
-StatusTest::~StatusTest() {
-}
+StatusTest::~StatusTest() { }
 
-void StatusTest::setUp() {
-}
+void StatusTest::setUp() { }
 
-void StatusTest::tearDown() {
-}
+void StatusTest::tearDown() { }
 
 void StatusTest::testError() {
   Status s = ReturnJsonException_();

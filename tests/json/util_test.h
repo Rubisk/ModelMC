@@ -9,7 +9,6 @@ class UtilTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST(TestFindType);
   CPPUNIT_TEST(TestLoadName);
   CPPUNIT_TEST(TestLoadValue);
-  CPPUNIT_TEST(TestFindValueForPath);
 
   CPPUNIT_TEST_SUITE_END();
 
@@ -23,7 +22,6 @@ private:
   void TestFindType();
   void TestLoadName();
   void TestLoadValue();
-  void TestFindValueForPath();
 };
 
 #endif	// UTILTEST_H

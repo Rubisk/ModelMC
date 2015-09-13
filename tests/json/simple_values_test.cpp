@@ -8,17 +8,13 @@ using namespace json;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(SimpleValuesTest);
 
-SimpleValuesTest::SimpleValuesTest() {
-}
+SimpleValuesTest::SimpleValuesTest() { }
 
-SimpleValuesTest::~SimpleValuesTest() {
-}
+SimpleValuesTest::~SimpleValuesTest() { }
 
-void SimpleValuesTest::setUp() {
-}
+void SimpleValuesTest::setUp() { }
 
-void SimpleValuesTest::tearDown() {
-}
+void SimpleValuesTest::tearDown() { }
 
 void SimpleValuesTest::testAs_bool() {
   bool output;

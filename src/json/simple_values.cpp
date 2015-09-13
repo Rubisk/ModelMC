@@ -114,14 +114,15 @@ Status BoolValue::LoadFromStream(std::istream &stream) {
       }
       if (next_char != c) {
         return Status(kJsonError,
-                "Unexpected char while loading bool: " + next_char);
+                      "Unexpected char while loading bool: " + next_char);
       }
       if (c == 'e') {
         value_ = false;
         return s;
       }
     }
-  } else if (next_char == 't') {
+  }
+  else if (next_char == 't') {
     for (char c : "rue") {
       stream >> next_char;
       if (!stream.good()) {
@@ -129,7 +130,7 @@ Status BoolValue::LoadFromStream(std::istream &stream) {
       }
       if (next_char != c) {
         return Status(kJsonError,
-                "Unexpected char while loading bool: " + next_char);
+                      "Unexpected char while loading bool: " + next_char);
       }
       if (c == 'e') {
         value_ = true;
@@ -138,7 +139,7 @@ Status BoolValue::LoadFromStream(std::istream &stream) {
     }
   }
   return Status(kJsonError,
-          "Unexpected char while loading bool: " + next_char);
+                "Unexpected char while loading bool: " + next_char);
 }
 
 } // namespace json

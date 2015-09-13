@@ -9,14 +9,11 @@
 
 class TestValue : public json::Value {
 
-  json::ValueType GetValueType() {
-  }
+  json::ValueType GetValueType() { }
 
-  void SaveToStream(std::ostream* output) {
-  }
+  void SaveToStream(std::ostream* output) { }
 
-  Status LoadFromStream(std::istream &stream) {
-  }
+  Status LoadFromStream(std::istream &stream) { }
 };
 
 class JsonTest : public CPPUNIT_NS::TestFixture {

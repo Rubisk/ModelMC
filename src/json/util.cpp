@@ -23,16 +23,20 @@ Status FindType(std::istream &stream, ValueType* output) {
   if (a == '\"') {
     *output = kStringValue;
     return s;
-  } else if (a == '{') {
+  }
+  else if (a == '{') {
     *output = kObjectValue;
     return s;
-  } else if (a == '[') {
+  }
+  else if (a == '[') {
     *output = kVectorValue;
     return s;
-  } else if (a == 't' || a == 'f') {
+  }
+  else if (a == 't' || a == 'f') {
     *output = kBoolValue;
     return s;
-  } else {
+  }
+  else {
     for (char c : "0123456789") {
       if (c == a) {
         *output = kIntValue;
@@ -49,7 +53,8 @@ Status LoadName(std::istream &stream, std::string* output) {
 
   if (!stream.good()) {
     return Status(kJsonError, "Parsing Error: Stream corrupted.");
-  } else if (a != '"') {
+  }
+  else if (a != '"') {
     return Status(kJsonError, "Parsing Error: String didn't start with '\"'.");
   }
 
@@ -77,20 +82,20 @@ Status LoadValue(std::istream &stream, Value** valueptr) {
   }
 
   switch (type) {
-    case (kObjectValue):
-      value = new ObjectValue;
-      break;
-    case (kVectorValue):
-      value = new VectorValue;
-      break;
-    case (kIntValue):
-      value = new IntValue;
-      break;
-    case (kStringValue):
-      value = new StringValue;
-      break;
-    case (kBoolValue):
-      value = new BoolValue;
+  case (kObjectValue):
+    value = new ObjectValue;
+    break;
+  case (kVectorValue):
+    value = new VectorValue;
+    break;
+  case (kIntValue):
+    value = new IntValue;
+    break;
+  case (kStringValue):
+    value = new StringValue;
+    break;
+  case (kBoolValue):
+    value = new BoolValue;
   }
   s = value->LoadFromStream(stream);
 
@@ -98,43 +103,6 @@ Status LoadValue(std::istream &stream, Value** valueptr) {
     return s;
   }
   *valueptr = value;
-  return s;
-}
-
-Status FindValueForPath(Value* root_tag, std::vector<void*> path, Value* &output_tag) {
-  Status s;
-
-  for (void* next_key : path) {
-    switch (root_tag->GetValueType()) {
-      case kVectorValue:
-      {
-        int* i_key = (int*) next_key;
-        Value** result;
-        s = root_tag->GetChild(*i_key, result);
-        if (!s.IsOk()) {
-          return s;
-        }
-        root_tag = *result;
-        continue;
-      }
-      case kObjectValue:
-      {
-        std::string* s_key = (std::string*) next_key;
-        Value** result;
-        s = root_tag->GetChild(*s_key, result);
-        if (!s.IsOk()) {
-          return s;
-        }
-        root_tag = *result;
-        continue;
-      }
-      default:
-      {
-        return Status(kJsonError, "Value-type is not-indexable.");
-      }
-    }
-  }
-  output_tag = root_tag;
   return s;
 }
 

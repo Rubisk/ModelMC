@@ -21,7 +21,10 @@
                 </confElem>
             </confList>
             <formatting>
-                <project-formatting-style>false</project-formatting-style>
+                <project-formatting-style>true</project-formatting-style>
+                <c-style>ANSI|ANSI</c-style>
+                <cpp-style>Default_1|C/C++</cpp-style>
+                <header-style>Default_0|C/C++</header-style>
             </formatting>
         </data>
     </configuration>

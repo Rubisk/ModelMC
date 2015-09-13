@@ -8,8 +8,7 @@ namespace json {
 class IntValue : public Value {
 public:
 
-  IntValue() {
-  };
+  IntValue() { };
 
   ValueType GetValueType();
 
@@ -29,8 +28,7 @@ private:
 class StringValue : public Value {
 public:
 
-  StringValue() {
-  };
+  StringValue() { };
 
   ValueType GetValueType();
 
@@ -50,9 +48,8 @@ private:
 class BoolValue : public Value {
 public:
 
-  BoolValue() {
-  };
-  
+  BoolValue() { };
+
   ValueType GetValueType();
 
   BoolValue(const bool &value);
