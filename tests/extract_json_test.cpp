@@ -29,9 +29,8 @@ void ExtractJsonTest::TestFindValueForPath() {
   Value* value;
   s = json::LoadValue(ss, value);
 
-  std::string s_keys[] = {"first_key", "third_key", "fourth_key", "final_key"};
-  int i_keys[] = {1, 5};
-  std::vector<void*> path = {&s_keys[0], &i_keys[0], &s_keys[1], &s_keys[2], &i_keys[1], &s_keys[3]};
+  StringVector path = {"first_key", "1", "third_key",
+    "fourth_key", "5", "final_key"};
   s = FindValueForPath(value, path, *output);
   CPPUNIT_ASSERT(s.IsOk());
   std::string string_output;
@@ -45,13 +44,13 @@ void ExtractJsonTest::TestFindValueForInvalidPath() {
   Status s;
   Value** output;
 
-  std::string invalid_key = "Can't find me, hah!";
-  std::vector<void*> path = {&invalid_key};
+  std::string cant_find = "Can't find me, hah!";
+  StringVector path = {cant_find};
   Value* value = new ObjectValue();
   s = FindValueForPath(value, path, *output);
   CPPUNIT_ASSERT(!s.IsOk());
   CPPUNIT_ASSERT(s.GetError() == kIOException);
-  CPPUNIT_ASSERT(*s.GetErrorMessage() == "Invalid key: " + invalid_key);
+  CPPUNIT_ASSERT(*s.GetErrorMessage() == "Invalid key: " + cant_find);
   delete value;
 }
 

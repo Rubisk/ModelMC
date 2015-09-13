@@ -1,22 +1,23 @@
 #include <vector>
+#include <cstdlib>
 #include "extract_json.h"
 
 using namespace json;
 
-Status FindValueForPath(Value* root_tag, std::vector<void*> path, Value* &output_tag) {
+Status FindValueForPath(Value* root_tag, StringVector path,
+        Value* &output_tag) {
   Status s;
 
-  for (void* next_key : path) {
+  for (std::string key : path) {
     switch (root_tag->GetValueType()) {
       case kVectorValue:
       {
-        int* i_key = (int*) next_key;
         Value** result;
-        s = root_tag->GetChild(*i_key, result);
+        s = root_tag->GetChild(atoi(key.c_str()), result);
         if (!s.IsOk()) {
           return s;
         } else if (*result == NULL) {
-          return Status(kIOException, "Invalid key: " + *i_key);
+          return Status(kIOException, "Invalid key: " + key);
         } else {
           root_tag = *result;
           continue;
@@ -24,13 +25,12 @@ Status FindValueForPath(Value* root_tag, std::vector<void*> path, Value* &output
       }
       case kObjectValue:
       {
-        std::string* s_key = (std::string*) next_key;
         Value** result;
-        s = root_tag->GetChild(*s_key, result);
+        s = root_tag->GetChild(key, result);
         if (!s.IsOk()) {
           return s;
         } else if (*result == NULL) {
-          return Status(kIOException, "Invalid key: " + *s_key);
+          return Status(kIOException, "Invalid key: " + key);
         } else {
           root_tag = *result;
           continue;
@@ -38,7 +38,7 @@ Status FindValueForPath(Value* root_tag, std::vector<void*> path, Value* &output
       }
       default:
       {
-        return Status(kJsonError, "Value-type is not-indexable.");
+        return Status(kIOException, "Path led to unindexable type.");
       }
     }
   }
