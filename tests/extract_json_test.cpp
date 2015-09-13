@@ -3,6 +3,7 @@
 #include "json/object_value.h"
 #include "json/vector_value.h"
 #include "json/simple_values.h"
+#include "json/util.h"
 
 using namespace json;
 
@@ -20,32 +21,13 @@ void ExtractJsonTest::TestFindValueForPath() {
   Status s;
   Value** output;
 
-  Value* value = new ObjectValue();
-  Value* first_layer = new VectorValue();
-  Value* second_layer = new ObjectValue();
-  Value* third_layer = new ObjectValue();
-  Value* fourth_layer = new VectorValue();
-  Value* fifth_layer = new ObjectValue();
-  Value* final_value = new StringValue("Find me please!");
-
-  s = value->GetChild("first_key", output);
-  CPPUNIT_ASSERT(s.IsOk());
-  *output = first_layer;
-  s = first_layer->GetChild(1, output);
-  CPPUNIT_ASSERT(s.IsOk());
-  *output = second_layer;
-  s = second_layer->GetChild("third_key", output);
-  CPPUNIT_ASSERT(s.IsOk());
-  *output = third_layer;
-  s = third_layer->GetChild("fourth_key", output);
-  CPPUNIT_ASSERT(s.IsOk());
-  *output = fourth_layer;
-  s = fourth_layer->GetChild(5, output);
-  CPPUNIT_ASSERT(s.IsOk());
-  *output = fifth_layer;
-  s = fifth_layer->GetChild("final_key", output);
-  CPPUNIT_ASSERT(s.IsOk());
-  *output = final_value;
+  const std::string sample =
+          "{\"first_key\":[0,{\"third_key\":{\"fourth_key\":"
+          "[0,1,2,3,4,{\"final_key\":\"Find me please!\"}]}}]}";
+  std::stringstream ss;
+  ss.str(sample);
+  s = json::LoadValue(ss, output);
+  Value* value = *output;
 
   std::string s_keys[] = {"first_key", "third_key", "fourth_key", "final_key"};
   int i_keys[] = {1, 5};
@@ -70,5 +52,5 @@ void ExtractJsonTest::TestFindValueForInvalidPath() {
   CPPUNIT_ASSERT(!s.IsOk());
   CPPUNIT_ASSERT(s.GetError() == kIOException);
   CPPUNIT_ASSERT(*s.GetErrorMessage() == "Invalid key: " + invalid_key);
-  delete *output;
+  delete value;
 }
