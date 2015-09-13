@@ -67,4 +67,22 @@ void ExtractJsonTest::TestLoadIntArray() {
   s = LoadIntArray(value, "int_array_key", 7, output_array);
   CPPUNIT_ASSERT(s.IsOk());
   CPPUNIT_ASSERT(output_array[6] = 7);
+  delete value;
+}
+
+void ExtractJsonTest::TestLoadStringValue() {
+  Status s;
+  std::string output_string;
+  const std::string sample =
+          "{\"int_array_key\":[\"load_me\"]}";
+  std::stringstream ss;
+  ss.str(sample);
+  Value* value;
+  s = json::LoadValue(ss, value);
+
+  StringVector v = {"int_array_key", "0"};
+  s = LoadStringValue(value, v, output_string);
+  CPPUNIT_ASSERT(s.IsOk());
+  CPPUNIT_ASSERT(output_string == "load_me");
+  delete value;
 }
