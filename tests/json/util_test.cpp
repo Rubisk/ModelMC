@@ -26,6 +26,10 @@ void UtilTest::TestFindType() {
   s = FindType(ss, &output);
   CPPUNIT_ASSERT(s.IsOk());
   CPPUNIT_ASSERT(output == kIntValue);
+  ss.str("-1");
+  s = FindType(ss, &output);
+  CPPUNIT_ASSERT(s.IsOk());
+  CPPUNIT_ASSERT(output == kIntValue);
   ss.str("\"");
   s = FindType(ss, &output);
   CPPUNIT_ASSERT(s.IsOk());

@@ -37,7 +37,7 @@ Status FindType(std::istream &stream, ValueType* output) {
     return s;
   }
   else {
-    for (char c : "0123456789") {
+    for (char c : "0123456789-") {
       if (c == a) {
         *output = kIntValue;
         return s;
