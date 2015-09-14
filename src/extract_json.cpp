@@ -5,41 +5,45 @@
 using namespace json;
 
 Status FindValueForPath(Value* root_tag, StringVector path,
-        Value* &output_tag) {
+                        Value* &output_tag) {
   Status s;
 
   for (std::string key : path) {
     switch (root_tag->GetValueType()) {
-      case kVectorValue:
-      {
-        Value** result;
-        s = root_tag->GetChild(atoi(key.c_str()), result);
-        if (!s.IsOk()) {
-          return s;
-        } else if (*result == NULL) {
-          return Status(kIOException, "Invalid key: " + key);
-        } else {
-          root_tag = *result;
-          continue;
-        }
+    case kVectorValue:
+    {
+      Value** result;
+      s = root_tag->GetChild(atoi(key.c_str()), result);
+      if (!s.IsOk()) {
+        return s;
       }
-      case kObjectValue:
-      {
-        Value** result;
-        s = root_tag->GetChild(key, result);
-        if (!s.IsOk()) {
-          return s;
-        } else if (*result == NULL) {
-          return Status(kIOException, "Invalid key: " + key);
-        } else {
-          root_tag = *result;
-          continue;
-        }
+      else if (*result == NULL) {
+        return Status(kIOException, "Invalid key: " + key);
       }
-      default:
-      {
-        return Status(kIOException, "Path led to unindexable type.");
+      else {
+        root_tag = *result;
+        continue;
       }
+    }
+    case kObjectValue:
+    {
+      Value** result;
+      s = root_tag->GetChild(key, result);
+      if (!s.IsOk()) {
+        return s;
+      }
+      else if (*result == NULL) {
+        return Status(kIOException, "Invalid key: " + key);
+      }
+      else {
+        root_tag = *result;
+        continue;
+      }
+    }
+    default:
+    {
+      return Status(kIOException, "Path led to unindexable type.");
+    }
     }
   }
   output_tag = root_tag;
@@ -47,7 +51,7 @@ Status FindValueForPath(Value* root_tag, StringVector path,
 }
 
 Status LoadIntArray(Value* tag, StringVector path,
-        size_t size, int32_t* output) {
+                    size_t size, int32_t* output) {
   int32_t output_int[size];
   Status s;
 
@@ -75,7 +79,7 @@ Status LoadIntArray(Value* tag, StringVector path,
 }
 
 Status LoadStringValue(Value* tag, StringVector path,
-        std::string &output) {
+                       std::string &output) {
   Status s;
   s = FindValueForPath(tag, path, tag);
   if (!s.IsOk()) {
@@ -93,7 +97,7 @@ Status LoadStringValue(Value* tag, StringVector path,
 }
 
 Status LoadBoolValue(Value* tag, StringVector path,
-        bool &output) {
+                     bool &output) {
   Status s;
   s = FindValueForPath(tag, path, tag);
   if (!s.IsOk()) {
@@ -111,7 +115,7 @@ Status LoadBoolValue(Value* tag, StringVector path,
 }
 
 Status LoadIntValue(Value* tag, StringVector path,
-        int32_t &output) {
+                    int32_t &output) {
   Status s;
   s = FindValueForPath(tag, path, tag);
   if (!s.IsOk()) {
@@ -129,25 +133,25 @@ Status LoadIntValue(Value* tag, StringVector path,
 }
 
 Status LoadIntArray(Value* tag, std::string path,
-        size_t size, int32_t* output) {
+                    size_t size, int32_t* output) {
   StringVector v = {path};
   return LoadIntArray(tag, v, size, output);
 }
 
 Status LoadStringValue(Value* tag, std::string path,
-        std::string &output) {
+                       std::string &output) {
   StringVector v = {path};
   return LoadStringValue(tag, v, output);
 }
 
 Status LoadBoolValue(Value* tag, std::string path,
-        bool &output) {
+                     bool &output) {
   StringVector v = {path};
   return LoadBoolValue(tag, v, output);
 }
 
 Status LoadIntValue(Value* tag, std::string path,
-        int32_t &output) {
+                    int32_t &output) {
   StringVector v = {path};
   return LoadIntValue(tag, v, output);
 }

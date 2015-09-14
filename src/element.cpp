@@ -16,20 +16,20 @@ const StringVector face_strings
 Status StringToAxis(const char* first_char, Axis &output) {
   Status s;
   switch (*first_char) {
-    case 'X':
-    case 'x':
-      output = kX;
-      break;
-    case 'Y':
-    case 'y':
-      output = kY;
-      break;
-    case 'Z':
-    case 'z':
-      output = kZ;
-      break;
-    default:
-      return Status(kIOException, "Invalid axis.");
+  case 'X':
+  case 'x':
+    output = kX;
+    break;
+  case 'Y':
+  case 'y':
+    output = kY;
+    break;
+  case 'Z':
+  case 'z':
+    output = kZ;
+    break;
+  default:
+    return Status(kIOException, "Invalid axis.");
   }
   return s;
 }

@@ -23,20 +23,16 @@ Status FindType(std::istream &stream, ValueType* output) {
   if (a == '\"') {
     *output = kStringValue;
     return s;
-  }
-  else if (a == '{') {
+  } else if (a == '{') {
     *output = kObjectValue;
     return s;
-  }
-  else if (a == '[') {
+  } else if (a == '[') {
     *output = kVectorValue;
     return s;
-  }
-  else if (a == 't' || a == 'f') {
+  } else if (a == 't' || a == 'f') {
     *output = kBoolValue;
     return s;
-  }
-  else {
+  } else {
     for (char c : "0123456789-") {
       if (c == a) {
         *output = kIntValue;
@@ -53,8 +49,7 @@ Status LoadName(std::istream &stream, std::string* output) {
 
   if (!stream.good()) {
     return Status(kJsonError, "Parsing Error: Stream corrupted.");
-  }
-  else if (a != '"') {
+  } else if (a != '"') {
     return Status(kJsonError, "Parsing Error: String didn't start with '\"'.");
   }
 
@@ -82,20 +77,20 @@ Status LoadValue(std::istream &stream, Value* &valueptr) {
   }
 
   switch (type) {
-  case (kObjectValue):
-    value = new ObjectValue;
-    break;
-  case (kVectorValue):
-    value = new VectorValue;
-    break;
-  case (kIntValue):
-    value = new IntValue;
-    break;
-  case (kStringValue):
-    value = new StringValue;
-    break;
-  case (kBoolValue):
-    value = new BoolValue;
+    case (kObjectValue):
+      value = new ObjectValue;
+      break;
+    case (kVectorValue):
+      value = new VectorValue;
+      break;
+    case (kIntValue):
+      value = new IntValue;
+      break;
+    case (kStringValue):
+      value = new StringValue;
+      break;
+    case (kBoolValue):
+      value = new BoolValue;
   }
   s = value->LoadFromStream(stream);
 

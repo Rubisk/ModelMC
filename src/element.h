@@ -19,6 +19,7 @@ enum UVCoords {
 const size_t kNumberOfUVCoords = 4;
 
 //Represents one of the six faces an element contains.
+
 struct Face {
   //Defines the area of the textures for faces 1-6 according to the scheme
   //[x1, y1, x2, y2].

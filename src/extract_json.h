@@ -13,41 +13,41 @@ typedef std::vector<std::string> StringVector;
 //and looking for the key in path in root_tag and it's corresponding childs.
 //Elements of path should point to a string or an int.
 Status FindValueForPath(json::Value* root_tag, StringVector path,
-        json::Value* &output_tag);
+                        json::Value* &output_tag);
 
 //Loads an int[] from a Value tag.
 //Path should be the path to find the array at. Size is the size of the array.
 //The values will be written to output. Make sure output is big enough
 //to store (size) elements, otherwise a SIGSEGV will be send out.
 Status LoadIntArray(json::Value* tag, StringVector name,
-        size_t size, int32_t* output);
+                    size_t size, int32_t* output);
 
 
 //Loads a string from a value path.
 //Path should be the path to the value, output the string to write to.
 Status LoadStringValue(json::Value* tag, StringVector path,
-        std::string &output);
+                       std::string &output);
 
 //Loads a bool from a value path.
 //Path should be the path to the value, output the bool to write to.
 Status LoadBoolValue(json::Value* tag, StringVector path,
-        bool &output);
+                     bool &output);
 
 //Loads an int from a value path.
 //Path should be the path to the value, output the int to write to.
 Status LoadIntValue(json::Value* tag, StringVector path,
-        int32_t &output);
+                    int32_t &output);
 
 //Utility methods. Same behavior, but convert the string to a stringvector
 //first.
 Status LoadIntArray(json::Value* tag, std::string name,
-        size_t size, int32_t* output);
+                    size_t size, int32_t* output);
 Status LoadStringValue(json::Value* tag, std::string path,
-        std::string &output);
+                       std::string &output);
 Status LoadBoolValue(json::Value* tag, std::string path,
-        bool &output);
+                     bool &output);
 Status LoadIntValue(json::Value* tag, std::string path,
-        int32_t &output);
+                    int32_t &output);
 
 #endif	// EXTRACT_JSON_H
 
