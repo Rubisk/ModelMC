@@ -1,8 +1,4 @@
-#include <sstream>
-
 #include "simple_values_test.h"
-#include "json/simple_values.h"
-#include "json/json.h"
 
 using namespace json;
 
@@ -12,121 +8,102 @@ SimpleValuesTest::SimpleValuesTest() { }
 
 SimpleValuesTest::~SimpleValuesTest() { }
 
-void SimpleValuesTest::setUp() { }
+void SimpleValuesTest::setUp() {
+  int_ = new IntValue(-1);
+  string_ = new StringValue("standard_value");
+  bool_ = new BoolValue(true);
+  string_stream_.clear();
+}
 
-void SimpleValuesTest::tearDown() { }
+void SimpleValuesTest::tearDown() {
+  delete int_;
+  delete string_;
+  delete bool_;
+}
 
-void SimpleValuesTest::testAs_bool() {
+void SimpleValuesTest::AssertRemainder_(std::string remainder) {
+  std::stringstream os;
+  string_stream_ >> os.rdbuf();
+  CPPUNIT_ASSERT(os.str() == remainder);
+}
+
+void SimpleValuesTest::TestGetBool() {
   bool output;
-  Value* value = new BoolValue(true);
-  CPPUNIT_ASSERT(value->GetValueType() == kBoolValue);
-  Status s = value->GetBoolValue(&output);
-  CPPUNIT_ASSERT(s.IsOk());
+  CPPUNIT_ASSERT(bool_->GetValueType() == kBoolValue);
+  s_ = bool_->GetBoolValue(&output);
+  CPPUNIT_ASSERT(s_.IsOk());
   CPPUNIT_ASSERT(output = true);
-  delete value;
 }
 
-void SimpleValuesTest::testLoadFromBool() {
-  std::stringstream ss;
-  ss.str("true||}}|}|<><><><");
-  Value* value = new BoolValue();
-  Status s = value->LoadFromStream(ss);
-  CPPUNIT_ASSERT(s.IsOk());
-
-  std::stringstream os;
-  ss >> os.rdbuf();
-  CPPUNIT_ASSERT(os.str() == "||}}|}|<><><><");
-
+void SimpleValuesTest::TestLoadFromStreamBool() {
+  string_stream_.str("true||}}|}|<><><><");
+  s_ = bool_->LoadFromStream(string_stream_);
+  CPPUNIT_ASSERT(s_.IsOk());
+  AssertRemainder_("||}}|}|<><><><");
   bool output;
-  s = value->GetBoolValue(&output);
-  CPPUNIT_ASSERT(s.IsOk());
+  s_ = bool_->GetBoolValue(&output);
+  CPPUNIT_ASSERT(s_.IsOk());
   CPPUNIT_ASSERT(output);
-
-  delete value;
 }
 
-void SimpleValuesTest::testSaveBool() {
+void SimpleValuesTest::TestSaveToStreamBool() {
   std::stringstream output;
-  Value* value = new BoolValue(false);
-  value->SaveToStream(&output);
-  CPPUNIT_ASSERT(output.str() == "false");
-  *value = true;
-  value->SaveToStream(&output);
+  *bool_ = false;
+  bool_->SaveToStream(&output);
+  *bool_ = true;
+  bool_->SaveToStream(&output);
   CPPUNIT_ASSERT(output.str() == "falsetrue");
-  delete value;
 }
 
-void SimpleValuesTest::testAs_string() {
+void SimpleValuesTest::TestGetString() {
   std::string output;
-  Value* value = new StringValue("some_string");
-  CPPUNIT_ASSERT(value->GetValueType() == kStringValue);
-  Status s = value->GetStringValue(&output);
-  CPPUNIT_ASSERT(s.IsOk());
-  CPPUNIT_ASSERT(output == "some_string");
-  delete value;
+  CPPUNIT_ASSERT(string_->GetValueType() == kStringValue);
+  s_ = string_->GetStringValue(&output);
+  CPPUNIT_ASSERT(s_.IsOk());
+  CPPUNIT_ASSERT(output == "standard_value");
 }
 
-void SimpleValuesTest::testLoadFromString() {
-  std::stringstream ss;
-  ss.str("\"some_string\"||}}|}|<><><><");
-  Value* value = new StringValue();
-  Status s = value->LoadFromStream(ss);
-  CPPUNIT_ASSERT(s.IsOk());
-
-  std::stringstream os;
-  ss >> os.rdbuf();
-  CPPUNIT_ASSERT(os.str() == "||}}|}|<><><><");
+void SimpleValuesTest::TestLoadFromStreamString() {
+  string_stream_.str("\"some_string\"||}}|}|<><><><");
+  s_ = string_->LoadFromStream(string_stream_);
+  CPPUNIT_ASSERT(s_.IsOk());
+  AssertRemainder_("||}}|}|<><><><");
 
   std::string output;
-  s = value->GetStringValue(&output);
-  CPPUNIT_ASSERT(s.IsOk());
+  s_ = string_->GetStringValue(&output);
+  CPPUNIT_ASSERT(s_.IsOk());
   CPPUNIT_ASSERT(output == "some_string");
-
-  delete value;
 }
 
-void SimpleValuesTest::testSaveString() {
+void SimpleValuesTest::TestSaveToStreamString() {
   std::stringstream output;
-  Value* value = new StringValue("some_string");
-  value->SaveToStream(&output);
-  CPPUNIT_ASSERT(output.str() == "\"some_string\"");
-  delete value;
+  string_->SaveToStream(&output);
+  CPPUNIT_ASSERT(output.str() == "\"standard_value\"");
 }
 
-void SimpleValuesTest::testAs_int() {
+void SimpleValuesTest::TestGetInt() {
   int32_t output;
-  Value* value = new IntValue(5);
-  CPPUNIT_ASSERT(value->GetValueType() == kIntValue);
-  Status s = value->GetIntValue(&output);
-  CPPUNIT_ASSERT(s.IsOk());
-  CPPUNIT_ASSERT(output == 5);
-  delete value;
+  CPPUNIT_ASSERT(int_->GetValueType() == kIntValue);
+  s_ = int_->GetIntValue(&output);
+  CPPUNIT_ASSERT(s_.IsOk());
+  CPPUNIT_ASSERT(output == -1);
 }
 
-void SimpleValuesTest::testLoadFromInt() {
-  std::stringstream ss;
-  ss.str("52||}}|}|<><><><");
-  Value* value = new IntValue();
-  Status s = value->LoadFromStream(ss);
-  CPPUNIT_ASSERT(s.IsOk());
-
-  std::stringstream os;
-  ss >> os.rdbuf();
-  CPPUNIT_ASSERT(os.str() == "||}}|}|<><><><");
+void SimpleValuesTest::TestLoadFromStreamInt() {
+  string_stream_.str("-52||}}|}|<><><><");
+  s_ = int_->LoadFromStream(string_stream_);
+  CPPUNIT_ASSERT(s_.IsOk());
+  AssertRemainder_("||}}|}|<><><><");
 
   int32_t output;
-  s = value->GetIntValue(&output);
-  CPPUNIT_ASSERT(s.IsOk());
-  CPPUNIT_ASSERT(output == 52);
-
-  delete value;
+  s_ = int_->GetIntValue(&output);
+  CPPUNIT_ASSERT(s_.IsOk());
+  CPPUNIT_ASSERT(output == -52);
 }
 
-void SimpleValuesTest::testSaveInt() {
+void SimpleValuesTest::TestSaveToStreamInt() {
   std::stringstream output;
-  Value* value = new IntValue(55555);
-  value->SaveToStream(&output);
-  CPPUNIT_ASSERT(output.str() == "55555");
-  delete value;
+  int_->SaveToStream(&output);
+  CPPUNIT_ASSERT(output.str() == "-1");
 }
 

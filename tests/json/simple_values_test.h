@@ -1,20 +1,23 @@
 #ifndef SIMPLEVALUESTEST_H
 #define	SIMPLEVALUESTEST_H
 
+#include <sstream>
 #include <cppunit/extensions/HelperMacros.h>
+
+#include "json/simple_values.h"
 
 class SimpleValuesTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST_SUITE(SimpleValuesTest);
 
-  CPPUNIT_TEST(testAs_bool);
-  CPPUNIT_TEST(testLoadFromBool);
-  CPPUNIT_TEST(testSaveBool);
-  CPPUNIT_TEST(testAs_string);
-  CPPUNIT_TEST(testLoadFromString);
-  CPPUNIT_TEST(testSaveString);
-  CPPUNIT_TEST(testAs_int);
-  CPPUNIT_TEST(testLoadFromInt);
-  CPPUNIT_TEST(testSaveInt);
+  CPPUNIT_TEST(TestGetBool);
+  CPPUNIT_TEST(TestLoadFromStreamBool);
+  CPPUNIT_TEST(TestSaveToStreamBool);
+  CPPUNIT_TEST(TestGetString);
+  CPPUNIT_TEST(TestLoadFromStreamString);
+  CPPUNIT_TEST(TestSaveToStreamString);
+  CPPUNIT_TEST(TestGetInt);
+  CPPUNIT_TEST(TestLoadFromStreamInt);
+  CPPUNIT_TEST(TestSaveToStreamInt);
 
   CPPUNIT_TEST_SUITE_END();
 
@@ -25,16 +28,23 @@ public:
   void tearDown();
 
 private:
-  void testAs_bool();
-  void testLoadFromBool();
-  void testSaveBool();
-  void testAs_string();
-  void testLoadFromString();
-  void testSaveString();
-  void testAs_int();
-  void testLoadFromInt();
-  void testSaveInt();
+  void TestGetBool();
+  void TestLoadFromStreamBool();
+  void TestSaveToStreamBool();
+  void TestGetString();
+  void TestLoadFromStreamString();
+  void TestSaveToStreamString();
+  void TestGetInt();
+  void TestLoadFromStreamInt();
+  void TestSaveToStreamInt();
 
+  json::IntValue* int_;
+  json::StringValue* string_;
+  json::BoolValue* bool_;
+  std::stringstream string_stream_;
+  Status s_;
+
+  void AssertRemainder_(std::string remainder);
 };
 
 #endif	// SIMPLEVALUESTEST_H
