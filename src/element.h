@@ -3,44 +3,65 @@
 
 #include "json/json.h"
 
-enum AXI {
-  AXIS_X, AXIS_Y, AXIS_Z, N_AXI
+enum Axis {
+  kX, kY, kZ,
+};
+const size_t kNumberOfAxi = 3;
+
+enum Faces {
+  kDown, kUp, kNorth, kSouth, kWest, kEast,
+};
+const size_t kNumberOfFaces = 6;
+
+enum UVCoords {
+  kX1, kY1, kX2, kY2,
+};
+const size_t kNumberOfUVCoords = 4;
+
+//Represents one of the six faces an element contains.
+struct Face {
+  //Defines the area of the textures for faces 1-6 according to the scheme
+  //[x1, y1, x2, y2].
+  //If unset, defaults to values equal to xyz pos of the element.
+  //Must be between 0 to 16
+  int32_t uv[kNumberOfUVCoords];
+
+  //Specifies the faces textures in form of a texture variable starting with #
+  std::string texture;
+
+  //Specifies whether non-visible elements should be rendered for the faces.
+  bool cull;
+
+  //Rotates the texture in increments of 90 degrees.
+  //Must be between 0 to 3
+  int32_t rotation;
+
+  //Determens if the texture should be tinted by Minecrafts renderer.
+  //Tinting is a hardcoded color adjustment.
+  int32_t tint_index;
 };
 
-enum FACES {
-  FACES_DOWN,
-  FACES_UP,
-  FACES_NORTH,
-  FACES_SOUTH,
-  FACES_WEST,
-  FACES_EAST,
-  N_FACES
-};
-
-enum UV_COORDS {
-  UV_X1, UV_Y1, UV_X2, UV_Y2, N_UV_COORDS
-};
-
-struct Element {
+class Element {
+public:
   //Start point of a cube according to the scheme [x, y, z]
   //Must be between -16 to 32
-  int from[N_AXI];
+  int32_t from[kNumberOfAxi];
 
   //Stop point of a cube according to the scheme [x, y, z]
   //Must be between -16 to 32
-  int to[N_AXI];
+  int32_t to[kNumberOfAxi];
 
   //Sets the center of the rotation according to the scheme [x, y, z]
   //Defaults to [8, 8, 8] in Minecraft.
-  int rotation_origin[N_AXI];
+  int32_t rotation_origin[kNumberOfAxi];
 
   //Specifies the direction of the rotation.
   //One of X, Y or Z.
-  int rotation_axis;
+  Axis rotation_axis;
 
   //Specifies the angle of the rotation.
   //Valid values are -45, -22.5, 0, 22.5 and 45.
-  int rotation_angle;
+  int32_t rotation_angle;
 
   //True if faces scale across the whole block. Defaults to false.
   bool rotation_rescale;
@@ -48,43 +69,17 @@ struct Element {
   //Defines if shadows should be rendered. Defaults to true.
   bool shade;
 
-  //Defines the area of the textures for faces 1-6 according to the scheme
-  //[x1, y1, x2, y2].
-  //If unset, defaults to values equal to xyz pos of the element.
-  //Must be between 0 to 16
-  uint8_t uv_faces[N_FACES][N_UV_COORDS];
-
-  //Specifies the faces textures in form of a texture variable starting with #
-  std::string texture_faces[N_FACES];
-
-  //Specifies whether non-visible elements should be rendered for the faces.
-  bool cull_faces[N_FACES];
-
-  //Rotates the texture in increments of 90 degrees.
-  //Must be between 0 to 3
-  uint8_t rotation_faces[N_FACES];
-
-  //Determens if the texture should be tinted by Minecrafts renderer.
-  //Tinting is a hardcoded color adjustment.
-  unsigned int tint_index_faces[N_FACES];
+  //All faces the element contains.
+  Face faces[kNumberOfFaces];
 };
 
 //Loads an element from a json Object.
-Element* loadElement(json::Value* element);
-
-//Loads an element from a json Object.
 //Does not create a new element, instead overrides target.
-Element* loadElement(json::Value* element, Element* target);
-
-//Saves an element to json.
-//Allocates a new value and returns a pointer to it.
-//Note that it's still cached, not written to a file,
-//only in a proper json format.
-json::Value* saveElement(Element* element);
+Status LoadElement(json::Value* element_tag, Element &element);
 
 //Saves an element to json.
 //Overrides whatever is set in target.
-json::Value* saveElement(Element* element, json::Value* target);
+Status SaveElement(Element &element, json::Value* target);
 
 #endif	// MODEL_H
 

@@ -3,13 +3,12 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
+#include "json/json.h"
+
 class ElementTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST_SUITE(ElementTest);
 
-  CPPUNIT_TEST(testLoadElement);
-  CPPUNIT_TEST(testLoadElement2);
-  CPPUNIT_TEST(testSaveElement);
-  CPPUNIT_TEST(testSaveElement2);
+  CPPUNIT_TEST(TestLoadFullElement);
 
   CPPUNIT_TEST_SUITE_END();
 
@@ -20,11 +19,10 @@ public:
   void tearDown();
 
 private:
-  void testLoadElement();
-  void testLoadElement2();
-  void testSaveElement();
-  void testSaveElement2();
+  void TestLoadFullElement();
 
+  Status s_;
+  json::Value* root_tag_ = NULL;
 };
 
 #endif	// ELEMENTTEST_H

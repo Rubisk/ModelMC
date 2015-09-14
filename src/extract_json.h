@@ -28,12 +28,26 @@ Status LoadIntArray(json::Value* tag, StringVector name,
 Status LoadStringValue(json::Value* tag, StringVector path,
         std::string &output);
 
+//Loads a bool from a value path.
+//Path should be the path to the value, output the bool to write to.
+Status LoadBoolValue(json::Value* tag, StringVector path,
+        bool &output);
+
+//Loads an int from a value path.
+//Path should be the path to the value, output the int to write to.
+Status LoadIntValue(json::Value* tag, StringVector path,
+        int32_t &output);
+
 //Utility methods. Same behavior, but convert the string to a stringvector
 //first.
 Status LoadIntArray(json::Value* tag, std::string name,
         size_t size, int32_t* output);
 Status LoadStringValue(json::Value* tag, std::string path,
         std::string &output);
+Status LoadBoolValue(json::Value* tag, std::string path,
+        bool &output);
+Status LoadIntValue(json::Value* tag, std::string path,
+        int32_t &output);
 
 #endif	// EXTRACT_JSON_H
 

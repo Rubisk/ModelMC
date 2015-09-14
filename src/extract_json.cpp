@@ -92,6 +92,42 @@ Status LoadStringValue(Value* tag, StringVector path,
   return s;
 }
 
+Status LoadBoolValue(Value* tag, StringVector path,
+        bool &output) {
+  Status s;
+  s = FindValueForPath(tag, path, tag);
+  if (!s.IsOk()) {
+    return s;
+  }
+
+  bool found_value;
+  s = tag->GetBoolValue(&found_value);
+  if (!s.IsOk()) {
+    return s;
+  }
+
+  output = found_value;
+  return s;
+}
+
+Status LoadIntValue(Value* tag, StringVector path,
+        int32_t &output) {
+  Status s;
+  s = FindValueForPath(tag, path, tag);
+  if (!s.IsOk()) {
+    return s;
+  }
+
+  int32_t found_value;
+  s = tag->GetIntValue(&found_value);
+  if (!s.IsOk()) {
+    return s;
+  }
+
+  output = found_value;
+  return s;
+}
+
 Status LoadIntArray(Value* tag, std::string path,
         size_t size, int32_t* output) {
   StringVector v = {path};
@@ -102,4 +138,16 @@ Status LoadStringValue(Value* tag, std::string path,
         std::string &output) {
   StringVector v = {path};
   return LoadStringValue(tag, v, output);
+}
+
+Status LoadBoolValue(Value* tag, std::string path,
+        bool &output) {
+  StringVector v = {path};
+  return LoadBoolValue(tag, v, output);
+}
+
+Status LoadIntValue(Value* tag, std::string path,
+        int32_t &output) {
+  StringVector v = {path};
+  return LoadIntValue(tag, v, output);
 }
