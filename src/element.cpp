@@ -8,10 +8,12 @@
 
 using namespace json;
 
-namespace { // anonymous namespace
+namespace {
 
 const StringVector face_strings
         = {"down", "up", "north", "south", "west", "east"};
+
+} // anonymous namespace
 
 Status StringToAxis(const char* first_char, Axis &output) {
   Status s;
@@ -34,7 +36,7 @@ Status StringToAxis(const char* first_char, Axis &output) {
   return s;
 }
 
-Status LoadFace(Value* root_tag, Face &face) {
+Status Element::LoadFace_(Value* root_tag, Face &face) {
   Status s;
   std::string cullface_string;
   s = LoadIntArray(root_tag, "uv", kNumberOfUVCoords, face.uv);
@@ -46,25 +48,23 @@ Status LoadFace(Value* root_tag, Face &face) {
   return s;
 }
 
-}
-
-Status LoadElement(Value* element_tag, Element &element) {
+Status Element::LoadElement(Value* element_tag) {
   //TODO setup a proper logging system.
   Status s;
-  s = LoadIntArray(element_tag, "from", kNumberOfAxi, element.from);
-  s = LoadIntArray(element_tag, "to", kNumberOfAxi, element.to);
-  s = LoadBoolValue(element_tag, "shade", element.shade);
+  s = LoadIntArray(element_tag, "from", kNumberOfAxi, from);
+  s = LoadIntArray(element_tag, "to", kNumberOfAxi, to);
+  s = LoadBoolValue(element_tag, "shade", shade);
 
   StringVector vector = {"rotation", "origin"};
-  s = LoadIntArray(element_tag, vector, kNumberOfAxi, element.rotation_origin);
+  s = LoadIntArray(element_tag, vector, kNumberOfAxi, rotation_origin);
   vector[1] = "angle";
-  s = LoadIntValue(element_tag, vector, element.rotation_angle);
+  s = LoadIntValue(element_tag, vector, rotation_angle);
   std::string axis;
   vector[1] = "axis";
   s = LoadStringValue(element_tag, vector, axis);
-  s = StringToAxis(axis.c_str(), element.rotation_axis);
+  s = StringToAxis(axis.c_str(), rotation_axis);
   vector[1] = "rescale";
-  s = LoadBoolValue(element_tag, vector, element.rotation_rescale);
+  s = LoadBoolValue(element_tag, vector, rotation_rescale);
 
   vector[0] = "faces";
   for (int i = 0; i < kNumberOfFaces; ++i) {
@@ -74,7 +74,7 @@ Status LoadElement(Value* element_tag, Element &element) {
     if (!s.IsOk()) {
       continue;
     }
-    LoadFace(output_tag, element.faces[i]);
+    LoadFace_(output_tag, faces[i]);
   }
   return Status();
 }

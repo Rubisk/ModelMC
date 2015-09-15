@@ -23,7 +23,7 @@ void ElementTest::tearDown() {
 
 void ElementTest::TestLoadFullElement() {
   Element element;
-  s_ = LoadElement(root_tag_, element);
+  s_ = element.LoadElement(root_tag_);
   CPPUNIT_ASSERT(s_.IsOk());
   CPPUNIT_ASSERT(element.from[1] == 3);
   CPPUNIT_ASSERT(element.to[2] == 16);

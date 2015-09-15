@@ -72,15 +72,18 @@ public:
 
   //All faces the element contains.
   Face faces[kNumberOfFaces];
+
+  //Loads an element from a json Object.
+  //Does not create a new element, instead overrides target.
+  Status LoadElement(json::Value* root_tag);
+
+  //Saves an element to json.
+  //Overrides whatever is set in target.
+  Status SaveElement(Element &element);
+
+private:
+  Status LoadFace_(json::Value* root_tag, Face &face);
 };
-
-//Loads an element from a json Object.
-//Does not create a new element, instead overrides target.
-Status LoadElement(json::Value* element_tag, Element &element);
-
-//Saves an element to json.
-//Overrides whatever is set in target.
-Status SaveElement(Element &element, json::Value* target);
 
 #endif	// MODEL_H
 
