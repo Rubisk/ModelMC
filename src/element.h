@@ -1,5 +1,5 @@
-#ifndef MODEL_H
-#define	MODEL_H
+#ifndef ELEMENT_H
+#define	ELEMENT_H
 
 #include "json/json.h"
 
@@ -90,5 +90,5 @@ private:
   Status LoadFace_(json::Value* root_tag, Face &face);
 };
 
-#endif	// MODEL_H
+#endif	// ELEMENT_H
 
