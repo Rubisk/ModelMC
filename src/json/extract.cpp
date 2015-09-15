@@ -1,6 +1,6 @@
 #include <vector>
 #include <cstdlib>
-#include "extract_json.h"
+#include "json/extract.h"
 
 using namespace json;
 

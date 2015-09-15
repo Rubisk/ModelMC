@@ -36,7 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/src/element.o \
-	${OBJECTDIR}/src/extract_json.o \
+	${OBJECTDIR}/src/json/extract.o \
 	${OBJECTDIR}/src/json/json.o \
 	${OBJECTDIR}/src/json/object_value.o \
 	${OBJECTDIR}/src/json/simple_values.o \
@@ -88,10 +88,10 @@ ${OBJECTDIR}/src/element.o: src/element.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/element.o src/element.cpp
 
-${OBJECTDIR}/src/extract_json.o: src/extract_json.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
+${OBJECTDIR}/src/json/extract.o: src/json/extract.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/json
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/extract_json.o src/extract_json.cpp
+	$(COMPILE.cc) -O2 -I. -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/extract.o src/json/extract.cpp
 
 ${OBJECTDIR}/src/json/json.o: src/json/json.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/json
@@ -227,17 +227,17 @@ ${OBJECTDIR}/src/element_nomain.o: ${OBJECTDIR}/src/element.o src/element.cpp
 	    ${CP} ${OBJECTDIR}/src/element.o ${OBJECTDIR}/src/element_nomain.o;\
 	fi
 
-${OBJECTDIR}/src/extract_json_nomain.o: ${OBJECTDIR}/src/extract_json.o src/extract_json.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	@NMOUTPUT=`${NM} ${OBJECTDIR}/src/extract_json.o`; \
+${OBJECTDIR}/src/json/extract_nomain.o: ${OBJECTDIR}/src/json/extract.o src/json/extract.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/json
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/src/json/extract.o`; \
 	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/extract_json_nomain.o src/extract_json.cpp;\
+	    $(COMPILE.cc) -O2 -I. -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/json/extract_nomain.o src/json/extract.cpp;\
 	else  \
-	    ${CP} ${OBJECTDIR}/src/extract_json.o ${OBJECTDIR}/src/extract_json_nomain.o;\
+	    ${CP} ${OBJECTDIR}/src/json/extract.o ${OBJECTDIR}/src/json/extract_nomain.o;\
 	fi
 
 ${OBJECTDIR}/src/json/json_nomain.o: ${OBJECTDIR}/src/json/json.o src/json/json.cpp 
