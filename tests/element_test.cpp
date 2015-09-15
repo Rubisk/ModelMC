@@ -32,9 +32,9 @@ void ElementTest::TestLoadFullElement() {
   CPPUNIT_ASSERT(element.rotation_axis == kZ);
   CPPUNIT_ASSERT(element.rotation_angle == 45);
   CPPUNIT_ASSERT(element.rotation_rescale == true);
-  CPPUNIT_ASSERT(element.faces[0].uv[3] == 16);
-  CPPUNIT_ASSERT(element.faces[0].texture == "#inside");
-  CPPUNIT_ASSERT(element.faces[0].cull == true);
-  CPPUNIT_ASSERT(element.faces[0].rotation == 5);
-  CPPUNIT_ASSERT(element.faces[0].tint_index == 1);
+  CPPUNIT_ASSERT(element.faces[kDown].uv[3] == 16);
+  CPPUNIT_ASSERT(element.faces[kDown].texture == "#inside");
+  CPPUNIT_ASSERT(element.faces[kDown].cull == true);
+  CPPUNIT_ASSERT(element.faces[kDown].rotation == 5);
+  CPPUNIT_ASSERT(element.faces[kDown].tint_index == 1);
 }

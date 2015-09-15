@@ -8,12 +8,17 @@ enum Axis {
 };
 const size_t kNumberOfAxi = 3;
 
-enum Faces {
-  kDown, kUp, kNorth, kSouth, kWest, kEast,
+enum {
+  kDown,
+  kUp,
+  kNorth,
+  kSouth,
+  kWest,
+  kEast,
 };
 const size_t kNumberOfFaces = 6;
 
-enum UVCoords {
+enum {
   kX1, kY1, kX2, kY2,
 };
 const size_t kNumberOfUVCoords = 4;
