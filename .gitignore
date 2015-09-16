@@ -8,3 +8,7 @@ libs/googletest
 
 #build dep files
 .dep.inc
+
+#msvc stuff
+*.opensdf
+*Debug*

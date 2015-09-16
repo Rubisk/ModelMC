@@ -36,6 +36,6 @@ std::string* Status::GetErrorMessage() {
 }
 
 std::ostream& operator<<(std::ostream& os, const Status &s) {
-  os << ErrorStrings[s.s_] << s.message_;
+  os << ErrorStrings[s.s_] << s.message_.c_str();
   return os;
 }

@@ -3,6 +3,7 @@
 
 #include <stdexcept>
 #include <iostream>
+#include <cstdint>
 
 #include "status.h"
 

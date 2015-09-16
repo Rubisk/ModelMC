@@ -51,8 +51,8 @@ Status FindValueForPath(Value* root_tag, StringVector path,
 }
 
 Status LoadIntArray(Value* tag, StringVector path,
-                    size_t size, int32_t* output) {
-  int32_t output_int[size];
+                    const size_t size, int32_t* output) {
+	std::vector<int32_t> output_int = std::vector<int32_t>(size);
   Status s;
 
   s = FindValueForPath(tag, path, tag);
