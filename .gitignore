@@ -3,6 +3,8 @@ build/
 dist/
 nbproject/private
 
+#build stuff in googletest
+libs/googletest
 
 #build dep files
 .dep.inc
