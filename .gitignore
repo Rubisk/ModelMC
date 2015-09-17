@@ -11,4 +11,8 @@ libs/googletest
 
 #msvc stuff
 *.opensdf
+*.sdf
+*.suo
+*.user
+*.filters
 *Debug*
