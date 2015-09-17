@@ -98,6 +98,7 @@ Status LoadValue(std::istream &stream, Value* &valueptr) {
     return s;
   }
   valueptr = value;
+  return s;
 }
 
 } // namespace json
