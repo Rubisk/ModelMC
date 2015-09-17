@@ -40,6 +40,8 @@ public:
 
   Status operator=(const std::string &value);
 
+  Status operator=(const char* value);
+
   Status LoadFromStream(std::istream &stream);
 private:
   std::string value_;

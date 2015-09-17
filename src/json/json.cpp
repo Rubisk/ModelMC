@@ -31,6 +31,10 @@ Status Value::operator=(const std::string &value) {
   return Status(kJsonError, "Value can't assign a string.");
 }
 
+Status Value::operator=(const char* value) {
+  return Status(kJsonError, "Value can't assign a string.");
+}
+
 Status Value::operator=(const int32_t &value) {
   return Status(kJsonError, "Value can't assign an int.");
 }

@@ -55,6 +55,13 @@ Status StringValue::operator=(const std::string &value) {
   return s;
 }
 
+Status StringValue::operator=(const char* value) {
+  Status s;
+  value_ = value;
+  return s;
+}
+
+
 void StringValue::SaveToStream(std::ostream* stream) {
   *stream << "\"" << value_ << "\"";
 }

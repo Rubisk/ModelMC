@@ -67,6 +67,8 @@ public:
   //Sets the underlaying value of an StringValue to value.
   virtual Status operator=(const std::string &value);
 
+  virtual Status operator=(const char* value);
+
   //Only defined for BoolValue, returns kValueError otherwise.
   //Sets the underlaying value of a BoolValue to value.
   virtual Status operator=(const bool &value);
