@@ -9,7 +9,7 @@ class ElementTest : public testing::Test {
 protected:
   virtual void SetUp() {
     Value* base_tag;
-    s_ = LoadFromFile("./tests/testfiles/element.json", base_tag);
+    s_ = LoadFromFile("./tests/testfiles/test_element.json", base_tag);
     if (!s_.IsOk()) {
       root_tag_ = NULL;
       ASSERT_TRUE(false) << s_;

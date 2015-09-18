@@ -65,9 +65,11 @@ TEST_F(JsonTest, LoadFromAndSaveToFile) {
 
   SaveToFile("./tests/testfiles/test_output.json", value);
 
+  delete value;
+
   std::ifstream original, copy;
 
-  original.open("./tests/testfiles/test_json_without_whitespace");
+  original.open("./tests/testfiles/test_json");
   copy.open("./tests/testfiles/test_output.json");
 
   ASSERT_TRUE(std::equal(std::istreambuf_iterator<char>(original),
@@ -77,6 +79,6 @@ TEST_F(JsonTest, LoadFromAndSaveToFile) {
   original.close();
   copy.close();
 
-  delete value;
+  ASSERT_EQ(remove("./tests/testfiles/test_output.json"), 0);
 }
 
