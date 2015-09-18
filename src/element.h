@@ -88,6 +88,8 @@ public:
 
 private:
   Status LoadFace_(json::Value* root_tag, Face &face);
+
+  void InitializeToDefaults_();
 };
 
 #endif	// ELEMENT_H

@@ -2,6 +2,7 @@
 #include <csignal>
 
 #include "json/json.h"
+#include "json/object_value.h"
 #include "element.h"
 #include "json/util.h"
 #include "json/extract.h"
@@ -11,7 +12,7 @@ using namespace json;
 namespace {
 
 const StringVector face_strings
-        = {"down", "up", "north", "south", "west", "east"};
+= {"down", "up", "north", "south", "west", "east"};
 
 } // anonymous namespace
 
@@ -36,6 +37,28 @@ Status StringToAxis(const char* first_char, Axis &output) {
   return s;
 }
 
+void Element::InitializeToDefaults_() {
+  for (int i = 0; i < kNumberOfAxi; ++i) {
+    from[i] = 0;
+    to[i] = 0;
+    rotation_origin[i] = 8;
+  }
+  shade = true;
+  rotation_axis = kX;
+  rotation_angle = 0;
+  rotation_rescale = false;
+  for (int i = 0; i < kNumberOfFaces; ++i) {
+    faces[i].uv[0] = 0;
+    faces[i].uv[1] = 0;
+    faces[i].uv[2] = 16;
+    faces[i].uv[3] = 16;
+    faces[i].texture = "";
+    faces[i].cull = true;
+    faces[i].rotation = 0;
+    faces[i].tint_index = 0;
+  }
+}
+
 Status Element::LoadFace_(Value* root_tag, Face &face) {
   Status s;
   std::string cullface_string;
@@ -49,6 +72,8 @@ Status Element::LoadFace_(Value* root_tag, Face &face) {
 }
 
 Status Element::LoadElement(Value* element_tag) {
+  InitializeToDefaults_();
+
   //TODO setup a proper logging system.
   Status s;
   s = LoadIntArray(element_tag, "from", kNumberOfAxi, from);
@@ -62,10 +87,11 @@ Status Element::LoadElement(Value* element_tag) {
   std::string axis;
   vector[1] = "axis";
   s = LoadStringValue(element_tag, vector, axis);
-  s = StringToAxis(axis.c_str(), rotation_axis);
+  if (s.IsOk()) {
+    s = StringToAxis(axis.c_str(), rotation_axis);
+  }
   vector[1] = "rescale";
   s = LoadBoolValue(element_tag, vector, rotation_rescale);
-
   vector[0] = "faces";
   for (int i = 0; i < kNumberOfFaces; ++i) {
     vector[1] = face_strings[i];
