@@ -79,15 +79,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\element.cpp" />
-    <ClCompile Include="..\src\json\extract.cpp" />
     <ClCompile Include="..\src\json\json.cpp" />
-    <ClCompile Include="..\src\json\object_value.cpp" />
-    <ClCompile Include="..\src\json\simple_values.cpp" />
-    <ClCompile Include="..\src\json\util.cpp" />
-    <ClCompile Include="..\src\json\vector_value.cpp" />
     <ClCompile Include="..\src\main.cpp" />
-    <ClCompile Include="..\util\status.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\element.h" />
