@@ -86,10 +86,7 @@
     <ClInclude Include="..\src\element.h" />
     <ClInclude Include="..\src\json\extract.h" />
     <ClInclude Include="..\src\json\json.h" />
-    <ClInclude Include="..\src\json\object_value.h" />
-    <ClInclude Include="..\src\json\simple_values.h" />
     <ClInclude Include="..\src\json\util.h" />
-    <ClInclude Include="..\src\json\vector_value.h" />
     <ClInclude Include="..\util\status.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
