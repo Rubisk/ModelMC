@@ -67,9 +67,7 @@ TEST_F(JsonLoaderTest, LoadObject) {
 
 TEST_F(JsonLoaderTest, LoadFromFile) {
   Value output;
-  std::shared_ptr<std::ifstream> file(new std::ifstream());
-  Loader file_loader(file);
-  file->open("./tests/testfiles/test_json.json");
+  Loader file_loader("./tests/testfiles/test_json.json");
   ASSERT_NO_THROW(output = file_loader.Load());
-  EXPECT_EQ((std::string) output["textures"]["particle"], "blocks/cauldron_side")
+  EXPECT_EQ((std::string) output["textures"]["particle"], "blocks/cauldron_side");
 }
