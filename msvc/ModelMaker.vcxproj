@@ -79,15 +79,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\json\loader.cpp" />
     <ClCompile Include="..\src\json\value.cpp" />
     <ClCompile Include="..\src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\element.h" />
-    <ClInclude Include="..\src\json\extract.h" />
+    <ClInclude Include="..\src\json\loader.h" />
     <ClInclude Include="..\src\json\value.h" />
-    <ClInclude Include="..\src\json\util.h" />
-    <ClInclude Include="..\util\status.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
