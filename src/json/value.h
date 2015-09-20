@@ -1,5 +1,5 @@
-#ifndef JSON_H
-#define JSON_H
+#ifndef MODELMAKER_JSON_VALUE_H_
+#define MODELMAKER_JSON_VALUE_H_
 
 #include <stdexcept>
 #include <iostream>
@@ -125,5 +125,5 @@ private:
 
 } // namespace json
 
-#endif	// JSON_H
+#endif	// MODELMAKER_JSON_VALUE_H_
 

@@ -5,7 +5,7 @@
 
 using namespace json;
 
-class JsonTest : public testing::Test {
+class JsonValueTest : public testing::Test {
 protected:
   void SetUp() {
     value_ = Value();
@@ -14,11 +14,11 @@ protected:
   Value value_;
 };
 
-TEST_F(JsonTest, DefaultValue) {
+TEST_F(JsonValueTest, DefaultValue) {
   EXPECT_EQ(value_.GetType(), kNullValue);
 }
 
-TEST_F(JsonTest, ValueConstructValue) {
+TEST_F(JsonValueTest, ValueConstructValue) {
   std::unique_ptr<Value> int_value(new Value(5));
   EXPECT_EQ((int32_t) (*int_value), 5)
     << "Constructor for integer is broken.";
@@ -43,7 +43,7 @@ TEST_F(JsonTest, ValueConstructValue) {
     << "Constructor for array value is broken.";
 }
 
-TEST_F(JsonTest, IntValue) {
+TEST_F(JsonValueTest, IntValue) {
   EXPECT_NO_THROW(value_ = 5)
     << "Couldn't assign an integer.";
   EXPECT_EQ(value_.GetType(), kIntValue)
@@ -52,7 +52,7 @@ TEST_F(JsonTest, IntValue) {
     << "Value didn't get assigned properly.";
 }
 
-TEST_F(JsonTest, StringValue) {
+TEST_F(JsonValueTest, StringValue) {
   EXPECT_NO_THROW(value_ = "first_string")
     << "Couldn't assign an string.";
   EXPECT_EQ(value_.GetType(), kStringValue)
@@ -61,7 +61,7 @@ TEST_F(JsonTest, StringValue) {
     << "Value didn't get assigned properly.";
 }
 
-TEST_F(JsonTest, BoolValue) {
+TEST_F(JsonValueTest, BoolValue) {
   EXPECT_NO_THROW(value_ = true)
     << "Couldn't assign a bool.";
   EXPECT_EQ(value_.GetType(), kBoolValue)
@@ -70,7 +70,7 @@ TEST_F(JsonTest, BoolValue) {
     << "Value didn't get assigned properly.";
 }
 
-TEST_F(JsonTest, ObjectValue) {
+TEST_F(JsonValueTest, ObjectValue) {
   Value::Object empty_map;
   empty_map["preset_key"] = std::make_shared<Value>();
   ASSERT_NO_THROW(value_ = empty_map)
@@ -92,7 +92,7 @@ TEST_F(JsonTest, ObjectValue) {
     << "Edited value didn't have correct value.";
 }
 
-TEST_F(JsonTest, ArrayValue) {
+TEST_F(JsonValueTest, ArrayValue) {
   Value::Array empty_array(5);
   ASSERT_NO_THROW(value_ = empty_array)
     << "Couldn't assign an array to a value.";
@@ -113,7 +113,7 @@ TEST_F(JsonTest, ArrayValue) {
     << "Edited value didn't have correct value.";
 }
 
-TEST_F(JsonTest, CopyAssignValue) {
+TEST_F(JsonValueTest, CopyAssignValue) {
   value_ = Value(5);
   EXPECT_EQ((int32_t) value_, 5)
     << "Failed to copy int value.";
@@ -138,14 +138,14 @@ TEST_F(JsonTest, CopyAssignValue) {
 
 }
 
-TEST_F(JsonTest, CopyConstructValue) {
+TEST_F(JsonValueTest, CopyConstructValue) {
   value_ = -1;
   std::unique_ptr<Value> value(new Value(value_));
   EXPECT_EQ((int32_t) *value, -1)
     << "Copy constructor is broken.";
 }
 
-TEST_F(JsonTest, AddToObjectValue) {
+TEST_F(JsonValueTest, AddToObjectValue) {
   Value::Object map_;
   map_["key_1"];
   map_["key_2"];
@@ -155,7 +155,7 @@ TEST_F(JsonTest, AddToObjectValue) {
     << "Couldn't add to an ObjectValue properly.";
 }
 
-TEST_F(JsonTest, AddToArrayValue) {
+TEST_F(JsonValueTest, AddToArrayValue) {
   Value::Array array_(5);
   value_ = Value(array_);
   value_.Append("some_string");
@@ -163,7 +163,7 @@ TEST_F(JsonTest, AddToArrayValue) {
     << "Couldn't append to an ArrayValue properly.";
 }
 
-TEST_F(JsonTest, RemoveFromObjectValue) {
+TEST_F(JsonValueTest, RemoveFromObjectValue) {
   Value::Object map_;
   map_["key 1"];
   map_["key 2"];
@@ -176,7 +176,7 @@ TEST_F(JsonTest, RemoveFromObjectValue) {
     << "Value not removed properly.";
 }
 
-TEST_F(JsonTest, RemoveFromArrayValue) {
+TEST_F(JsonValueTest, RemoveFromArrayValue) {
   Value::Array array_(5);
   value_ = Value(array_);
   value_.Remove(3);
