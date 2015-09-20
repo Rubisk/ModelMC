@@ -54,6 +54,8 @@ public:
 
   Value(const Value &that);
 
+  Value(Value &&that);
+
   Value &operator=(const int32_t &value);
 
   Value &operator=(char *value);
@@ -67,6 +69,8 @@ public:
   Value &operator=(const Array &value);
 
   Value &operator=(const Value &that);
+
+  Value &operator=(Value &&that);
 
   Value &operator[](const std::string &key) const;
 

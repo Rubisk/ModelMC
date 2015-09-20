@@ -48,6 +48,10 @@ Value::Value(const Value &that) {
   *this = that;
 }
 
+Value::Value(Value &&that) {
+  *this = that;
+}
+
 Value &Value::operator=(const int32_t &value) {
   Cleanup_();
   as_int = value;
@@ -147,6 +151,31 @@ Value &Value::operator=(const Value &that) {
     as_bool = that.as_bool;
   }
   type_ = that.type_;
+  return *this;
+}
+
+Value &Value::operator=(Value &&that) {
+  Cleanup_();
+  switch (that.type_) {
+  case kStringValue:
+    as_string = that.as_string;
+    break;
+  case kObjectValue:
+    as_object = that.as_object;
+    break;
+  case kArrayValue:
+    as_array = that.as_array;
+    break;
+  case kIntValue:
+    as_int = that.as_int;
+    break;
+  case kBoolValue:
+    as_bool = that.as_bool;
+  }
+  type_ = that.type_;
+  //Setting the type to nullvalue makes it "forget" to cleanup
+  //and properly delete it's pointers on destruction.
+  that.type_ = kNullValue;
   return *this;
 }
 
