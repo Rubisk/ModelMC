@@ -72,11 +72,30 @@ public:
 
   Value &operator=(Value &&that);
 
+  // Add value to an ObjectValue. Throws if value is not an ObjectValue.
+  // Note that if there's a value at key already, it will be overridden.
+  void Add(const std::string &key, const Value &value);
+
+  void Add(const char *key, const Value &value);
+
+  // Appends an ArrayValue with the value. Throws if value is not an ArrayValue.
+  void Append(const Value &value);
+
+  // Removes a value from an ObjectValue. Throws if value is not an ObjectValue.
+  // Note that if there's no value at the key, no action will be taken.
+  void Remove(const std::string &key);
+
+  void Remove(const char *key);
+
+  // Removes a value from an ArrayValue. Throws if the value is not an ArrayValue.
+  // Note that if the size_t is bigger then the size of the array, no action will be taken.
+  void Remove(const size_t &position);
+
   Value &operator[](const std::string &key) const;
 
   Value &operator[](const char *key) const;
 
-  Value &operator[](const size_t &key) const;
+  Value &operator[](const size_t &position) const;
 
   operator int32_t&();
 

@@ -104,29 +104,6 @@ Value &Value::operator=(const Array &value) {
   return *this;
 }
 
-Value &Value::operator[](const std::string &key) const {
-  AssertType_(kObjectValue);
-  std::shared_ptr<Value> ptr = (*as_object)[key];
-  if (ptr.get() == NULL) {
-    throw json_exception("Key not found.");
-  }
-  return static_cast<Value&>(*ptr);
-}
-
-Value &Value::operator[](const char *key) const {
-  std::string value_of(key);
-  return operator[](value_of);
-}
-
-Value &Value::operator[](const size_t &key) const {
-  AssertType_(kArrayValue);
-  if (key > as_array->size()) {
-    throw json_exception("Index out of bounds.");
-  }
-  std::shared_ptr<Value> ptr = (*as_array)[key];
-  return static_cast<Value&>(*ptr);
-}
-
 Value &Value::operator=(const Value &that) {
   Cleanup_();
 
@@ -176,6 +153,64 @@ Value &Value::operator=(Value &&that) {
   //and properly delete it's pointers on destruction.
   that.type_ = kNullValue;
   return *this;
+}
+
+void Value::Add(const std::string &key, const Value &value) {
+  AssertType_(kObjectValue);
+  (*as_object)[key] = std::make_shared<Value>(value);
+}
+
+void Value::Add(const char *key, const Value &value) {
+  std::string key_ = key;
+  Add(key_, value);
+}
+
+void Value::Append(const Value &value) {
+  AssertType_(kArrayValue);
+  as_array->push_back(std::make_shared<Value>(value));
+}
+
+void Value::Remove(const std::string &key) {
+  AssertType_(kObjectValue);
+  Object::iterator it = as_object->find(key);
+  if (it != as_object->end()) {
+    as_object->erase(it);
+  }
+}
+
+void Value::Remove(const char *key) {
+  std::string key_ = key;
+  Remove(key_);
+}
+
+void Value::Remove(const size_t &position) {
+  AssertType_(kArrayValue);
+  if (position < as_array->size()) {
+    as_array->erase(as_array->begin() + position);
+  }
+}
+
+Value &Value::operator[](const std::string &key) const {
+  AssertType_(kObjectValue);
+  std::shared_ptr<Value> ptr = (*as_object)[key];
+  if (ptr.get() == NULL) {
+    throw json_exception("Key not found.");
+  }
+  return static_cast<Value&>(*ptr);
+}
+
+Value &Value::operator[](const char *key) const {
+  std::string value_of(key);
+  return operator[](value_of);
+}
+
+Value &Value::operator[](const size_t &key) const {
+  AssertType_(kArrayValue);
+  if (key >= as_array->size()) {
+    throw json_exception("Index out of bounds.");
+  }
+  std::shared_ptr<Value> ptr = (*as_array)[key];
+  return static_cast<Value&>(*ptr);
 }
 
 Value::operator int32_t&() {

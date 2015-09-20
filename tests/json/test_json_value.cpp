@@ -96,7 +96,7 @@ TEST_F(JsonTest, ArrayValue) {
   Value::Array empty_array(5);
   ASSERT_NO_THROW(value_ = empty_array)
     << "Couldn't assign an array to a value.";
-  EXPECT_THROW(value_[8], json_exception)
+  EXPECT_THROW(value_[5], json_exception)
     << "Asking for non-existant value didn't throw.";
 
   Value &value = value_[3];
@@ -112,7 +112,6 @@ TEST_F(JsonTest, ArrayValue) {
   EXPECT_EQ((std::string) string_value, "some_string")
     << "Edited value didn't have correct value.";
 }
-
 
 TEST_F(JsonTest, CopyAssignValue) {
   value_ = Value(5);
@@ -144,4 +143,45 @@ TEST_F(JsonTest, CopyConstructValue) {
   std::unique_ptr<Value> value(new Value(value_));
   EXPECT_EQ((int32_t) *value, -1)
     << "Copy constructor is broken.";
+}
+
+TEST_F(JsonTest, AddToObjectValue) {
+  Value::Object map_;
+  map_["key_1"];
+  map_["key_2"];
+  value_ = Value(map_);
+  value_.Add("key_3", 5);
+  EXPECT_EQ((int32_t) value_["key_3"], 5)
+    << "Couldn't add to an ObjectValue properly.";
+}
+
+TEST_F(JsonTest, AddToArrayValue) {
+  Value::Array array_(5);
+  value_ = Value(array_);
+  value_.Append("some_string");
+  EXPECT_EQ((std::string) value_[5], "some_string")
+    << "Couldn't append to an ArrayValue properly.";
+}
+
+TEST_F(JsonTest, RemoveFromObjectValue) {
+  Value::Object map_;
+  map_["key 1"];
+  map_["key 2"];
+  value_ = Value(map_);
+  value_["key 2"] = 5;
+  value_.Remove("key 2");
+  ASSERT_NO_THROW(value_.Remove("Invalid key."))
+    << "Exception on removing invalid key.";
+  ASSERT_THROW(value_["key 2"], json_exception)
+    << "Value not removed properly.";
+}
+
+TEST_F(JsonTest, RemoveFromArrayValue) {
+  Value::Array array_(5);
+  value_ = Value(array_);
+  value_.Remove(3);
+  ASSERT_NO_THROW(value_.Remove(6))
+    << "Exception on removing out of bounds.";
+  ASSERT_THROW(value_[4], json_exception)
+    << "Value not removed properly.";
 }
