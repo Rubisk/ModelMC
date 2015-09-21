@@ -9,14 +9,14 @@ namespace json {
 
 Loader::Loader(const string &path) {
   shared_ptr<ifstream> stream(new ifstream());
-  stream->open(path);
+  stream->open(path, std::ios::binary);
   stream_ = stream;
 }
 
 Loader::Loader(const char *path) {
   string path_(path);
   shared_ptr<ifstream> stream(new ifstream());
-  stream->open(path);
+  stream->open(path, std::ios::binary);
   stream_ = stream;
 }
 

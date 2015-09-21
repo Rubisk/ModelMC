@@ -71,3 +71,9 @@ TEST_F(JsonLoaderTest, LoadFromFile) {
   ASSERT_NO_THROW(output = file_loader.Load());
   EXPECT_EQ((std::string) output["textures"]["particle"], "blocks/cauldron_side");
 }
+
+TEST_F(JsonLoaderTest, LoadFromFileWithNewlines) {
+  Value output;
+  Loader file_loader("./tests/testfiles/test_json.json");
+  ASSERT_NO_THROW(output = file_loader.Load());
+}
