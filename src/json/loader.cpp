@@ -20,7 +20,7 @@ Loader::Loader(const char *path) {
   stream_ = stream;
 }
 
-Loader::Loader(shared_ptr<istream> stream) {
+Loader::Loader(InputStream stream) {
   stream_ = stream;
 }
 

@@ -9,11 +9,13 @@ namespace json {
 
 class Loader {
 public:
+  using InputStream = std::shared_ptr<std::istream>;
+
   Loader(const std::string &path);
 
   Loader(const char *path);
 
-  Loader(std::shared_ptr<std::istream> stream);
+  Loader(InputStream stream);
 
   Value Load();
 
@@ -30,7 +32,7 @@ private:
 
   std::string LoadString_();
 
-  std::shared_ptr<std::istream> stream_;
+  InputStream stream_;
 };
 
 } //namespace json
