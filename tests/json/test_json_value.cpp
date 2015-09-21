@@ -44,30 +44,39 @@ TEST_F(JsonValueTest, ValueConstructValue) {
 }
 
 TEST_F(JsonValueTest, IntValue) {
+  int32_t output;
   EXPECT_NO_THROW(value_ = 5)
     << "Couldn't assign an integer.";
   EXPECT_EQ(value_.GetType(), kIntValue)
     << "Type didn't change properly.";
-  EXPECT_EQ((int32_t) value_, 5)
-    << "Value didn't get assigned properly.";
+  EXPECT_NO_THROW(output = value_)
+    << "Couldn't cast back to int properly.";
+  EXPECT_EQ(output, 5)
+    << "Int didn't have correct value.";
 }
 
 TEST_F(JsonValueTest, StringValue) {
+  std::string output;
   EXPECT_NO_THROW(value_ = "first_string")
     << "Couldn't assign an string.";
   EXPECT_EQ(value_.GetType(), kStringValue)
     << "Value type isn't string.";
-  EXPECT_EQ((std::string) value_, "first_string")
-    << "Value didn't get assigned properly.";
+  EXPECT_NO_THROW(output = value_)
+    << "Couldn't cast to string properly.";
+  EXPECT_EQ(output, "first_string")
+    << "String didn't have correct value.";
 }
 
 TEST_F(JsonValueTest, BoolValue) {
+  bool output;
   EXPECT_NO_THROW(value_ = true)
     << "Couldn't assign a bool.";
   EXPECT_EQ(value_.GetType(), kBoolValue)
     << "Value type isn't bool.";
-  EXPECT_EQ((bool) value_, true)
-    << "Value didn't get assigned properly.";
+  EXPECT_NO_THROW(output = value_)
+    << "Couldn't cast to bool properly.";
+  EXPECT_EQ(output, true)
+    << "Bool didn't have correct value.";
 }
 
 TEST_F(JsonValueTest, ObjectValue) {
@@ -84,11 +93,13 @@ TEST_F(JsonValueTest, ObjectValue) {
   value = "some_string";
   ASSERT_EQ(value.GetType(), kStringValue)
     << "Value didn't write properly";
-
-  Value &string_value = value_["preset_key"];
-  EXPECT_EQ(string_value.GetType(), kStringValue)
+  EXPECT_EQ(value_["preset_key"].GetType(), kStringValue)
     << "Couldn't edit existing child properly.";
-  EXPECT_EQ((std::string) string_value, "some_string")
+
+  std::string string_value;
+  ASSERT_NO_THROW(string_value = value_["preset_key"])
+    << "Couldn't cast back to string properly.";
+  EXPECT_EQ(string_value, "some_string")
     << "Edited value didn't have correct value.";
 }
 
@@ -105,11 +116,13 @@ TEST_F(JsonValueTest, ArrayValue) {
   value = "some_string";
   ASSERT_EQ(value.GetType(), kStringValue)
     << "Value didn't write properly";
-
-  Value &string_value = value_[3];
-  EXPECT_EQ(string_value.GetType(), kStringValue)
+  EXPECT_EQ(value_[3].GetType(), kStringValue)
     << "Couldn't edit existing child properly.";
-  EXPECT_EQ((std::string) string_value, "some_string")
+
+  std::string string_value;
+  ASSERT_NO_THROW(string_value = value_[3])
+    << "Couldn't cast back to string properly.";
+  EXPECT_EQ(string_value, "some_string")
     << "Edited value didn't have correct value.";
 }
 
