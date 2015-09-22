@@ -208,3 +208,58 @@ TEST_F(JsonValueTest, RemoveFromArrayValue) {
   ASSERT_THROW(value_[4], json_exception)
     << "Value not removed properly.";
 }
+
+TEST_F(JsonValueTest, BooleanCompareValue) {
+  Value first, second;
+  EXPECT_EQ(first, second)
+    << "Invalid comparsion null <-> null";
+  first = "5";
+  EXPECT_FALSE(first == second)
+    << "Invalid comparsion int <-> null";
+  second = "5";
+  EXPECT_EQ(first, second)
+    << "Invalid comparsion int <-> int";
+  first = true;
+  EXPECT_FALSE(first == second)
+    << "Invalid comparsion bool <-> int";
+  second = true;
+  EXPECT_EQ(first, second)
+    << "Invalid comparsion bool <-> bool";
+  first = 5;
+  EXPECT_FALSE(first == second)
+    << "Invalid comparsion string <-> bool";
+  second = 5;
+  EXPECT_EQ(first, second)
+    << "Invalid comparsion string <-> bool";
+  Value::Object object_1;
+  first = Value(object_1);
+  first.Add("Key 1", "Value 1");
+  first.Add("Key 2", "Value 2");
+  EXPECT_FALSE(first == second)
+    << "Invalid comparsion string <-> object";
+  second = Value(object_1);
+  EXPECT_FALSE(first == second)
+    << "Invalid comparsion object_1 <-> object_2";
+  second.Add("Key 2", "Value 2");
+  second.Add("Key 1", "Value 1");
+  EXPECT_EQ(first, second)
+    << "Invalid comparsion object_1 <-> object_1";
+  second["Key 2"] = "Not Value 2";
+  EXPECT_TRUE(first != second)
+    << "Invalid comparsion object_1 <-> object_3";
+
+  Value::Array array_1;
+  first = Value(array_1);
+  first.Append("Some sort of value");
+  EXPECT_FALSE(first == second)
+    << "Invalid comparsion array <-> object";
+  second = Value(array_1);
+  EXPECT_FALSE(first == second)
+    << "Invalid comparsion array_1 <-> array_2";
+  second.Append("Some sort of value");
+  EXPECT_EQ(first, second)
+    << "Invalid comparsion array_1 <-> array_1";
+  first[(size_t) 0] = "Not some sort of value";
+  EXPECT_FALSE(first == second)
+    << "Invalid comparsion array_1 <-> array_3";
+}

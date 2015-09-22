@@ -103,6 +103,10 @@ public:
 
   operator bool&();
 
+  bool operator==(const Value& value) const;
+
+  bool operator!=(const Value& value) const;
+
   ~Value();
 
 private:

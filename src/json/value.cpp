@@ -1,14 +1,19 @@
 #include <sstream>
-
+#include <hash_set>
 #include "json/value.h"
 
 using namespace json;
+
+bool IsEaqul(const Value::Object::iterator &first,
+             const Value::Object::iterator &second) {
+  return *first->second == *second->second;
+}
 
 json_exception::json_exception(const char *message)
   : std::runtime_error(message), message_(message) { };
 
 const char *json_exception::what() const {
-  return message_; 
+  return message_;
 }
 
 ValueType Value::GetType() const {
@@ -228,6 +233,54 @@ Value::operator std::string&() {
 Value::operator bool&() {
   AssertType_(kBoolValue);
   return as_bool;
+}
+
+bool Value::operator==(const Value &that) const {
+  if (that.type_ != type_) {
+    return false;
+  }
+  switch (type_) {
+  case kNullValue:
+    return true;
+    break;
+  case kIntValue:
+    return that.as_int == as_int;
+    break;
+  case kBoolValue:
+    return that.as_bool == as_bool;
+    break;
+  case kStringValue:
+    return *as_string == *that.as_string;
+    break;
+  case kArrayValue:
+    if (as_array->size() != that.as_array->size()) {
+      return false;
+    } else {
+
+      return std::equal(as_array->begin(),
+                        as_array->end(),
+                        that.as_array->begin(),
+                        [](const Array::iterator::value_type &first,
+                        const Array::iterator::value_type &second) {return *first == *second; }
+      );
+    }
+    break;
+  case kObjectValue:
+    if (as_object->size() != that.as_object->size()) {
+      return false;
+    } else {
+      return std::equal(as_object->begin(),
+                        as_object->end(),
+                        that.as_object->begin(),
+                        [](const Object::iterator::value_type &first, 
+                        const Object::iterator::value_type &second) {return *first.second == *second.second; });
+    }
+  }
+  throw json_exception("Invalid type.");
+}
+
+bool Value::operator!=(const Value &that) const {
+  return !((*this) == that);
 }
 
 Value::~Value() {
