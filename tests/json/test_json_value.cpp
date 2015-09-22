@@ -128,24 +128,34 @@ TEST_F(JsonValueTest, ArrayValue) {
 
 TEST_F(JsonValueTest, CopyAssignValue) {
   value_ = Value(5);
+  ASSERT_NO_THROW(value_ = value_)
+    << "Failed to prevent self-assignment.";
   EXPECT_EQ((int32_t) value_, 5)
     << "Failed to copy int value.";
   value_ = Value("some_string");
+  ASSERT_NO_THROW(value_ = value_)
+    << "Failed to prevent self-assignment.";
   EXPECT_EQ((std::string) value_, "some_string")
     << "Failed to copy string value.";
   value_ = Value(true);
+  ASSERT_NO_THROW(value_ = value_)
+    << "Failed to prevent self-assignment.";
   EXPECT_EQ((bool) value_, true)
     << "Failed to copy bool value.";
 
   Value::Object object;
   object["key"] = std::make_shared<Value>(5);
   value_ = Value(object);
+  ASSERT_NO_THROW(value_ = value_)
+    << "Failed to prevent self-assignment.";
   EXPECT_EQ((int32_t) value_["key"], 5)
     << "Failed to copy object value.";
 
   Value::Array array_(3);
   array_[1] = std::make_shared<Value>(1);
   value_ = Value(array_);
+  ASSERT_NO_THROW(value_ = value_)
+    << "Failed to prevent self-assignment.";
   EXPECT_EQ((int32_t) value_[1], 1)
     << "Failed to copy array value.";
 

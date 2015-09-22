@@ -105,6 +105,7 @@ Value &Value::operator=(const Array &value) {
 }
 
 Value &Value::operator=(const Value &that) {
+  if (this == &that) return *this;
   Cleanup_();
 
   // We have to make sure to copy the actual values of the 
@@ -131,6 +132,7 @@ Value &Value::operator=(const Value &that) {
 }
 
 Value &Value::operator=(Value &&that) {
+  if (this == &that) return *this;
   Cleanup_();
   switch (that.type_) {
   case kStringValue:
