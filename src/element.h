@@ -1,5 +1,5 @@
-#ifndef ELEMENT_H
-#define	ELEMENT_H
+#ifndef MODELMAKER_ELEMENT_H_
+#define	MODELMAKER_ELEMENT_H_
 
 #include "json/value.h"
 
@@ -110,5 +110,5 @@ private:
   void Validate_();
 };
 
-#endif	// ELEMENT_H
+#endif	// MODELMAKER_ELEMENT_H_
 
