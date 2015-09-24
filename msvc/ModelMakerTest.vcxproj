@@ -89,6 +89,7 @@
     <ClCompile Include="..\tests\json\test_json_value.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\tests\test_element.cpp" />
     <ClCompile Include="..\util\runner.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

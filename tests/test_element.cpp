@@ -1,54 +1,34 @@
 #include <gtest\gtest.h>
 
 #include "element.h"
-#include "json/json.h"
-#include "json/object_value.h"
+#include "json/value.h"
+#include "json/loader.h"
 
 using namespace json;
 
-class ElementTest : public testing::Test {
-protected:
-  virtual void SetUp() {
-    Value* base_tag;
-    s_ = LoadFromFile("./tests/testfiles/test_element.json", base_tag);
-    if (!s_.IsOk()) {
-      root_tag_ = NULL;
-      ASSERT_TRUE(false) << s_;
-    }
-    root_tag_ = base_tag;
-  }
+TEST(ElementTest, LoadCompleteElement) {
+  Value root;
+  Loader loader = Loader("./tests/testfiles/test_element.json");
+  ASSERT_NO_THROW(root = loader.Load());
 
-
-  virtual void TearDown() {
-    if (root_tag_ != NULL) delete root_tag_;
-  }
-
-  Value* root_tag_;
-  Status s_;
-};
-
-TEST_F(ElementTest, LoadCompleteElement) {
-  Element element;
-  s_ = element.LoadElement(root_tag_);
-  ASSERT_TRUE(s_.IsOk());
+  Element element(root);
   EXPECT_EQ(element.from[1], 3);
   EXPECT_EQ(element.to[2], 16);
   EXPECT_EQ(element.shade, false);
   EXPECT_EQ(element.rotation_origin[1], 9);
   EXPECT_EQ(element.rotation_axis, kZ);
-  EXPECT_EQ(element.rotation_angle, 45);
+  EXPECT_EQ(element.rotation_angle, -22.5);
   EXPECT_EQ(element.rotation_rescale, true);
   EXPECT_EQ(element.faces[kDown].uv[3], 16);
   EXPECT_EQ(element.faces[kDown].texture, "#inside");
   EXPECT_EQ(element.faces[kDown].cull, true);
-  EXPECT_EQ(element.faces[kDown].rotation, 5);
+  EXPECT_EQ(element.faces[kDown].rotation, 3);
   EXPECT_EQ(element.faces[kDown].tint_index, 1);
 }
 
-TEST_F(ElementTest, LoadEmptyElement) {
-  Element element;
-  Value* value = new ObjectValue();
-  s_ = element.LoadElement(value);
+TEST(ElementTest, LoadEmptyElement) {
+  Value empty_value;
+  Element element = empty_value;
   EXPECT_EQ(element.from[2], 0);
   EXPECT_EQ(element.to[2], 0);
   EXPECT_EQ(element.shade, true);
@@ -64,5 +44,28 @@ TEST_F(ElementTest, LoadEmptyElement) {
   EXPECT_EQ(element.faces[kDown].cull, true);
   EXPECT_EQ(element.faces[kDown].rotation, 0);
   EXPECT_EQ(element.faces[kDown].tint_index, 0);
-  delete value;
+}
+
+TEST(ElementTest, ValidateElement) {
+  Value root;
+  Loader loader = Loader("./tests/testfiles/test_element.json");
+  ASSERT_NO_THROW(root = loader.Load());
+
+  root["from"][2] = 118;  // Should end up at 32.
+  root["to"][(size_t) 0] = -50;  // Should end up at -16.
+  root["rotation"]["angle"] = -23;  // Should end up at 0.
+  root["faces"]["north"]["uv"][1] = -18; // Should end up at 0.
+  root["faces"]["south"]["uv"][2] = 32300; // Should end up at 16.
+  root["faces"]["north"].Add("rotation", 4); // Should end up at 3.
+  root["faces"]["down"]["tintindex"] = -5; // Should end up at 0.
+
+  Element element(root);
+  EXPECT_EQ(element.from[2], 32);
+  EXPECT_EQ(element.to[0], -16);
+  EXPECT_EQ(element.rotation_angle, 0);
+  EXPECT_EQ(element.faces[kNorth].uv[1], 0);
+  EXPECT_EQ(element.faces[kSouth].uv[2], 16);
+  EXPECT_EQ(element.faces[kNorth].rotation, 3);
+  EXPECT_EQ(element.faces[kWest].tint_index, 0);
+
 }

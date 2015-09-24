@@ -1,14 +1,18 @@
 #ifndef ELEMENT_H
 #define	ELEMENT_H
 
-#include "json/json.h"
+#include "json/value.h"
 
 enum Axis {
-  kX, kY, kZ,
+  kX,
+  kY,
+  kZ,
 };
-const size_t kNumberOfAxi = 3;
 
-enum {
+const size_t kNumberOfAxes = 3;
+const Axis AllAxes[kNumberOfAxes] = {kX, kY, kZ};
+
+enum FaceDirection {
   kDown,
   kUp,
   kNorth,
@@ -17,11 +21,16 @@ enum {
   kEast,
 };
 const size_t kNumberOfFaces = 6;
+const FaceDirection AllFaces[kNumberOfFaces] {kDown, kUp, kNorth, kSouth, kWest, kEast};
 
-enum {
-  kX1, kY1, kX2, kY2,
+enum UVCoord {
+  kX1,
+  kY1,
+  kX2,
+  kY2,
 };
 const size_t kNumberOfUVCoords = 4;
+const UVCoord AllUVCoords[kNumberOfUVCoords] = {kX1, kY1, kX2, kY2};
 
 //Represents one of the six faces an element contains.
 
@@ -30,7 +39,7 @@ struct Face {
   //[x1, y1, x2, y2].
   //If unset, defaults to values equal to xyz pos of the element.
   //Must be between 0 to 16
-  int32_t uv[kNumberOfUVCoords];
+  int32_t uv[4];
 
   //Specifies the faces textures in form of a texture variable starting with #
   std::string texture;
@@ -49,17 +58,18 @@ struct Face {
 
 class Element {
 public:
+
   //Start point of a cube according to the scheme [x, y, z]
   //Must be between -16 to 32
-  int32_t from[kNumberOfAxi];
+  int32_t from[3];
 
   //Stop point of a cube according to the scheme [x, y, z]
   //Must be between -16 to 32
-  int32_t to[kNumberOfAxi];
+  int32_t to[3];
 
   //Sets the center of the rotation according to the scheme [x, y, z]
   //Defaults to [8, 8, 8] in Minecraft.
-  int32_t rotation_origin[kNumberOfAxi];
+  int32_t rotation_origin[3];
 
   //Specifies the direction of the rotation.
   //One of X, Y or Z.
@@ -67,7 +77,7 @@ public:
 
   //Specifies the angle of the rotation.
   //Valid values are -45, -22.5, 0, 22.5 and 45.
-  int32_t rotation_angle;
+  double_t rotation_angle;
 
   //True if faces scale across the whole block. Defaults to false.
   bool rotation_rescale;
@@ -76,20 +86,28 @@ public:
   bool shade;
 
   //All faces the element contains.
-  Face faces[kNumberOfFaces];
+  Face faces[6];
+
+  // Initialize to all default values.
+  Element();
+
+  // Initialize all values to corresponding path in tree.
+  // If path is not found, value gets initialized to default.
+  // Verifies all found values and makes sure they match requirements.
+  Element(const json::Value &tree);
 
   //Loads an element from a json Object.
   //Does not create a new element, instead overrides target.
-  Status LoadElement(json::Value* root_tag);
+  Element &operator=(const json::Value &tree);
 
   //Saves an element to json.
   //Overrides whatever is set in target.
-  Status SaveElement(Element &element);
+  operator json::Value&() const;
 
 private:
-  Status LoadFace_(json::Value* root_tag, Face &face);
+  void LoadFace_(const json::Value& tree, const FaceDirection &direction);
 
-  void InitializeToDefaults_();
+  void Validate_();
 };
 
 #endif	// ELEMENT_H
