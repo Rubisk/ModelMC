@@ -41,7 +41,7 @@ Value Loader::Load() {
   case '8':
   case '9':
   case '-':
-    return LoadIntValue_();
+    return LoadNumericValue_();
   case '\"':
     return LoadStringValue_();
   case 't':
@@ -149,12 +149,33 @@ Value Loader::LoadObjectValue_() {
 
 } // namespace json
 
-Value Loader::LoadIntValue_() {
-  int new_value = -1;
+int32_t Loader::LoadInt_() {
+  int32_t new_value = -1;
   if ((*stream_) >> std::skipws >> new_value >> std::noskipws) {
     return new_value;
   } else {
     throw json_exception("Parsing error: Couldn't read integer from stream.");
+  }
+}
+
+Value Loader::LoadNumericValue_() {
+  int32_t first_int = LoadInt_(); 
+  char next_char;
+  auto t = stream_->tellg();
+  (*stream_) >> std::skipws >> next_char >> std::noskipws;
+  if (next_char != '.') {
+    // If it's not a ".", we need to put it back
+    // or loading the next part in an array/object will break.
+    stream_->seekg(t);
+    return first_int;
+  } else {
+    double_t decimals = LoadInt_();
+    do { 
+      decimals /= 10;
+    } while (decimals > 1.0);
+    if (first_int < 0) decimals *= -1;
+    decimals += first_int;
+    return decimals;
   }
 }
 

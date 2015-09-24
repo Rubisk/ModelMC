@@ -24,7 +24,7 @@ private:
 
   Value LoadObjectValue_();
 
-  Value LoadIntValue_();
+  Value LoadNumericValue_();
 
   Value LoadStringValue_();
 
@@ -33,6 +33,11 @@ private:
   std::string LoadString_();
 
   InputStream stream_;
+
+  // Loads an int32_t of the stream.
+  // Should never be called directly, call LoadNumericValue_() instead, 
+  // to check for possible double values.
+  int32_t LoadInt_();
 };
 
 } //namespace json
