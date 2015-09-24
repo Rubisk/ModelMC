@@ -24,11 +24,14 @@ public:
 enum ValueType {
   kNullValue,
   kIntValue,
+  kDoubleValue,
   kStringValue,
   kBoolValue,
   kObjectValue,
   kArrayValue,
 };
+
+const static ValueType null = kNullValue;
 
 class Value {
 public:
@@ -36,37 +39,27 @@ public:
 
   using Array = std::vector<std::shared_ptr<Value>>;
 
-  ValueType GetType() const;
-
   Value();
 
-  Value(const int32_t &value);
+  Value(ValueType type);
 
-  Value(char *value);
+  Value(const int32_t &init);
 
-  Value(const std::string &value);
+  Value(const double_t &init);
 
-  Value(const bool &value);
+  Value(const std::string &init);
 
-  Value(const Object &value);
+  Value(const char *init);
 
-  Value(const Array &value);
+  Value(const bool &init);
 
-  Value(const Value &that);
+  Value(const Object &init);
+
+  Value(const Array &init);
+
+  Value(const Value &init);
 
   Value(Value &&that);
-
-  Value &operator=(const int32_t &value);
-
-  Value &operator=(char *value);
-
-  Value &operator=(const std::string &value);
-
-  Value &operator=(const bool &value);
-
-  Value &operator=(const Object &value);
-
-  Value &operator=(const Array &value);
 
   Value &operator=(const Value &that);
 
@@ -76,16 +69,12 @@ public:
   // Note that if there's a value at key already, it will be overridden.
   void Add(const std::string &key, const Value &value);
 
-  void Add(const char *key, const Value &value);
-
   // Appends an ArrayValue with the value. Throws if value is not an ArrayValue.
   void Append(const Value &value);
 
   // Removes a value from an ObjectValue. Throws if value is not an ObjectValue.
   // Note that if there's no value at the key, no action will be taken.
   void Remove(const std::string &key);
-
-  void Remove(const char *key);
 
   // Removes a value from an ArrayValue. Throws if the value is not an ArrayValue.
   // Note that if the size_t is bigger then the size of the array, no action will be taken.
@@ -97,15 +86,26 @@ public:
 
   Value &operator[](const size_t &position) const;
 
-  operator int32_t&();
+  operator int32_t() const;
 
-  operator std::string&();
+  operator double_t() const;
 
-  operator bool&();
+  operator std::string() const;
 
-  bool operator==(const Value& value) const;
+  operator bool() const;
 
-  bool operator!=(const Value& value) const;
+  // This overrides every possible operator, and avoids
+  // any issues with casting them on assignment.
+  // Casting is done on calling equals instead.
+  template <typename T>
+  inline bool operator==(const T &value) const {
+    return Equals_(value);
+  };
+
+  template <typename T>
+  inline bool operator!=(const T &value) const {
+    return !Equals_(value);
+  };
 
   ~Value();
 
@@ -114,12 +114,21 @@ private:
 
   inline void AssertType_(ValueType type) const;
 
+  inline void AssertType_(std::vector<ValueType> types) const;
+
   inline static std::string GetTypeString_(ValueType type);
+
+  bool Equals_(const Value &that) const;
+
+  void Copy_(const Value &that);
+
+  void Move_(Value &&that);
 
   ValueType type_;
 
   union {
-    int as_int;
+    int32_t as_int;
+    double_t as_double;
     bool as_bool;
     std::string *as_string;
     Object *as_object;
