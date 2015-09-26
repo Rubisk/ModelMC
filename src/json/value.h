@@ -21,20 +21,19 @@ public:
   const char *message_;
 };
 
-enum ValueType {
-  kNullValue,
-  kIntValue,
-  kDoubleValue,
-  kStringValue,
-  kBoolValue,
-  kObjectValue,
-  kArrayValue,
-};
-
-const static ValueType null = kNullValue;
 
 class Value {
 public:
+  enum Type {
+    Null,
+    IntVal,
+    DoubleVal,
+    StringVal,
+    BoolVal,
+    ObjectVal,
+    ArrayVal,
+  };
+
   using Object = std::map<std::string, std::shared_ptr<Value>>;
 
   using Array = std::vector<std::shared_ptr<Value>>;
@@ -43,7 +42,7 @@ public:
 
   Value();
 
-  Value(ValueType type);
+  Value(Type type);
 
   Value(const int32_t &init);
 
@@ -116,11 +115,11 @@ public:
 private:
   void Cleanup_();
 
-  inline void AssertType_(ValueType type) const;
+  inline void AssertType_(Type type) const;
 
-  inline void AssertType_(std::vector<ValueType> types) const;
+  inline void AssertType_(std::vector<Type> types) const;
 
-  inline static std::string GetTypeString_(ValueType type);
+  inline static std::string GetTypeString_(Type type);
 
   bool Equals_(const Value &that) const;
 
@@ -128,7 +127,7 @@ private:
 
   void Move_(Value &&that);
 
-  ValueType type_;
+  Type type_;
 
   union {
     int32_t as_int;

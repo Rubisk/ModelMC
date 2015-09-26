@@ -10,7 +10,7 @@ using namespace std;
 class JsonValueTest : public testing::Test {
 protected:
   void SetUp() {
-    null_value = null;
+    null_value = Value::Null;
     int_value = 5;
     double_value = 5.25;
     bool_value = false;
@@ -105,19 +105,19 @@ TEST_F(JsonValueTest, IntToDouble) {
 }
 
 TEST_F(JsonValueTest, ValueTypeConstruct) {
-  null_value = kNullValue;
-  ASSERT_EQ(null_value, null);
-  int_value = kIntValue;
+  null_value = Value::Null;
+  ASSERT_EQ(null_value, Value::Null);
+  int_value = Value::IntVal;
   ASSERT_EQ(int_value, 0);
-  double_value = kDoubleValue;
+  double_value = Value::DoubleVal;
   ASSERT_EQ(double_value, 0.0);
-  bool_value = kBoolValue;
+  bool_value = Value::BoolVal;
   ASSERT_EQ(bool_value, false);
-  string_value = kStringValue;
+  string_value = Value::StringVal;
   ASSERT_EQ(string_value, "");
-  array_value = kArrayValue;
+  array_value = Value::ArrayVal;
   ASSERT_NO_THROW(array_value.Append(null_value));
-  object_value = kObjectValue;
+  object_value = Value::ObjectVal;
   ASSERT_NO_THROW(object_value.Add("Preset string", string_value));
 }
 
@@ -152,20 +152,20 @@ TEST_F(JsonValueTest, CopyValues) {
 
 TEST_F(JsonValueTest, MoveValues) {
   Value second_int = std::move(int_value);
-  ASSERT_EQ(int_value, null);
+  ASSERT_EQ(int_value, Value::Null);
   EXPECT_EQ(second_int, 5);
 
   // Explicit test on std::string, since 
   // that's the only raw value stored as a pointer.
   Value second_string = std::move(string_value);
-  ASSERT_EQ(string_value, null);
+  ASSERT_EQ(string_value, Value::Null);
   EXPECT_EQ(second_string, "my_string");
 
   Value second_array = std::move(array_value);
-  ASSERT_EQ(array_value, null);
+  ASSERT_EQ(array_value, Value::Null);
   EXPECT_EQ(second_array[4], "my_string");
 
   Value second_object = std::move(object_value);
-  EXPECT_EQ(object_value, null);
+  EXPECT_EQ(object_value, Value::Null);
   EXPECT_EQ(second_object["Preset string"], "my_string");
 }

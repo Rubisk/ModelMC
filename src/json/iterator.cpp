@@ -4,12 +4,12 @@ using namespace json;
 using Iterator = Value::Iterator;
 
 Iterator::Iterator(Value *target) : value_(target) {
-  value_->AssertType_({kArrayValue, kObjectValue});
+  value_->AssertType_({ArrayVal, ObjectVal});
   switch (value_->type_) {
-  case kArrayValue:
+  case ArrayVal:
     array_it = new Array::iterator(value_->as_array->begin());
     break;
-  case kObjectValue:
+  case ObjectVal:
     object_it = new Object::iterator(value_->as_object->begin());
     break;
   default:
@@ -19,9 +19,9 @@ Iterator::Iterator(Value *target) : value_(target) {
 
 bool Iterator::Valid() {
   switch (value_->type_) {
-  case kArrayValue:
+  case ArrayVal:
     return *array_it != value_->as_array->end();
-  case kObjectValue:
+  case ObjectVal:
     return *object_it != value_->as_object->end();
   default:
     throw json_exception("Value changed to non-iterable type.");
@@ -30,10 +30,10 @@ bool Iterator::Valid() {
 
 void Iterator::Next() {
   switch (value_->type_) {
-  case kArrayValue:
+  case ArrayVal:
     (*array_it)++;
     break;
-  case kObjectValue:
+  case ObjectVal:
     (*object_it)++;
     break;
   default:
@@ -42,15 +42,15 @@ void Iterator::Next() {
 }
 
 std::string Iterator::GetKey() const {
-  value_->AssertType_(kObjectValue);
+  value_->AssertType_(ObjectVal);
   return (**object_it).first;
 }
 
 Value &Iterator::Get() const {
   switch (value_->type_) {
-  case kArrayValue:
+  case ArrayVal:
     return *(**array_it);
-  case kObjectValue:
+  case ObjectVal:
     return *(**object_it).second;
   default:
     throw json_exception("Value changed to non-iterable type.");
@@ -59,10 +59,10 @@ Value &Iterator::Get() const {
 
 Iterator::~Iterator() {
   switch (value_->type_) {
-  case kArrayValue:
+  case ArrayVal:
     delete array_it;
     break;
-  case kObjectValue:
+  case ObjectVal:
     delete object_it;
     break;
   default:

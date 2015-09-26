@@ -6,7 +6,7 @@
 using namespace json;
 
 TEST(JsonIteratorTest, Array) {
-  Value array_value(kArrayValue);
+  Value array_value(Value::ArrayVal);
 
   array_value.Append(5);
   array_value.Append(5.25);
@@ -42,7 +42,7 @@ TEST(JsonIteratorTest, Array) {
 }
 
 TEST(JsonIteratorTest, Object) {
-  Value object_value(kObjectValue);
+  Value object_value(Value::ObjectVal);
 
   object_value.Add("1", 5);
   object_value.Add("2", 5.25);
