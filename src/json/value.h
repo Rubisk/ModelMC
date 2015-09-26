@@ -8,8 +8,6 @@
 #include <map>
 #include <vector>
 
-#include "status.h"
-
 namespace json {
 
 class json_exception : public std::runtime_error {
