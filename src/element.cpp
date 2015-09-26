@@ -90,23 +90,24 @@ void Element::FromJson_(const json::Value &tree) {
   ASSIGN_OR_DEFAULT(tree["rotation"]["angle"], rotation_angle, 0);
   ASSIGN_OR_DEFAULT(tree["rotation"]["rescale"], rotation_rescale, false);
 
+  // Buffer holding all 6 face values.
+  // Note that if they're not found in the tree,
+  // the face gets loaded from an empty value
+  // - thus assigning default values.
+  Value face_trees[6];
   try {
-    // Buffer holding all 6 face values.
-    // Note that if they're not found in the tree,
-    // the face gets loaded from an empty value
-    // - thus assigning default values.
-    Value face_trees[6];
     Value::Iterator it = tree["faces"].GetIterator();
-
     while (it.Valid()) {
       Face::Direction dir = StringToFaceDir(it.GetKey());
       face_trees[dir] = it.Get();
-    }
-    for (size_t pos = 0; pos < 6; ++pos) {
-      faces[pos].FromJson_(face_trees[pos]);
+      it.Next();
     }
   } catch (json_exception) {
     // TODO write logger for not finding face tag.
+  }
+
+  for (size_t pos = 0; pos < 6; ++pos) {
+    faces[pos].FromJson_(face_trees[pos]);
   }
 
   Validate_();
@@ -127,7 +128,7 @@ void Element::Validate_() {
     rotation_angle = 0;
   }
 
-  for (Face face : faces) {
+  for (Face &face : faces) {
     face.Validate_();
   }
 }

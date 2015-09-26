@@ -47,8 +47,6 @@ protected:
   friend Element;
 
   void FromJson_(const json::Value &tree);
-
-  json::Value ToJson_() const;
 private:
   void Validate_();
 };
