@@ -85,6 +85,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\tests\json\test_json_iterator.cpp" />
     <ClCompile Include="..\tests\json\test_json_loader.cpp" />
     <ClCompile Include="..\tests\json\test_json_value.cpp" />
   </ItemGroup>

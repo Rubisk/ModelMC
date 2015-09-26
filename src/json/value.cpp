@@ -1,6 +1,7 @@
 #include <sstream>
-#include <hash_set>
+
 #include "json/value.h"
+#include "json/iterator.h"
 
 using namespace json;
 
@@ -133,6 +134,10 @@ void Value::Remove(const size_t &position) {
   if (position < as_array->size()) {
     as_array->erase(as_array->begin() + position);
   }
+}
+
+Value::Iterator Value::GetIterator() {
+  return Iterator(this);
 }
 
 Value &Value::operator[](const std::string &key) const {

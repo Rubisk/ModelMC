@@ -39,6 +39,8 @@ public:
 
   using Array = std::vector<std::shared_ptr<Value>>;
 
+  class Iterator;
+
   Value();
 
   Value(ValueType type);
@@ -79,6 +81,8 @@ public:
   // Removes a value from an ArrayValue. Throws if the value is not an ArrayValue.
   // Note that if the size_t is bigger then the size of the array, no action will be taken.
   void Remove(const size_t &position);
+
+  Iterator GetIterator();
 
   Value &operator[](const std::string &key) const;
 
